@@ -56,7 +56,7 @@ READLINE = -lreadline
 LIBFT = $(LIBFT_DIR)/libft.a
 
 # SRCS && OBJ
-SRCS = ./$(SRCS_DIR)/minishell.c ./$(SRCS_DIR)/utils.c 
+SRCS = ./$(SRCS_DIR)/minishell.c ./$(SRCS_DIR)/utils.c ./$(SRCS_DIR)/parser.c
 OBJCS = $(SRCS:.c=.o)
 
 NAME = minishell

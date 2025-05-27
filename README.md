@@ -52,3 +52,21 @@ X_OK → Check if file is executable
 R_OK → Check if file is readable
 
 W_OK → Check if file is writable
+
+
+Minishell:
+
+main function:
+   create a string "command_line" to store the command line
+   check for signals and handle them:
+      // check for errors
+   true loop:
+   {
+      readline & store it in command_line
+         // check for errors
+      check if the first char isn't NULL
+         // add to history
+   // might need to init the struct I have created //
+      parse(command_line)
+      execute(command line)
+   }

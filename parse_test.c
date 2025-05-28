@@ -19,7 +19,7 @@ int     count_words(char *str)
             if (str[i] == 34)
             {
                 i++;
-                while (str[i] != 34)
+                while (str[i] && str[i] != 34)
                     i++;
                 i++;
                 wc++;
@@ -27,15 +27,16 @@ int     count_words(char *str)
             if (str[i] == 39)
             {
                 i++;
-                while (str[i] != 39)
+                while (str[i] && str[i] != 39)
                     i++;
                 i++;
                 wc++;
             }
-            if ((str[i] != 34 && str[i] != 39) && (str[i] != ' ' || str[i] != '\t'))
-                wc++;
-            i++;
+            while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+                i++;   
         }
+        if (str[i])
+            wc++;
         while (str[i] && !((str[i] == ' ' || str[i] == '\t')))
             i++;
     }
@@ -197,7 +198,7 @@ char **tokenizer(char *line)
 
 int     main(void)
 {
-    char *str = "    ls -l | grep 'hello   girls   ' | wc -l" ;
+    char *str = "test 2 3 4 5 " ;
     char **d = NULL;
     int i = 0;
 
@@ -212,14 +213,16 @@ int     main(void)
 
 
 
-char    **tokenizer(char *line)
-{/*
+// char    **tokenizer(char *line)
+/*{
     // check if line == NULL
     // find wc
     // init a char **tokens & allocate it using "ft_wc"
         // check malloc failer 
     // split the command into words.
     // loop inside the command line - string 
+        // skip whitespaces
+        // wbeg after whitespaces
         //  qoute case
             // sigle 
                 {   
@@ -252,6 +255,6 @@ char    **tokenizer(char *line)
             // tokens[k] = NULL;
             // rteurn (tokens)
 
-    */
+    
 
-}
+}*/

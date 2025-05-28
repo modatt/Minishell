@@ -16,19 +16,18 @@ typedef enum e_operator
     NONE,
     PIPE,
     AND,
-    OR
+    OR,
+    CD,
+    ECHOO, 
 } t_operator;
 
 typedef struct s_command
 {
-    char *command;
-    char *arg;
-    t_operator operator;
+    char **arg; [ls, -l]
     // char *redircties;
-    // int is_pipe;
+    t_operator  operator; 
     // int is_directory;
     // int is_wildcard;
-    // int is_and;
     struct s_command *next;
         
 } t_command;
@@ -38,13 +37,15 @@ void    parser(char *command_line);
 char    **tokenizer(char *line);
 int     count_words(char *str);
 char    *ft_strncpy(char *des, char *src, int n);
+int     detect_operator(char *token, t_command *command);
+void    normal(char *tokens, char *line, int i, int wbeg, int k);
 
 // signals
 int     signals_handling(void);
 
-int     strcmp_whitespaces_handle(char *s1, char *s2);
+// int     strcmp_whitespaces_handle(char *s1, char *s2);
 void    parser(char *str);
-void    display_history(void);
-void    printdoup(char **str);
+// void    display_history(void);
+// void    printdoup(char **str);
 void    handler(int sig);
 #endif

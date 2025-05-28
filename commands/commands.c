@@ -4,11 +4,13 @@ void    commands(char *str, int n)
 {
     if (ft_strncmp(str, n) == "echo")
     {
-	    ft_print();
+	    command->command_name = CD;
+        cd_exe();
     }
-    if (dollar_sign == 1)
+    if (dECHO)
     {
 	    //handle expansion of $
+        
 	}
     if (minus_n == 1)
     {

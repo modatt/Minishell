@@ -70,3 +70,47 @@ main function:
       parse(command_line)
       execute(command line)
    }
+
+
+   
+// psudocode:: 1) tokenization. 
+/*
+// check if line == NULL
+    // find wc
+    // init a char **tokens & allocate it using "ft_wc"
+        // check malloc failer 
+    // split the command into words.
+    // loop inside the command line - string 
+        //  qoute case
+            // sigle 
+                {   
+                    // skip the qoute char 
+                    // mark the start of word
+                    // skip the word 
+                    // mark end - not sure
+                    // copy word
+                    // skip the end qoute
+                    // mark new wbeg
+                }
+                else 
+                    {
+                        // incase of an error "one qoute"
+                    } 
+            // double
+                {   
+                    same as single qoute
+                    // extra the $ handling
+                }
+                else 
+                    {
+                        // incase of an error "one qoute"
+                    } 
+            // normal word spreated by a space
+                // loop through string && condition that its not a whitespaces
+                    //skip the word
+                // if wbeg < i 
+                    // copy the word
+
+            // tokens[k] = NULL;
+            // rteurn (tokens)
+}*/

@@ -16,7 +16,7 @@ int main(void)
         if (*command_line) //* if the first character not '\0' then the string isn't empty
             add_history(command_line);
         parser(command_line);
-        executor();
+        // executor();
   
     }
     free(command_line);

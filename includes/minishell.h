@@ -9,26 +9,43 @@
 #include <readline/history.h>
 #include <string.h>
 #include <signal.h>
+#include <stdbool.h>
 
 // grouping the operators that separate the command based on 
-typedef enum e_operator
+
+typedef enum s_redirections
 {
     NONE,
-    PIPE,
-    AND,
-    OR
-} t_operator;
+    DOUBLE_OUTFILE,
+    DOUBLE_INFILE,
+    SINGLE_OUTFILE,
+    SIGNLE_INFILE
+} t_redirections; 
+
+typedef enum s_buildin
+{
+    CD,
+    ECHO,
+    ENV, 
+    PWD,
+    EXPORT,
+    EXIT,
+    UNSET
+} t_buildin;
+
 
 typedef struct s_command
 {
-    char **arg;
-    // char *redircties;
-    t_operator  operator; 
-    // int is_directory;
-    // int is_wildcard;
+    char **arg; 
+    bool is_pipe;
+    t_redirections redirection;
+    char *file;
+    int   index;
+    int is_wildcard;
     struct s_command *next;
-        
 } t_command;
+
+
 
 
 // Parsing 
@@ -38,7 +55,7 @@ int     count_words(char *str);
 char    *ft_strncpy(char *des, char *src, int n);
 int     detect_operator(char *token, t_command *command);
 void    normal(char *tokens, char *line, int i, int wbeg, int k);
-void    qoute_handler(char *str, int i, int wc);
+void    qoute_handler(char **str, int i, int wc);
 
 
 // signals

@@ -15,7 +15,8 @@
 
 void    parser(char *command_line)
 {
-    char **tokens; 
+    char **tokens;
+    t_command *cmd;
     int k;
 
     k = 0;
@@ -27,8 +28,17 @@ void    parser(char *command_line)
     // init of the struct 
     // init_struct(command);
     // 2) split tokens into commands by operators
+    cmd = malloc(sizeof(t_command));
+    if (!cmd)
+        return ;
     while (tokens[k])
     {
+        if (ft_strcmp(tokens[k], "|") == 0)
+        {
+            create_cmd(cmd);
+            if (redircor == true)
+                
+        }
         printf("%s\n", tokens[k]);
         k++;
     }
@@ -55,7 +65,6 @@ int     count_words(char *str)
                     i++;
                 i++;
                 wc++;
-                printf("qou = %d\n", wc);
             
             }
             if (str[i] && str[i] == 39)
@@ -79,99 +88,9 @@ int     count_words(char *str)
     
         
     }
-    printf("%d\n", wc); // later must be deleted
     return (wc);
 }
 
-void    qoute_handler(char *str, int i, int wc)
-{
-             if (str[i] == 34)
-            {
-                i++;
-                while (str[i] && str[i] != 34)
-                    i++;
-                i++;
-                wc++;
-                
-            
-            }
-            if (str[i] == 39)
-            {
-                i++;
-                while (str[i] && str[i] != 39)
-                    i++;
-                i++;
-                wc++;
-            }
-            // while (str[i] && ((str[i] == ' ' || str[i] == '\t')))
-            //     i++;
-            printf("wc_inside= %d ", wc);
-}
-
-
-// int     count_words(char *str)
-// {
-//     int i;
-//     int wc;
-//     i = 0;
-//     wc = 0;
-//     while (str[i])
-//     {
-//         while (str[i] == ' ' || str[i] == '\t')
-//             i++;
-//         if (str[i])
-//         {
-//             if (str[i] == 34)
-//             {
-//                 i++;
-//                 while (str[i] && str[i] != 34)
-//                     i++;
-//                 i++;
-//                 wc++;
-//             }
-//             if (str[i] == 39)
-//             {
-//                 i++;
-//                 while (str[i] && str[i] != 39)
-//                     i++;
-//                 i++;
-//                 wc++;
-//             }
-//             while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-//                 i++;
-
-//             if (str[i] && !(str[i] == 34 || str[i] == 39))
-//                 wc++;
-//             while (str[i] && !((str[i] == ' ' || str[i] == '\t')))
-//                 i++;
-//         }
-
-//     }
-//     printf("%d\n", wc); // later must be deleted
-//     return (wc);
-// }
-
-// void    qoute_handler(char *str, int i, int wc)
-// {
-//        if (str[i] == 34)
-//         {
-//                 i++;
-//                 while (str[i] && str[i] != 34)
-//                     i++;
-//                 i++;
-//                 wc++;
-//         }
-//         else if (str[i] == 39)
-//             {
-//                 i++;
-//                 while (str[i] && str[i] != 39)
-//                     i++;
-//                 i++;
-//                 wc++;
-//             }
-//         while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-//                 i++;
-// }
 
 
 char    **tokenizer(char *line)

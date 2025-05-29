@@ -29,16 +29,12 @@ void    parser(char *command_line)
     // 2) split tokens into commands by operators
     while (tokens[k])
     {
-
         printf("%s\n", tokens[k]);
         k++;
     }
     // i think should be in a loop
     // free(tokens);
 }
-
-
-
 int     count_words(char *str)
 {
     int i;
@@ -52,15 +48,36 @@ int     count_words(char *str)
             i++;
         if (str[i])
         {
-            qoute_handler(str, i, wc);
+           if (str[i] && str[i] == 34)
+            {
+                i++;
+                while (str[i] && str[i] != 34)
+                    i++;
+                i++;
+                wc++;
+                printf("qou = %d\n", wc);
+            
+            }
+            if (str[i] && str[i] == 39)
+            {
+                i++;
+                while (str[i] && str[i] != 39)
+                    i++;
+                i++;
+                wc++;
+            }
+            while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+                i++;
         
-        while (str[i] && ((str[i] == ' ' || str[i] == '\t')))
-            i++;
-        if (str[i] && (str[i] != 34 || str[i] != 39)) 
-            wc++;
-        while (str[i] && !((str[i] == ' ' || str[i] == '\t')))
-            i++;
+            if (str[i] && (str[i] != 34 && str[i] != 39) && (str[i] != ' ' || str[i] != '\t'))
+            {
+                wc++;
+                while (str[i] && !((str[i] == ' ' || str[i] == '\t' || str[i] == ')')))
+                    i++;
+            }
         }
+    
+        
     }
     printf("%d\n", wc); // later must be deleted
     return (wc);
@@ -70,20 +87,13 @@ void    qoute_handler(char *str, int i, int wc)
 {
              if (str[i] == 34)
             {
-                wc++;
                 i++;
                 while (str[i] && str[i] != 34)
-                {
-                    if (str[i] && ((str[i] == ' ' || str[i] == '\t')))
-                        i++;
-                    else 
-                        i++;
-                }
-                // while (str[i] && str[i] != 34)
-                //     i++;
+                    i++;
                 i++;
-                // wc++;
-                // printf("wc= %d\n", wc);
+                wc++;
+                
+            
             }
             if (str[i] == 39)
             {
@@ -93,9 +103,76 @@ void    qoute_handler(char *str, int i, int wc)
                 i++;
                 wc++;
             }
-            while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-                i++;   
+            // while (str[i] && ((str[i] == ' ' || str[i] == '\t')))
+            //     i++;
+            printf("wc_inside= %d ", wc);
 }
+
+
+// int     count_words(char *str)
+// {
+//     int i;
+//     int wc;
+//     i = 0;
+//     wc = 0;
+//     while (str[i])
+//     {
+//         while (str[i] == ' ' || str[i] == '\t')
+//             i++;
+//         if (str[i])
+//         {
+//             if (str[i] == 34)
+//             {
+//                 i++;
+//                 while (str[i] && str[i] != 34)
+//                     i++;
+//                 i++;
+//                 wc++;
+//             }
+//             if (str[i] == 39)
+//             {
+//                 i++;
+//                 while (str[i] && str[i] != 39)
+//                     i++;
+//                 i++;
+//                 wc++;
+//             }
+//             while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+//                 i++;
+
+//             if (str[i] && !(str[i] == 34 || str[i] == 39))
+//                 wc++;
+//             while (str[i] && !((str[i] == ' ' || str[i] == '\t')))
+//                 i++;
+//         }
+
+//     }
+//     printf("%d\n", wc); // later must be deleted
+//     return (wc);
+// }
+
+// void    qoute_handler(char *str, int i, int wc)
+// {
+//        if (str[i] == 34)
+//         {
+//                 i++;
+//                 while (str[i] && str[i] != 34)
+//                     i++;
+//                 i++;
+//                 wc++;
+//         }
+//         else if (str[i] == 39)
+//             {
+//                 i++;
+//                 while (str[i] && str[i] != 39)
+//                     i++;
+//                 i++;
+//                 wc++;
+//             }
+//         while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+//                 i++;
+// }
+
 
 char    **tokenizer(char *line)
 {

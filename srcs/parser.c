@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/30 08:17:25 by modat             #+#    #+#             */
+/*   Updated: 2025/05/30 09:21:22 by modat            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /* parsing steps::
@@ -23,28 +35,39 @@ void    parser(char *command_line)
 
     // 1) tokenizing: split the command_line.
     tokens = tokenizer(command_line);
-    // all is done 
-
-    // init of the struct 
-    // init_struct(command);
+    
     // 2) split tokens into commands by operators
     cmd = malloc(sizeof(t_command));
     if (!cmd)
         return ;
-    while (tokens[k])
+    init_cmd(cmd);
+    while (token[k])
     {
-        if (ft_strcmp(tokens[k], "|") == 0)
-        {
-            create_cmd(cmd);
-            if (redircor == true)
-                
-        }
+        split_command(tokens[k], &cmd);
         printf("%s\n", tokens[k]);
         k++;
     }
-    // i think should be in a loop
     // free(tokens);
 }
+
+void    split_command(char *tokens, t_command *cmd)
+{
+    int k;
+
+    k = 0;
+    // if not a pipe
+    if (ft_strcmp(tokens[k], "|") == 1)
+    {
+        create_cmd();
+    }
+    
+}
+
+void    create_cmd();
+{
+    t_command   cmd
+}
+
 int     count_words(char *str)
 {
     int i;
@@ -173,40 +196,3 @@ char    **tokenizer(char *line)
     return (tokens);
 }
 
-
-
-char    *ft_strncpy(char *des, char *src, int n)
-{
-    int i = -1;
-
-    while (++i < n && src[i])
-        des[i] = src[i];
-    des[i] = '\0';
-    return des;
-}
-/*
-int     detect_operator(char *token, t_command *command)
-{
-    // int i;
-
-    // i = 0;
-    if (ft_strcmp(token, "|") == 1)
-    {
-        command->operator = PIPE;
-        return 1;
-    }
-    else if (ft_strncmp(token, "&&") == 1)
-    {
-        command->operator = AND;
-        return 1;
-    }
-    else if (ft_strncmp(token, "||") == 1)
-    {
-        command->operator = OR;
-        return 1;
-    }
-    else 
-        command->operator = NONE;
-    return 0;
-}
-*/

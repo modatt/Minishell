@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/30 08:17:38 by modat             #+#    #+#             */
+/*   Updated: 2025/05/30 09:21:16 by modat            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void    handler(int sig)
@@ -33,8 +45,24 @@ int     signals_handling(void)
     return 0;
 }
 
-// void    init_struct(t_command *command)
-// {
-//     command->arg = malloc(sizeof(char) * );
-// }
+char    *ft_strncpy(char *des, char *src, int n)
+{
+    int i = -1;
 
+    while (++i < n && src[i])
+        des[i] = src[i];
+    des[i] = '\0';
+    return des;
+}
+
+
+void    init_cmd(t_command *cmd)
+{
+    cmd->arg = NULL;
+    cmd->is_pipe = false;
+    cmd->redirection = NONE;
+    cmd->file = NULL;
+    cmd->index = 0;
+    cmd->is_wildcard = false;
+    cmd->next = NULL;
+}

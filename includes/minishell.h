@@ -41,7 +41,7 @@ typedef struct s_command
     t_redirections redirection;
     char *file;
     int   index;
-    int is_wildcard;
+    bool is_wildcard;
     struct s_command *next;
 } t_command;
 
@@ -53,9 +53,10 @@ void    parser(char *command_line);
 char    **tokenizer(char *line);
 int     count_words(char *str);
 char    *ft_strncpy(char *des, char *src, int n);
-int     detect_operator(char *token, t_command *command);
-void    normal(char *tokens, char *line, int i, int wbeg, int k);
-void    qoute_handler(char **str, int i, int wc);
+void    init_cmd(t_command *cmd);
+
+// Execoting
+//void    execoter();
 
 
 // signals

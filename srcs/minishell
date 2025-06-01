@@ -61,3 +61,7 @@
 //     }
 // }
 
+/*
+    loop into tokens[k] 
+        check each string if is it a pipe 
+*/

@@ -11,18 +11,29 @@
 #include <signal.h>
 #include <stdbool.h>
 
+
+    #include <stdio.h>
+    #define WHITE "\x1B[37m"
+    #define BLUE "\x1B[34m"
+    #define RED "\x1B[31m"
+    #define GRN "\x1B[32m"
+    #define RESET "\x1B[0m"
+    #define BEIGE "\x1B[38;5;230m"
+    #define PEACH "\x1B[38;5;217m"
+
 // grouping the operators that separate the command based on 
 
-typedef enum s_redirections
+typedef enum e_redirection_type
 {
-    NONE,
-    DOUBLE_OUTFILE,
-    DOUBLE_INFILE,
-    SINGLE_OUTFILE,
-    SIGNLE_INFILE
-} t_redirections; 
+    REDIR_NONE,
+    REDIR_INPUT,       // <
+    REDIR_OUTPUT,      // >
+    REDIR_APPEND,      // >>
+    REDIR_HEREDOC      // <<
+} t_redirection;
 
-typedef enum s_buildin
+
+typedef enum e_buildins
 {
     CD,
     ECHO,
@@ -31,14 +42,14 @@ typedef enum s_buildin
     EXPORT,
     EXIT,
     UNSET
-} t_buildin;
+} t_buildins;
 
 
 typedef struct s_command
 {
     char **arg; 
     bool is_pipe;
-    t_redirections redirection;
+    t_redirection redirection;
     char *file;
     int   index;
     bool is_wildcard;
@@ -46,16 +57,23 @@ typedef struct s_command
 } t_command;
 
 
-
+// opening 
+void greets_minishell(void);
 
 // Parsing 
-void    parser(char *command_line);
+t_command    *parser(char *command_line);
 char    **tokenizer(char *line);
 int     count_words(char *str);
 char    *ft_strncpy(char *des, char *src, int n);
 void    init_cmd(t_command *cmd);
+void    add_arg(char *tokens, t_command **current);
+bool    expand_wildcard(char *str);
+bool    is_redirector(char **tokens, int k);
+void    is_redirection(char **tokens, t_command **current, int *k);
+void    parser2(char **tokens, int *k, t_command **current);
+t_command   *create_node();
 
-// Execoting
+// Executing
 //void    execoter();
 
 
@@ -63,8 +81,13 @@ void    init_cmd(t_command *cmd);
 int     signals_handling(void);
 
 // int     strcmp_whitespaces_handle(char *s1, char *s2);
-void    parser(char *str);
+
 // void    display_history(void);
 // void    printdoup(char **str);
 void    handler(int sig);
+
+// utils 
+int	ft_strcmp(const char *s1, const char *s2);
+bool    expand_waildcard(char *str);
+char    *ft_strcpy(char *des, char *src);
 #endif

@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:38 by modat             #+#    #+#             */
-/*   Updated: 2025/05/30 09:21:16 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/01 14:26:15 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,85 @@ char    *ft_strncpy(char *des, char *src, int n)
 
 void    init_cmd(t_command *cmd)
 {
-    cmd->arg = NULL;
-    cmd->is_pipe = false;
-    cmd->redirection = NONE;
-    cmd->file = NULL;
-    cmd->index = 0;
-    cmd->is_wildcard = false;
-    cmd->next = NULL;
+    (cmd)->arg = NULL;
+    (cmd)->is_pipe = false;
+    (cmd)->redirection = REDIR_NONE;
+    (cmd)->file = NULL;
+    (cmd)->index = 0;
+    (cmd)->is_wildcard = false;
+    (cmd)->next = NULL;
 }
+
+int     count_words(char *str)
+{
+    int i;
+    int wc;
+
+    i = 0;
+    wc = 0;
+    while (str[i])
+    {
+        while (str[i] == ' ' || str[i] == '\t')
+            i++;
+        if (str[i])
+        {
+           if (str[i] && str[i] == 34)
+            {
+                i++;
+                while (str[i] && str[i] != 34)
+                    i++;
+                i++;
+                wc++;
+            
+            }
+            if (str[i] && str[i] == 39)
+            {
+                i++;
+                while (str[i] && str[i] != 39)
+                    i++;
+                i++;
+                wc++;
+            }
+            while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+                i++;
+        
+            if (str[i] && (str[i] != 34 && str[i] != 39) && (str[i] != ' ' || str[i] != '\t'))
+            {
+                wc++;
+                while (str[i] && !((str[i] == ' ' || str[i] == '\t' || str[i] == ')')))
+                    i++;
+            }
+        }
+    
+        
+    }
+    return (wc);
+}
+
+char    *ft_strcpy(char *des, char *src)
+{
+    if (!src)
+        return NULL;
+    int i;
+    
+    i = 0;
+    while (src[i])
+    {
+        des[i] = src[i];
+        i++;
+    }
+    des[i] = '\0';
+    return (des);
+}
+
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
+}
+

@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:25 by modat             #+#    #+#             */
-/*   Updated: 2025/05/30 09:21:22 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/01 15:55:44 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,174 +25,156 @@
 
 // main parsing function 
 
-void    parser(char *command_line)
+t_command    *parser(char *command_line)
 {
+    // 1) tokenizing
     char **tokens;
-    t_command *cmd;
+    tokens = tokenizer(command_line);  
+    if (!tokens)
+        return NULL;
+    // 2) parse tokens & create a list & fill it
     int k;
+    t_command *cmd_list;
+    t_command *current;
 
     k = 0;
+    cmd_list = NULL;
+    current =  NULL;
+    // (void)cmd_list;
 
-    // 1) tokenizing: split the command_line.
-    tokens = tokenizer(command_line);
-    
-    // 2) split tokens into commands by operators
-    cmd = malloc(sizeof(t_command));
-    if (!cmd)
-        return ;
-    init_cmd(cmd);
-    while (token[k])
+    while (tokens[k])
     {
-        split_command(tokens[k], &cmd);
-        printf("%s\n", tokens[k]);
-        k++;
+        if (!current) // head 
+        {
+            current = create_node();
+            if (!cmd_list)
+                cmd_list = current;
+        }
+        parser2(tokens, &k, &current);
+        k++; 
     }
-    // free(tokens);
+    // cmd_list = current;
+    return cmd_list;
 }
 
-void    split_command(char *tokens, t_command *cmd)
-{
-    int k;
 
-    k = 0;
-    // if not a pipe
-    if (ft_strcmp(tokens[k], "|") == 1)
+void    parser2(char **tokens, int *k, t_command **current)
+{
+    // connect and add based on conditions 
+    if (ft_strcmp(tokens[*k], "|") == 0)
     {
-        create_cmd();
+        (*current)->is_pipe = true; 
+        (*current)->next = create_node();
+        (*current) = (*current)->next;
+    }
+    else if (is_redirector(tokens, *k))
+        is_redirection(tokens, current, k);
+    else
+    {
+        add_arg(tokens[*k], current);
+        if (expand_wildcard(tokens[*k]) == true)
+            (*current)->is_wildcard = true;
     }
     
 }
 
-void    create_cmd();
-{
-    t_command   cmd
-}
 
-int     count_words(char *str)
+void    add_arg(char *tokens, t_command **current)
 {
     int i;
-    int wc;
+    int j;
+    char **new_arg;
+    // count current args
+    i = 0;
+    j = 0;
+    if ((*current)->arg)
+        while ((*current)->arg[i])
+            i++;
+    // Allocate space for one new arg + NULL terminator
+    new_arg = malloc(sizeof(char *) * (i + 2));
+    if (!new_arg)
+        return ;
+    // Copy old args
+    while (j < i)
+    {
+        new_arg[j] = (*current)->arg[j];
+        j++;
+    }
+    // Add new arg
+    new_arg[i] = ft_strdup(tokens);
+    new_arg[i + 1] = NULL;
+
+    // Free old array if it exists (not the strings inside, just the array)
+    if ((*current)->arg)
+        free((*current)->arg);       
+    // Assign new array to cmd
+    (*current)->arg = new_arg;  
+}
+
+
+bool is_redirector(char **tokens, int k)
+{
+    return (
+        ft_strcmp(tokens[k], ">>") == 0 ||
+        ft_strcmp(tokens[k], ">") == 0 ||
+        ft_strcmp(tokens[k], "<<") == 0 ||
+        ft_strcmp(tokens[k], "<") == 0
+    );
+}
+
+void    is_redirection(char **tokens, t_command **current, int *k)
+{
+    if (ft_strcmp(tokens[*k], ">") == 0)
+    {
+        (*k)++;
+        (*current)->file = ft_strdup(tokens[*k]);
+        (*current)->redirection = REDIR_OUTPUT;
+    }
+    else if (ft_strcmp(tokens[*k], ">>") == 0)
+    {
+        (*k)++;
+        (*current)->file = ft_strdup(tokens[*k]);
+        (*current)->redirection = REDIR_APPEND;
+    }
+    else if (ft_strcmp(tokens[*k], "<") == 0)
+    {
+        (*k)++;
+        (*current)->file = ft_strdup(tokens[*k]);
+        (*current)->redirection = REDIR_INPUT;
+    }
+    else if (ft_strcmp(tokens[*k], "<<") == 0)
+    {
+        (*k)++;
+        (*current)->file = ft_strdup(tokens[*k]);
+        (*current)->redirection = REDIR_HEREDOC;
+    }
+}
+
+
+bool    expand_wildcard(char *str)
+{
+    int i;
 
     i = 0;
-    wc = 0;
     while (str[i])
     {
-        while (str[i] == ' ' || str[i] == '\t')
-            i++;
-        if (str[i])
-        {
-           if (str[i] && str[i] == 34)
-            {
-                i++;
-                while (str[i] && str[i] != 34)
-                    i++;
-                i++;
-                wc++;
-            
-            }
-            if (str[i] && str[i] == 39)
-            {
-                i++;
-                while (str[i] && str[i] != 39)
-                    i++;
-                i++;
-                wc++;
-            }
-            while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-                i++;
-        
-            if (str[i] && (str[i] != 34 && str[i] != 39) && (str[i] != ' ' || str[i] != '\t'))
-            {
-                wc++;
-                while (str[i] && !((str[i] == ' ' || str[i] == '\t' || str[i] == ')')))
-                    i++;
-            }
-        }
-    
-        
+        if (str[i] == '*')
+            return true;
+        i++;
     }
-    return (wc);
+    return false;
 }
 
 
-
-char    **tokenizer(char *line)
+t_command   *create_node()
 {
-    if (!line)
-        return (NULL);
-    int i;
-    int k;
-    char **tokens;
-    int wc;
-    int wbeg;
+    t_command *new_node;
 
-    i = 0;
-    k = 0;
-    wc = count_words(line);
-    tokens = (char**)malloc(sizeof(char *) * (wc + 1));
-    if (!tokens)
-        return (NULL);
-    while (line[i] == ' ' || line[i] == '\t')
-            i++;
-    // error_handle();
-    if (line[i])
-    {
-        while (line[i])
-        {
-            while (line[i] == ' ' || line[i] == '\t')
-                i++;
-            // check for double qoute
-            if (line[i] == 34)
-             {
-                i++;
-                wbeg = i;
-                while (line[i] && line[i] != 34)
-                    i++;
-                tokens[k] = (char *)malloc(sizeof(char) * (i - wbeg + 1));
-                if (!tokens)
-                    return NULL;
-                    // error message + exit program & free **tokens and what is before it if is init like struct & so on 
-                ft_strncpy(tokens[k++], &line[wbeg], (i - wbeg));
-                i++;
-                wbeg = i;
-            }
-            if (line[i] == 39)
-            {
-                i++;
-                wbeg = i;
-                while (line[i] && line[i] != 39)
-                    i++;
-                tokens[k] = (char *)malloc(sizeof(char) * (i - wbeg + 1));
-                if (!tokens)
-                    return NULL;
-                    // error message + exit program & free **tokens and what is before it if is init like struct & so on
-                ft_strncpy(tokens[k++], &line[wbeg], (i - wbeg));
-                i++;
-                wbeg = i;  
-            }
-            while (line[i] && (line[i] == ' ' || line[i] == '\t'))
-                i++; 
-            while (line[i] && (line[i] == ' ' || line[i] == '\t'))
-                i++;
-            
-            if (line[i])
-            {
-                wbeg = i;
-                while (line[i] && ((line[i] != ' ' && line[i] != '\t')))
-                    i++;
-                if (wbeg < i)
-                {
-                    tokens[k] = (char *)malloc(sizeof(char) * (i - wbeg + 1));
-                    if (!tokens)
-                        return NULL;
-                    ft_strncpy(tokens[k++], &line[wbeg], (i - wbeg));
-                }
-                // i++;
-            }
-        }
-    }
-        // error handle only spaces line
-    tokens[k] = NULL;
-    return (tokens);
+    new_node = malloc(sizeof(t_command));
+    if (!new_node)
+        return NULL;
+
+    init_cmd(new_node);
+    return (new_node);
 }
 

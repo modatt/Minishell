@@ -51,7 +51,6 @@ typedef struct s_command
     bool is_pipe;
     t_redirection redirection;
     char *file;
-    int   index;
     bool is_wildcard;
     struct s_command *next;
 } t_command;

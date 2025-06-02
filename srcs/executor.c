@@ -12,3 +12,14 @@ bool    cmd_validation(t_command cmd_list)
 {
     
 }
+
+/*
+ls >> acceptable::
+
+l"s" 
+ls
+"ls"
+"l"s
+(ls)
+
+*/

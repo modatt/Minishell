@@ -55,7 +55,9 @@ typedef struct s_command
 {
     char **arg; 
     bool is_pipe;
-    t_redir **redirction;
+    // t_redir **redirction;
+    t_redirection redirection;
+    char *file;
     bool is_wildcard;
     struct s_command *next;
 } t_command;
@@ -65,17 +67,18 @@ typedef struct s_command
 void greets_minishell(void);
 
 // Parsing 
-t_command    *parser(char *command_line);
-char    **tokenizer(char *line);
-int     count_words(char *str);
-char    *ft_strncpy(char *des, char *src, int n);
-void    init_cmd(t_command *cmd);
-void    add_arg(char *tokens, t_command **current);
-bool    expand_wildcard(char *str);
-bool    is_redirector(char **tokens, int k);
-void    is_redirection(char **tokens, t_command **current, int *k);
-void    parser2(char **tokens, int *k, t_command **current);
-t_command   *create_node();
+// t_command    *parser(char *command_line);
+// char    **tokenizer(char *line);
+// int     count_words(char *str);
+// char    *ft_strncpy(char *des, char *src, int n);
+// void    init_cmd(t_command *cmd);
+// void    add_arg(char *tokens, t_command **current);
+// bool    expand_wildcard(char *str);
+// bool    is_redirector(char **tokens, int k);
+// void    is_redirection(char **tokens, t_command **current, int *k);
+// void    parser2(char **tokens, int *k, t_command **current);
+// t_command   *create_node();
+char    **new_parser(char *command_line);
 
 // Executing
 //void    executor(t_command cmd_list);

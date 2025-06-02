@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/06/01 15:53:09 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/02 17:28:21 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,48 @@
 
 void print_cmd_list(t_command *head);
 
+// Main Execution Loop
+
 int main(void)
 {
     greets_minishell();
     char *command_line;
-    t_command *list;
+    // t_command *list;
+    char **tokens;
+    int k = 0;
     
     if (signals_handling() == -1)
         return -1;
 
     while (1)
     {
+        // Setting up the shell environment
+
+    // Reading user input with a custom prompt
         command_line = readline("minishell$ ");
         if (command_line == NULL)
             exit (-1);
     
         if (*command_line) //* if the first character not '\0' then the string isn't empty
             add_history(command_line);
-        list = parser(command_line);
+
+    // Processing the input through tokenizer
+        // list = parser(command_line);
+        tokens = new_parser(command_line);
+        while (tokens[k])
+        {
+            printf("[%d] %s\n", k, tokens[k]);
+            k++;
+        }
         // print_cmd_list(list);
+
+
+    // Executing commands through the flow control system
         // executor(list);
+
+
+    // Managing memory and cleaning up resources
+        // free_list()
   
     }
     // free_cmd_list();

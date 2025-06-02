@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:38 by modat             #+#    #+#             */
-/*   Updated: 2025/06/01 14:26:15 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/02 17:28:39 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void    init_cmd(t_command *cmd)
     (cmd)->redirection = REDIR_NONE;
     (cmd)->file = NULL;
     // (cmd)->index = 0;
+    // (cmd)->
     (cmd)->is_wildcard = false;
     (cmd)->next = NULL;
 }

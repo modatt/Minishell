@@ -44,13 +44,18 @@ typedef enum e_buildins
     UNSET
 } t_buildins;
 
+typedef struct s_redir
+{
+    t_redirection redir;
+    char *file;
+
+} t_redir; 
 
 typedef struct s_command
 {
     char **arg; 
     bool is_pipe;
-    t_redirection redirection;
-    char *file;
+    t_redir **redirction;
     bool is_wildcard;
     struct s_command *next;
 } t_command;
@@ -73,7 +78,7 @@ void    parser2(char **tokens, int *k, t_command **current);
 t_command   *create_node();
 
 // Executing
-//void    execoter();
+//void    executor(t_command cmd_list);
 
 
 // signals

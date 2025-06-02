@@ -32,8 +32,8 @@ int main(void)
         if (*command_line) //* if the first character not '\0' then the string isn't empty
             add_history(command_line);
         list = parser(command_line);
-        print_cmd_list(list);
-        // executor();
+        // print_cmd_list(list);
+        // executor(list);
   
     }
     // free_cmd_list();

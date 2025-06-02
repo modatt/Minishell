@@ -62,7 +62,7 @@ void    init_cmd(t_command *cmd)
     (cmd)->is_pipe = false;
     (cmd)->redirection = REDIR_NONE;
     (cmd)->file = NULL;
-    (cmd)->index = 0;
+    // (cmd)->index = 0;
     (cmd)->is_wildcard = false;
     (cmd)->next = NULL;
 }

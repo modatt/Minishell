@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:25:55 by modat             #+#    #+#             */
-/*   Updated: 2025/05/31 20:25:58 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/18 13:43:30 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char    **tokenizer(char *line)
     char **tokens;
     int wc;
     int wbeg;
+    t_qoute     double_single;
 
     i = 0;
     k = 0;
@@ -39,13 +40,23 @@ char    **tokenizer(char *line)
         {
             while (line[i] == ' ' || line[i] == '\t')
                 i++;
+            if (line[i] == '|')
+            {
+                free_tokens(tokens);
+                write(1, "minishell: syntax error near unexpected token `|'\n", 50);
+                exit(EXIT_FAILURE); 
+            }
             // check for double qoute
             if (line[i] == 34)
              {
+                double_single = DOUBLE;
                 i++;
                 wbeg = i;
                 while (line[i] && line[i] != 34)
                     i++;
+                while (line[i + 1] && line[i + 1] != '|' && line[i + 1] != ' ')
+                    i++;
+                i++;
                 tokens[k] = (char *)malloc(sizeof(char) * (i - wbeg + 1));
                 if (!tokens)
                     return NULL;
@@ -56,6 +67,7 @@ char    **tokenizer(char *line)
             }
             if (line[i] == 39)
             {
+                double_single = SINGLE;
                 i++;
                 wbeg = i;
                 while (line[i] && line[i] != 39)
@@ -94,3 +106,27 @@ char    **tokenizer(char *line)
     return (tokens);
 }
 
+
+
+void    syntax_checker()
+{
+    // if ()
+    // if (line[i] == only pipe)
+
+    // if (line[i] == no cmd after a pipe)
+}
+
+void    free_tokens(char **tokens)
+{
+    if (!tokens)
+        return ;
+    int i; 
+
+    i = 0;
+    while (tokens[i])
+    {
+        free(tokens[i]);
+        i++;
+    }
+    free(tokens);
+}

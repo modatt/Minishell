@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:38 by modat             #+#    #+#             */
-/*   Updated: 2025/06/02 17:28:39 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/18 08:16:19 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,8 @@ void    init_cmd(t_command *cmd)
 {
     (cmd)->arg = NULL;
     (cmd)->is_pipe = false;
-    (cmd)->redirection = REDIR_NONE;
-    (cmd)->file = NULL;
-    // (cmd)->index = 0;
-    // (cmd)->
+    (cmd)->redirction = REDIR_NONE;
+    // (cmd)->file = NULL;
     (cmd)->is_wildcard = false;
     (cmd)->next = NULL;
 }

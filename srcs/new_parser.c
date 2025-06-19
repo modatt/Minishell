@@ -19,11 +19,6 @@ char    **new_parser(char *command_line)
     return(tokens);
 }
 
-// void    parsing(char **tokens)
-// {
-
-// }
-
 
 
 

@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:25 by modat             #+#    #+#             */
-/*   Updated: 2025/06/01 15:55:44 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/18 08:18:53 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,29 +124,30 @@ bool is_redirector(char **tokens, int k)
 
 void    is_redirection(char **tokens, t_command **current, int *k)
 {
+    (void)current;
     if (ft_strcmp(tokens[*k], ">") == 0)
     {
         (*k)++;
-        (*current)->file = ft_strdup(tokens[*k]);
-        (*current)->redirection = REDIR_OUTPUT;
+        // (*current)->file = ft_strdup(tokens[*k]);
+        // (*current)->redirection = REDIR_OUTPUT;
     }
     else if (ft_strcmp(tokens[*k], ">>") == 0)
     {
         (*k)++;
-        (*current)->file = ft_strdup(tokens[*k]);
-        (*current)->redirection = REDIR_APPEND;
+        // (*current)->file = ft_strdup(tokens[*k]);
+        // (*current)->redirection = REDIR_APPEND;
     }
     else if (ft_strcmp(tokens[*k], "<") == 0)
     {
         (*k)++;
-        (*current)->file = ft_strdup(tokens[*k]);
-        (*current)->redirection = REDIR_INPUT;
+        // (*current)->file = ft_strdup(tokens[*k]);
+        // (*current)->redirection = REDIR_INPUT;
     }
     else if (ft_strcmp(tokens[*k], "<<") == 0)
     {
         (*k)++;
-        (*current)->file = ft_strdup(tokens[*k]);
-        (*current)->redirection = REDIR_HEREDOC;
+        // (*current)->file = ft_strdup(tokens[*k]);
+        // (*current)->redirection = REDIR_HEREDOC;
     }
 }
 

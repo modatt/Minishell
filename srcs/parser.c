@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:25 by modat             #+#    #+#             */
-/*   Updated: 2025/06/18 08:18:53 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/22 15:33:41 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ t_command    *parser(char *command_line)
     tokens = tokenizer(command_line);  
     if (!tokens)
         return NULL;
+    // expansion 
+    // new_tokens = mvtokens_expanded(tokens, shell);
+    // remove qoutes:
     // 2) parse tokens & create a list & fill it
     int k;
     t_command *cmd_list;

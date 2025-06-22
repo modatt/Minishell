@@ -32,6 +32,13 @@ typedef enum e_redirection_type
     REDIR_HEREDOC      // <<
 } t_redirection;
 
+typedef struct s_shell
+{
+	int	argc;
+	char **argv;
+	char **envp;
+	int	last_exit_status;
+}	t_shell;
 
 typedef enum e_buildins
 {
@@ -85,13 +92,30 @@ bool    is_redirector(char **tokens, int k);
 void    is_redirection(char **tokens, t_command **current, int *k);
 void    parser2(char **tokens, int *k, t_command **current);
 t_command   *create_node();
+void    tokenizer2(char **tokens, int *k, int *i, char *line);
+void    handle_double_qoute(char **tokens, int *k, char *line, int *i, int *wbeg);
+void    handle_single_qoute(char **tokens, int *k, char *line, int *i, int *wbeg);
+void    handle_word(char **tokens, int *k, char *line, int *i, int *wbeg);
 // char    **new_parser(char *command_line);
 
-void    free_tokens(char **tokens);
+// void    free_tokens(char **tokens);
 
 // Executing
 //void    executor(t_command cmd_list);
 
+
+// env_handler
+char **copying_env(char **old_env);
+char *get_env(char *value, char **envp);
+char	*expand_env_var(char *input, int *i);
+char *handle_question_mark(t_shell *shell, int *i);
+char	*handle_sign(char *input, t_shell *shell, int *i);
+char	*char_to_str(char c);
+void free_env_copy(char **env_copy);
+char	*handle_single_quote(char *input, int *i);
+char	*expand_variables_in_token(char *input, t_shell *shell);
+void	free_tokens(char **tokens);
+char	**mvtokens_expanded(char **tokens, t_shell *shell);
 
 // signals
 int     signals_handling(void);

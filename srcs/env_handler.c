@@ -192,7 +192,13 @@ void	free_tokens(char **tokens)
 	free(tokens);
 }
 
-
+void    init_shell(t_shell *shell, int argc, char **argv, char **envp)
+{
+    shell->argc = argc;
+    shell->argv = argv;
+    shell->envp = copying_env(envp);
+    shell->last_exit_status = 0;
+}
 
 char	**mvtokens_expanded(char **tokens, t_shell *shell)
 {
@@ -201,12 +207,12 @@ char	**mvtokens_expanded(char **tokens, t_shell *shell)
 	char	**new_tokens;
 
 	count = 0;
+	i = 0;
 	while (tokens[count])
 		count++;
 	new_tokens = malloc(sizeof(char *) * (count + 1));
 	if (!new_tokens)
 		return (NULL);
-	i = 0;
 	while (i < count)
 	{
 		new_tokens[i] = expand_variables_in_token(tokens[i], shell);

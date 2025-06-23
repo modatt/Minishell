@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:25 by modat             #+#    #+#             */
-/*   Updated: 2025/06/22 15:33:41 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/23 14:00:53 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,21 @@
 
 // main parsing function 
 
-t_command    *parser(char *command_line)
+t_command    *parser(char *command_line, t_shell *shell)
 {
     // 1) tokenizing
     char **tokens;
+    char **new_tokens;
     tokens = tokenizer(command_line);  
     if (!tokens)
         return NULL;
-    // expansion 
-    // new_tokens = mvtokens_expanded(tokens, shell);
-    // remove qoutes:
-    // 2) parse tokens & create a list & fill it
+    new_tokens = mvtokens_expanded(tokens, shell);
+    if (!new_tokens)
+    {
+        printf("new_tokens error\n");
+        return NULL; 
+    }
+    // (void)shell;
     int k;
     t_command *cmd_list;
     t_command *current;
@@ -43,9 +47,7 @@ t_command    *parser(char *command_line)
     k = 0;
     cmd_list = NULL;
     current =  NULL;
-    // (void)cmd_list;
-
-    while (tokens[k])
+    while (new_tokens[k])
     {
         if (!current) // head 
         {
@@ -53,10 +55,9 @@ t_command    *parser(char *command_line)
             if (!cmd_list)
                 cmd_list = current;
         }
-        parser2(tokens, &k, &current);
+        parser2(new_tokens, &k, &current);
         k++; 
     }
-    // cmd_list = current;
     return cmd_list;
 }
 
@@ -125,34 +126,94 @@ bool is_redirector(char **tokens, int k)
     );
 }
 
+void is_redirection(char **tokens, t_command **current, int *k)
+{
+    if (!(*current)->redirection)
+    {
+        (*current)->redirection = malloc(sizeof(t_redir *) * 10); // Example: space for 10 redirs
+        if (!(*current)->redirection)
+        {
+            perror("malloc failed");
+            exit(EXIT_FAILURE);
+        }
+        (*current)->redir_count = 0;
+    }
+
+    t_redir *redir = malloc(sizeof(t_redir));
+    if (!redir)
+    {
+        perror("malloc failed");
+        exit(EXIT_FAILURE);
+    }
+
+    if (ft_strcmp(tokens[*k], ">") == 0)
+        redir->redir_type = REDIR_OUTPUT;
+    else if (ft_strcmp(tokens[*k], ">>") == 0)
+        redir->redir_type = REDIR_APPEND;
+    else if (ft_strcmp(tokens[*k], "<") == 0)
+        redir->redir_type = REDIR_INPUT;
+    else if (ft_strcmp(tokens[*k], "<<") == 0)
+        redir->redir_type = REDIR_HEREDOC;
+    else
+    {
+        free(redir);
+        return;
+    }
+
+    (*k)++; // Advance to file token
+    redir->file = ft_strdup(tokens[*k]);
+    (*current)->redirection[(*current)->redir_count++] = redir;
+}
+
+/*
 void    is_redirection(char **tokens, t_command **current, int *k)
 {
-    (void)current;
+    if (!(*current)->redirection)
+    {
+        (*current)->redirection = malloc(sizeof(t_redir *) * 1);
+        if (!(*current)->redirection)
+        {
+            perror("malloc failed");
+            exit(EXIT_FAILURE);
+        }
+        
+    }
+    t_redir *redir = malloc(sizeof(t_redir));
+        if (!redir)
+        {
+            perror("malloc failed");
+            exit(EXIT_FAILURE);
+        }
     if (ft_strcmp(tokens[*k], ">") == 0)
     {
         (*k)++;
-        // (*current)->file = ft_strdup(tokens[*k]);
-        // (*current)->redirection = REDIR_OUTPUT;
+        (*current)->redirection->file = ft_strdup(tokens[*k]);
+        (*current)->redirection->redir_type = REDIR_OUTPUT;
     }
     else if (ft_strcmp(tokens[*k], ">>") == 0)
     {
         (*k)++;
-        // (*current)->file = ft_strdup(tokens[*k]);
-        // (*current)->redirection = REDIR_APPEND;
+        (*current)->redirection->file = ft_strdup(tokens[*k]);
+        (*current)->redirection->redir_type = REDIR_APPEND;
     }
     else if (ft_strcmp(tokens[*k], "<") == 0)
     {
         (*k)++;
-        // (*current)->file = ft_strdup(tokens[*k]);
-        // (*current)->redirection = REDIR_INPUT;
+        (*current)->redirection->file = ft_strdup(tokens[*k]);
+        (*current)->redirection->redir_type = REDIR_INPUT;
     }
     else if (ft_strcmp(tokens[*k], "<<") == 0)
     {
         (*k)++;
-        // (*current)->file = ft_strdup(tokens[*k]);
-        // (*current)->redirection = REDIR_HEREDOC;
+        (*current)->redirection->file = ft_strdup(tokens[*k]);
+        (*current)->redirection->redir_type = REDIR_HEREDOC;
     }
-}
+    else 
+    {
+        free(redir);
+        return ;
+    }
+}*/
 
 
 bool    expand_wildcard(char *str)

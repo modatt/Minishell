@@ -81,7 +81,7 @@ typedef enum e_qoute
 void greets_minishell(void);
 
 //Parsing 
-t_command    *parser(char *command_line);
+t_command    *parser(char *command_line, t_shell *shell);
 char    **tokenizer(char *line);
 int     count_words(char *str);
 char    *ft_strncpy(char *des, char *src, int n);
@@ -96,7 +96,16 @@ void    tokenizer2(char **tokens, int *k, int *i, char *line);
 void    handle_double_qoute(char **tokens, int *k, char *line, int *i, int *wbeg);
 void    handle_single_qoute(char **tokens, int *k, char *line, int *i, int *wbeg);
 void    handle_word(char **tokens, int *k, char *line, int *i, int *wbeg);
+int    handle_three_and_higher_redir(char *str, int *i);
+int     handle_redir_at_beg(char *str, int *i, int *wc);
+void    init_shell(t_shell *shell, int argc, char **argv, char **envp);
 // char    **new_parser(char *command_line);
+
+int	    handle_pipe(char *str, int *i);
+int	handle_three_and_higher_redir(char *str, int *i);
+int     handle_redir_at_beg(char *str, int *i, int *wc);
+void	count_qoute(char *str, int *i, int *wc);
+int     handle_syntax(char *str, int *i, int *wc);
 
 // void    free_tokens(char **tokens);
 

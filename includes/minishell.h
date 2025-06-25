@@ -40,12 +40,6 @@ typedef struct s_shell
 	int		last_exit_status;
 }			t_shell;
 
-typedef struct s_quote_state
-{
-	int		in_single;
-	int		in_double;
-}			t_quote_state;
-
 typedef enum e_buildins
 {
     CD,
@@ -64,9 +58,14 @@ typedef struct s_redir
 
 } t_redir; 
 
+typedef struct s_quote_state
+{
+	int		in_single;
+	int		in_double;
+}			t_quote_state;
+
 typedef struct s_command
 {
-    // char *cmd; 
     char **arg; 
     bool is_pipe;
     t_redir **redirection;
@@ -74,62 +73,70 @@ typedef struct s_command
     struct s_command *next;
 } t_command;
 
-// opening 
+// main.c 
 void greets_minishell(void);
 
-//Parsing 
+// Parser.c  - 1
 t_command    *parser(char *command_line, t_shell *shell);
-char    **tokenizer(char *line);
-int     count_words(char *str);
-char    *ft_strncpy(char *des, char *src, int n);
-void    init_cmd(t_command *cmd);
-void    add_arg(char *tokens, t_command **current);
-bool    expand_wildcard(char *str);
-bool    is_redirector(char **tokens, int k);
-void    is_redirection(char **tokens, t_command **current, int *k);
 void    parser2(char **tokens, int *k, t_command **current);
-t_command   *create_node();
+void    add_arg(char *tokens, t_command **current);
+void    is_redirection(char **tokens, t_command **current, int *k); // more then 25 lines
+
+
+// parse_utils.c - 2
+char    **tokenizer(char *line);
 void    tokenizer2(char **tokens, int *k, int *i, char *line);
+void    handle_word(char **tokens, int *k, char *line, int *i, int *wbeg);
 void    handle_double_qoute(char **tokens, int *k, char *line, int *i, int *wbeg);
 void    handle_single_qoute(char **tokens, int *k, char *line, int *i, int *wbeg);
-void    handle_word(char **tokens, int *k, char *line, int *i, int *wbeg);
-int    handle_three_and_higher_redir(char *str, int *i);
-int     handle_redir_at_beg(char *str, int *i, int *wc);
+
+// parse_utils_2.c  - 3
+void    allocate_memory_shell(t_shell **shell);
 void    init_shell(t_shell *shell, int argc, char **argv, char **envp);
-// char    **new_parser(char *command_line);
+void	init_cmd(t_command *cmd);
+bool    is_redirector(char **tokens, int k);
 
-int	    handle_pipe(char *str, int *i);
-int	handle_three_and_higher_redir(char *str, int *i);
+// env_handler.c - 4
+char	**tokens_expanded(char **tokens, t_shell *shell);
+char	*expand_variables_in_token(char *input, t_shell *shell);
+char	*char_to_str(char c);
+char	*handle_sign(char *input, t_shell *shell, int *i);
+char	*handle_bash_parameter(t_shell *shell, int *i, char *input);
+char	*handle_question_mark(t_shell *shell, int *i);
+char	*expand_env_var(char *input, int *i);
+char	*get_env(char *value, char **envp);
+char	**copying_env(char **old_env);
+char	*ft_strjoin_free(char *s1, char *s2);
+void	free_env_copy(char **env_copy);
+void	free_tokens(char **tokens);
+
+
+// syntax_check - 5 // lots of more than 25
+int     count_words(char *str);
+int	    handle_three_and_higher_redir(char *str, int *i);
 int     handle_redir_at_beg(char *str, int *i, int *wc);
+int	    handle_pipe(char *str, int *i);
 void	count_qoute(char *str, int *i, int *wc);
-int     handle_syntax(char *str, int *i, int *wc);
+int     handle_syntax(char *str, int *i, int *wc); // more than 25 lines
 
-// void    free_tokens(char **tokens);
 
-// Executing
+// utils.c - 6
+char    *ft_strncpy(char *des, char *src, int n);
+char	*ft_strcpy(char *des, char *src);
+int	    ft_strcmp(const char *s1, const char *s2);
+t_command   *create_node();
+
+// signals - 7
+int     signals_handling(void);
+void    handler(int sig);
+
+
+// Executing - 8 
 bool is_builtin(char *cmd);
 int exec_builtin(t_command cmd, t_shell shell);
 void execute_cmd(t_command *cmd, t_shell *shell);
 
 
-// env_handler
-char **copying_env(char **old_env);
-char *get_env(char *value, char **envp);
-char	*expand_env_var(char *input, int *i);
-char *handle_question_mark(t_shell *shell, int *i);
-char	*handle_sign(char *input, t_shell *shell, int *i);
-char	*char_to_str(char c);
-void free_env_copy(char **env_copy);
-char	*handle_single_quote(char *input, int *i);
-char	*expand_variables_in_token(char *input, t_shell *shell);
-void	free_tokens(char **tokens);
-char	**tokens_expanded(char **tokens, t_shell *shell);
-
-// signals
-int     signals_handling(void);
-void    handler(int sig);
-
-// utils 
-int	ft_strcmp(const char *s1, const char *s2);
-char    *ft_strcpy(char *des, char *src);
+// extra help - 9
+void print_cmd_list(t_command *head);
 #endif

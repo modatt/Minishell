@@ -9,22 +9,28 @@ int	count_words(char *str)
 
 	i = 0;
 	wc = 0;
-	while (str[i])
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+		i++;
+	if (handle_pipe(str, &i) == 0)
+		return (0);
+	if (str[i] == '>' || str[i] == '<')
 	{
-		while (str[i] == ' ' || str[i] == '\t')
-			i++;
-		if (handle_pipe(str, &i) == 0)
+		if (handle_redir_at_beg(str, &i, &wc) == 0)
 			return (0);
-		if (str[i] == '>' || str[i] == '<')
+	}
+	if (str[i])
+	{
+		while (str[i])
 		{
-			if (handle_redir_at_beg(str, &i, &wc) == 0)
+			if (str[i] == '|' && ( str[i + 1] == '\0' || str[i + 1] == '|'))
+			{
+				write(1, "minishell: syntax error near unexpected token `|'\n", 50);
 				return (0);
-		}
-		if (str[i])
-		{
+			}
 			count_qoute(str, &i, &wc);
 			if (handle_syntax(str, &i, &wc) == 0)
 				return (0);
+			i++;
 		}
 	}
 	return (wc);
@@ -32,7 +38,7 @@ int	count_words(char *str)
 
 
 // function - 2
-int	handle_three_and_higher_redir(char *str, int *i)
+int		handle_three_and_higher_redir(char *str, int *i)
 {
 	if (str[*i + 2] == '>' || str[*i + 2] == '<')
 	{ 
@@ -97,9 +103,16 @@ int	    handle_pipe(char *str, int *i)
 {
 	if (str[*i] == '|')
 	{
+		int x = *i;
+		if (str[*i] == '|' && ( str[*i + 1] == '\0' || str[*i + 1] == '|'))
+		{
+			write(1, "minishell: syntax error near unexpected token `|'\n", 50);
+			return (0);
+		}
+		(*i)++;
 		while (str[*i] == ' ' || str[*i] == '\t')
 			(*i)++;
-		if (str[*i] == '|' || str[*i + 1] == '\0' || str[*i + 1] == '|')
+		if (str[x] == '|' && !(str[*i] == '\0' || str[*i] == '|'))
 		{
 			write(1, "minishell: syntax error near unexpected token `|'\n", 50);
 			return (0);

@@ -47,7 +47,8 @@ CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) #add/ connect header
 
 # DIR
 
-SRCS_DIR = srcs
+PARDE_DIR = parse
+EXECUTE_DIR = execute 
 INC_DIR = includes
 LIBFT_DIR = libft
 
@@ -56,7 +57,11 @@ READLINE = -lreadline
 LIBFT = $(LIBFT_DIR)/libft.a
 
 # SRCS && OBJ
-SRCS = ./$(SRCS_DIR)/minishell.c ./$(SRCS_DIR)/utils.c ./$(SRCS_DIR)/new_parser.c ./$(SRCS_DIR)/greets.c ./$(SRCS_DIR)/parser.c ./$(SRCS_DIR)/parse_utils.c ./$(SRCS_DIR)/env_handler.c ./$(SRCS_DIR)/syntax_check.c ./$(SRCS_DIR)/executor.c
+SRCS = ./$(PARDE_DIR)/minishell.c ./$(PARDE_DIR)/utils.c ./$(PARDE_DIR)/greets.c  ./$(PARDE_DIR)/parser.c ./$(PARDE_DIR)/parse_utils.c ./$(PARDE_DIR)/parse_utils_2.c ./$(PARDE_DIR)/env_handler.c ./$(PARDE_DIR)/syntax_check.c ./$(PARDE_DIR)/extra_help.c ./$(PARDE_DIR)/signals_handler.c  ./$(PARDE_DIR)/env_handler_utils.c ./$(PARDE_DIR)/env_handler_utils_2.c
+
+
+#  ./$(SRCS_DIR)/executor.c
+
 OBJCS = $(SRCS:.c=.o)
 
 NAME = minishell

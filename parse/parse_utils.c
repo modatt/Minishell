@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:25:55 by modat             #+#    #+#             */
-/*   Updated: 2025/06/23 00:28:03 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/25 18:59:17 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void    handle_word(char **tokens, int *k, char *line, int *i, int *wbeg)
     }
 }
 
-// function - 3
+// function - 4
 void    handle_double_qoute(char **tokens, int *k, char *line, int *i, int *wbeg)
 {
                 (*i)++;
@@ -107,7 +107,7 @@ void    handle_double_qoute(char **tokens, int *k, char *line, int *i, int *wbeg
                 *wbeg = *i + 1;
 }
 
-// function - 4
+// function - 5
 void    handle_single_qoute(char **tokens, int *k, char *line, int *i, int *wbeg)
 {
                 (*i)++;
@@ -124,19 +124,3 @@ void    handle_single_qoute(char **tokens, int *k, char *line, int *i, int *wbeg
                 *wbeg = *i + 1; 
 }
 
-// function - 5
-
-// void    free_tokens(char **tokens)
-// {
-//     if (!tokens)
-//         return ;
-//     int i; 
-
-//     i = 0;
-//     while (tokens[i])
-//     {
-//         free(tokens[i]);
-//         i++;
-//     }
-//     free(tokens);
-// }

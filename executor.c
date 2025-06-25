@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:53:47 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/06/25 18:01:30 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/25 17:21:11 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool is_builtin(char *cmd)
     while(builtins[i])
     {
         if(!ft_strcmp(cmd, builtins[i]))
-            return(true);
+            return(true)
         i++;
     }
     return(false);
@@ -43,7 +43,7 @@ int exec_builtin(t_command cmd, t_shell shell)
     if (!ft_strcmp(cmd->arg[0], "env"))
         	builtin_env(cmd->argc, shell->envp);
     if (!ft_strcmp(cmd->arg[0], "exit"))
-        	builtin_exit(cmd->args, shell->envp);
+        	builtin_exit(cmd->args), shell->envp);
     return (1);
 }
 
@@ -53,5 +53,5 @@ void execute_cmd(t_command *cmd, t_shell *shell)
     if (is_builtin(cmd->arg[0]))
         exec_builtin(cmd);
     else
-        exec_external(cmd, shell->envp);
+        exec_external(cmd, envp);
 }

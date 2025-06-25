@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/06/23 12:54:17 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/25 17:57:17 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,6 @@ int main(int argc, char **argv, char **envp)
     list = parser(command_line, shell);
     
     print_cmd_list(list);
-
-    // Executing commands through the flow control system
-        // executor(list);
-
     // Managing memory and cleaning up resources
         // free_list()
   
@@ -108,8 +104,6 @@ else
 }
 
         printf("Is pipe? %s\n", head->is_pipe ? "true" : "false");
-        printf("Contains wildcard? %s\n", head->is_wildcard ? "true" : "false");
-
         printf("------------------------\n");
 
         head = head->next;

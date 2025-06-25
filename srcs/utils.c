@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:38 by modat             #+#    #+#             */
-/*   Updated: 2025/06/23 12:55:29 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/25 17:02:47 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,12 @@ int	ft_strcmp(const char *s1, const char *s2)
 		s2++;
 	}
 	return ((unsigned char)*s1 - (unsigned char)*s2);
+}
+
+void    init_shell(t_shell *shell, int argc, char **argv, char **envp)
+{
+    shell->argc = argc;
+    shell->argv = argv;
+    shell->envp = copying_env(envp);
+    shell->last_exit_status = 0;
 }

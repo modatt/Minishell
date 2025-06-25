@@ -34,11 +34,17 @@ typedef enum e_redirection_type
 
 typedef struct s_shell
 {
-	int	argc;
-	char **argv;
-	char **envp;
-	int	last_exit_status;
-}	t_shell;
+	int		argc;
+	char	**argv;
+	char	**envp;
+	int		last_exit_status;
+}			t_shell;
+
+typedef struct s_quote_state
+{
+	int		in_single;
+	int		in_double;
+}			t_quote_state;
 
 typedef enum e_buildins
 {
@@ -65,18 +71,9 @@ typedef struct s_command
     bool is_pipe;
     t_redir **redirection;
     int     redir_count; 
-    // t_redirection redirection;
-    // char *file;
-    bool is_wildcard;
     struct s_command *next;
 } t_command;
 
-typedef enum e_qoute
-{
-    // NONE,
-    SINGLE,
-    DOUBLE
-} t_qoute;
 // opening 
 void greets_minishell(void);
 
@@ -110,7 +107,9 @@ int     handle_syntax(char *str, int *i, int *wc);
 // void    free_tokens(char **tokens);
 
 // Executing
-//void    executor(t_command cmd_list);
+bool is_builtin(char *cmd);
+int exec_builtin(t_command cmd, t_shell shell);
+void execute_cmd(t_command *cmd, t_shell *shell);
 
 
 // env_handler
@@ -124,19 +123,13 @@ void free_env_copy(char **env_copy);
 char	*handle_single_quote(char *input, int *i);
 char	*expand_variables_in_token(char *input, t_shell *shell);
 void	free_tokens(char **tokens);
-char	**mvtokens_expanded(char **tokens, t_shell *shell);
+char	**tokens_expanded(char **tokens, t_shell *shell);
 
 // signals
 int     signals_handling(void);
-
-// int     strcmp_whitespaces_handle(char *s1, char *s2);
-
-// void    display_history(void);
-// void    printdoup(char **str);
 void    handler(int sig);
 
 // utils 
 int	ft_strcmp(const char *s1, const char *s2);
-bool    expand_waildcard(char *str);
 char    *ft_strcpy(char *des, char *src);
 #endif

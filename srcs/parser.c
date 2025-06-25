@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:25 by modat             #+#    #+#             */
-/*   Updated: 2025/06/23 14:00:53 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/25 17:05:39 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_command    *parser(char *command_line, t_shell *shell)
     tokens = tokenizer(command_line);  
     if (!tokens)
         return NULL;
-    new_tokens = mvtokens_expanded(tokens, shell);
+    new_tokens = tokens_expanded(tokens, shell);
     if (!new_tokens)
     {
         printf("new_tokens error\n");

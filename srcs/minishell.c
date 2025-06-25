@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/06/25 17:57:17 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/25 18:07:43 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,49 +110,4 @@ else
         node_index++;
     }
 }
-
-
-
-// void print_cmd_list(t_command *head)
-// {
-//     int i;
-//     int node_index = 0;
-
-//     while (head)
-//     {
-//         printf("------ Command %d ------\n", node_index);
-
-//         // Print arguments
-//         i = 0;
-//         printf("Arguments: ");
-//         if (head->arg)
-//         {
-//             while (head->arg[i])
-//             {
-//                 printf("'%s' ", head->arg[i]);
-//                 i++;
-//             }
-//         }
-//         else
-//             printf("(none)");
-//         printf("\n");
-
-//         // Print file and redirection
-//         if (head->redirection->file)
-//             printf("File: '%s'\n", head->redirection->file);
-//         else
-//             printf("File: (none)\n");
-
-//         printf("Redirection type: %d\n", head->redirction);
-//         printf("Is pipe? %s\n", head->is_pipe ? "true" : "false");
-//         printf("Contains wildcard? %s\n", head->is_wildcard ? "true" : "false");
-
-//         printf("------------------------\n");
-
-//         head = head->next;
-//         node_index++;
-//     }
-// }
-
-
 

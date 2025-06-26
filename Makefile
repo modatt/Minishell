@@ -1,86 +1,51 @@
-# # Compiler and flags
-# CC = cc
-# CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR)
+# Compiler and flags
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR)
 
-# # Directories
-# SRC_DIR = srcs
-# INC_DIR = includes
-# LIBFT_DIR = libft
-
-# # Libraries
-# LIBFT = $(LIBFT_DIR)/libft.a
-# READLINE = -lreadline
-
-# # Source and object files
-# SRCS = ./$(SRC_DIR)/minishell.c ./$(SRC_DIR)/utils.c
-# OBJCS = $(SRCS:.c=.o)
-
-# # Output program name
-# NAME = minishell
-
-# # Build all
-# all: $(LIBFT) $(NAME)
-
-# # Build minishell
-# $(NAME): $(OBJCS)
-# 	$(CC) $(CFLAGS) $(OBJCS) $(LIBFT) $(READLINE) -o $(NAME)
-
-# # Build libft
-# $(LIBFT):
-# 	make -C $(LIBFT_DIR)
-
-# clean:
-# 	rm -f $(OBJCS)
-# 	make -C $(LIBFT_DIR) clean
-
-# fclean: clean
-# 	rm -f $(NAME)
-# 	make -C $(LIBFT_DIR) fclean
-
-# re: fclean all
-
-# .PHONY: all clean fclean re
-
-
-CC = cc 
-CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) #add/ connect header
-
-# DIR
-
-PARDE_DIR = parse
-EXECUTE_DIR = execute 
+# Directories
+PARSE_DIR = parse
+EXECUTE_DIR = execute
 INC_DIR = includes
 LIBFT_DIR = libft
 
-#llibraries
+# Libraries
 READLINE = -lreadline
 LIBFT = $(LIBFT_DIR)/libft.a
 
-# SRCS && OBJ
-SRCS = ./$(PARDE_DIR)/minishell.c ./$(PARDE_DIR)/utils.c ./$(PARDE_DIR)/greets.c  ./$(PARDE_DIR)/parser.c ./$(PARDE_DIR)/parse_utils.c ./$(PARDE_DIR)/parse_utils_2.c ./$(PARDE_DIR)/env_handler.c ./$(PARDE_DIR)/syntax_check.c ./$(PARDE_DIR)/extra_help.c ./$(PARDE_DIR)/signals_handler.c  ./$(PARDE_DIR)/env_handler_utils.c ./$(PARDE_DIR)/env_handler_utils_2.c
-
-
-#  ./$(SRCS_DIR)/executor.c
-
-OBJCS = $(SRCS:.c=.o)
-
+# Project name
 NAME = minishell
 
+# Source file base names
+PARSE_FILES = minishell utils greets parser parse_utils parse_utils_2 \
+	env_handler syntax_check extra_help signals_handler env_handler_utils env_handler_utils_2
 
-#BUILD 
-all: $(LIBFT) $(NAME) 
+EXECUTE_FILES = executor
+
+# Source file paths
+SRCS = $(addsuffix .c, $(addprefix $(PARSE_DIR)/, $(PARSE_FILES))) \
+	   $(addsuffix .c, $(addprefix $(EXECUTE_DIR)/, $(EXECUTE_FILES)))
+
+# Object file paths
+OBJCS = $(SRCS:.c=.o)
+
+# Build target
+all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJCS)
-	@$(CC) $(CFLAGS) $(OBJCS) $(LIBFT) $(READLINE) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJCS) $(LIBFT) $(READLINE) -o $(NAME)
+
 $(LIBFT):
 	@make -s -C $(LIBFT_DIR)
 
+# Clean targets
 clean:
 	rm -f $(OBJCS)
-	make -C $(LIBFT_DIR) clean
+	@make -C $(LIBFT_DIR) clean
 
 fclean: clean
-	rm -f $(OBJCS)
-	make -C $(LIBFT_DIR) fclean
+	rm -f $(NAME)
+	@make -C $(LIBFT_DIR) fclean
+
 re: fclean all
+
 .PHONY: all clean fclean re

@@ -131,12 +131,21 @@ int     signals_handling(void);
 void    handler(int sig);
 
 
-// Executing - 8 
-bool is_builtin(char *cmd);
-int exec_builtin(t_command cmd, t_shell shell);
-void execute_cmd(t_command *cmd, t_shell *shell);
+// // Executing - 8 
+// bool is_builtin(char *cmd);
+// int exec_builtin(t_command cmd, t_shell shell);
+// void execute_cmd(t_command *cmd, t_shell *shell);
 
 
 // extra help - 9
 void print_cmd_list(t_command *head);
+
+
+// folder execute 
+
+// executor.c
+bool is_builtin(char *cmd);
+int exec_builtin(t_command *cmd, t_shell *shell);
+void execute_cmd(t_command *cmd, t_shell *shell);
+
 #endif

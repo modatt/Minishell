@@ -61,7 +61,7 @@ char	*char_to_str(char c)
 char	*handle_question_mark(t_shell *shell, int *i)
 {
 	char	*result;
-
+	// shell->last_exit_status = 1;
 	(*i)++;
 	result = ft_itoa(shell->last_exit_status);
 	(*i)++;

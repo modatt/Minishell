@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/06/25 19:29:48 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/25 23:14:56 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int main(int argc, char **argv, char **envp)
 {
     greets_minishell();
     char *command_line;
-    t_command *list;
+    t_command *cmd;
     t_shell *shell = NULL;
     
     allocate_memory_shell(&shell);
@@ -33,8 +33,9 @@ int main(int argc, char **argv, char **envp)
             exit (-1);
         if (*command_line) //* if the first character not '\0' then the string isn't empty
             add_history(command_line);
-        list = parser(command_line, shell);
-        print_cmd_list(list);
+        cmd = parser(command_line, shell);
+        print_cmd_list(cmd);
+        execute_cmd(cmd, shell);
     // Managing memory and cleaning up resources
         // free_list()
     }

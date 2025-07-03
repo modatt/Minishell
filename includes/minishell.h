@@ -45,6 +45,7 @@ typedef struct s_shell
 	int			argc;
 	char		**argv;
 	int			last_exit_status;
+    char        **envp;
 	t_env_var	*env_list;  //  replaces char **envp
 }				t_shell;
 
@@ -155,11 +156,29 @@ void print_cmd_list(t_command *head);
 
 
 // executor.c
-bool is_builtin(char *cmd);
-int exec_builtin(t_command *cmd, t_shell *shell);
 void execute_cmd(t_command *cmd, t_shell *shell);
 
-// convert_envp.c
+// execu_buildins_1.c 
+bool is_builtin(char *cmd);
+int exec_builtin(t_command *cmd, t_shell *shell);
+
+// execu_buildins_2.c 
+void	builtin_echo(t_command *cmd);
+void	builtin_pwd(t_command *cmd);
+void 	builtin_env(t_shell *shell);
+void    update_pwd_env(t_shell *shell, char *old_pwd);
+void    builtin_cd(t_command *cmd, t_shell *shell);
+
+// exit 
+long	ft_atol(const char *nptr);
+void	clean_exit(t_shell *shell, long exit_code, t_command *cmd);
+void	builtin_exit(t_command *cmd, t_shell *shell);
+
+// exit_utils.c 
+int		is_numeric(char *str);
+int  args_count(char **str);
+
+// init_env_list.c
 void	init_env_list(t_shell *shell, char **envp);
 t_env_var *new_env_var(char *name, char *value);
 void add_env_var(t_env_var **list, t_env_var *new);

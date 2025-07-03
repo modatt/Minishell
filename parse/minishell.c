@@ -14,7 +14,7 @@
 
 int main(int argc, char **argv, char **envp)
 {
-    // greets_minishell();  // Optional greeting banner
+    greets_minishell();  // Optional greeting banner
 
     char *command_line;
     t_command *cmd;

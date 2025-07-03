@@ -26,6 +26,8 @@ void	init_env_list(t_shell *shell, char **envp)
 		i++;
 	}
 }
+
+
 t_env_var *new_env_var(char *name, char *value)
 {
 	t_env_var *node = malloc(sizeof(t_env_var));
@@ -37,6 +39,7 @@ t_env_var *new_env_var(char *name, char *value)
 	node->next = NULL;
 	return node;
 }
+
 
 void add_env_var(t_env_var **list, t_env_var *new)
 {

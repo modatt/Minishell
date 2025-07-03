@@ -18,6 +18,7 @@ void    init_shell(t_shell *shell, int argc, char **argv, char **envp)
     shell->argc = argc;
     shell->argv = argv;
     shell->last_exit_status = 0;
+    shell->envp = copying_env(envp);
     init_env_list(shell, envp); 
 }
 

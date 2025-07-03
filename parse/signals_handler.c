@@ -10,6 +10,9 @@ void	handler(int sig)
 		rl_on_new_line();       /* 2. tell readline: “we’re on a new line”   */
 		rl_replace_line("", 0); /* 3. clear whatever the user was typing     */
 		rl_redisplay();         /* 4. repaint the prompt + empty input line*/
+		// exit();
+		// free_cmd(free);
+		// free_shell(shell);
 	}
 	// else if (sig == SIGQUIT)
 	return ;

@@ -114,7 +114,7 @@ char	*handle_sign(char *input, t_shell *shell, int *i);
 char	*handle_bash_parameter(t_shell *shell, int *i, char *input);
 char	*handle_question_mark(t_shell *shell, int *i);
 char	*expand_env_var(char *input, int *i);
-// char	*get_env(char *value, char **envp);
+char	*get_envp(char **envp, char *value);
 char	*get_env(char *key, t_env_var *env_list);
 char	**copying_env(char **old_env);
 char	*ft_strjoin_free(char *s1, char *s2);
@@ -142,13 +142,7 @@ int     signals_handling(void);
 void    handler(int sig);
 
 
-// // Executing - 8 
-// bool is_builtin(char *cmd);
-// int exec_builtin(t_command cmd, t_shell shell);
-// void execute_cmd(t_command *cmd, t_shell *shell);
-
-
-// extra help - 9
+// extra help - 8
 void print_cmd_list(t_command *head);
 
 
@@ -205,5 +199,15 @@ void    free_name_value(char *name, char *value);
 // unset.c
 int    builtin_unset(t_command *cmd, t_shell *shell);
 void remove_var(t_env_var **env_list, const char *name);
+
+// cd.c
+int     handle_export_var_cd(char *name, char *value, t_shell *shell, int status);
+void builtin_cd(t_command *cmd, t_shell *shell);
+
+// free.c 
+void free_cmd(t_command *cmd);
+void free_redir(t_command *cmd);
+void    free_shell(t_shell *shell);
+void    free_env_list(t_shell *shell);
 
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exce_builtins_2.c                                  :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 12:47:24 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/06/29 13:42:13 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/07/03 17:57:39 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ void	clean_exit(t_shell *shell, long exit_code, t_command *cmd)
 	if (!shell)
 		exit(exit_code);
 	// Free command list
-	// free_commands(cmd);
+	free_cmd(cmd);
+
 	if (shell->envp)
 		free_env_copy(shell->envp);
 	// Free input line buffer (if you're storing it)
+	free_shell(shell);
 	// if (shell->line)
 	//     free(shell->line);
 	// Close and free pipe fds (if implemented)

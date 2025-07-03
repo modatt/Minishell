@@ -91,7 +91,7 @@ char	*get_env(char *key, t_env_var *env_list)
 {
 	while (env_list)
 	{
-		if (strcmp(env_list->name, key) == 0)
+		if (ft_strcmp(env_list->name, key) == 0)
 			return (ft_strdup(env_list->value));
 		env_list = env_list->next;
 	}
@@ -99,25 +99,25 @@ char	*get_env(char *key, t_env_var *env_list)
 }
 
 
-// char	*get_env(char *value, char **envp)
-// {
-// 	int		i;
-// 	int		len;
-// 	char	*result;
+char	*get_envp(char **envp, char *value)
+{
+	int		i;
+	int		len;
+	char	*result;
 
-// 	len = strlen(value);
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		if ((ft_strncmp(value, envp[i], len) == 0) && (envp[i][len] == '='))
-// 		{
-// 			result = ft_strdup(envp[i] + len + 1);
-// 			return (result);
-// 		}
-// 		i++;
-// 	}
-// 	result = ft_strdup("");
-// 	return (result);
-// }
+	len = strlen(value);
+	i = 0;
+	while (envp[i])
+	{
+		if ((ft_strncmp(value, envp[i], len) == 0) && (envp[i][len] == '='))
+		{
+			result = ft_strdup(envp[i] + len + 1);
+			return (result);
+		}
+		i++;
+	}
+	result = ft_strdup("");
+	return (result);
+}
 
 

@@ -27,8 +27,8 @@ int exec_builtin(t_command *cmd, t_shell *shell)
 			builtin_echo(cmd);
 	else if (!ft_strcmp(cmd->arg[0], "env"))
 			builtin_env(shell);
-    // else if (!ft_strcmp(cmd->arg[0], "cd"))
-    //    	builtin_cd(cmd, shell);
+    else if (!ft_strcmp(cmd->arg[0], "cd"))
+       	builtin_cd(cmd, shell);
 	else if (!ft_strcmp(cmd->arg[0], "export"))
        	builtin_export(cmd, shell);
     else if (!ft_strcmp(cmd->arg[0], "unset"))

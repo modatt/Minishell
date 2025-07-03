@@ -46,10 +46,9 @@ int main(int argc, char **argv, char **envp)
         // free_command_list(cmd);  // If you implemented it
         free(command_line);
     }
-
     // Cleanup (env_list, etc.)
     // free_env_list(shell->env_list);
-    free(shell);
+    // free(shell);
     return (0);
 }
 

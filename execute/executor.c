@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:53:47 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/06/30 09:13:58 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/03 13:18:14 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 bool is_builtin(char *cmd)
 {
+	// if (cmd == NULL)
+	// 	return EXIT_FAILUAR; 
     int		i;
 	char *builtins[] = {"cd", "echo", "pwd", "export", "unset", "env", "exit", NULL};
 	
@@ -94,6 +96,8 @@ int exec_builtin(t_command *cmd, t_shell *shell)
 
 void execute_cmd(t_command *cmd, t_shell *shell)
 {
+	if (!cmd || !cmd->arg) // without it cased sigfault and exit the program when hitting enter 
+		return ;
     if (is_builtin(cmd->arg[0]))
         exec_builtin(cmd, shell);
     else

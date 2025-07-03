@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/06/29 13:55:51 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/03 13:01:07 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int main(int argc, char **argv, char **envp)
 {
-    greets_minishell();  // Optional greeting banner
+    // greets_minishell();  // Optional greeting banner
 
     char *command_line;
     t_command *cmd;

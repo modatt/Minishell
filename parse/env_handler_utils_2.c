@@ -42,7 +42,8 @@ char	*handle_sign(char *input, t_shell *shell, int *i)
 	else
 	{
 		value = expand_env_var(&input[*i], i);
-		result = get_env(value, shell->envp);
+		// result = get_env(value, shell->envp);
+		result = get_env(value, shell->env_list);
 		free(value);
 	}
 	return (result);

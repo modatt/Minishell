@@ -30,15 +30,24 @@ typedef enum e_redirection_type
     REDIR_OUTPUT,      // >
     REDIR_APPEND,      // >>
     REDIR_HEREDOC      // <<
-} t_redirection;
+}   t_redirection;
+
+typedef struct s_env_var
+{
+	char				*name;
+	char				*value;
+	bool				exported;
+	struct s_env_var	*next;
+}						t_env_var;
 
 typedef struct s_shell
 {
-	int		argc;
-	char	**argv;
-	char	**envp;
-	int		last_exit_status;
-}			t_shell;
+	int			argc;
+	char		**argv;
+	int			last_exit_status;
+	t_env_var	*env_list;  //  replaces char **envp
+}				t_shell;
+
 
 typedef enum e_buildins
 {
@@ -104,7 +113,8 @@ char	*handle_sign(char *input, t_shell *shell, int *i);
 char	*handle_bash_parameter(t_shell *shell, int *i, char *input);
 char	*handle_question_mark(t_shell *shell, int *i);
 char	*expand_env_var(char *input, int *i);
-char	*get_env(char *value, char **envp);
+// char	*get_env(char *value, char **envp);
+char	*get_env(char *key, t_env_var *env_list);
 char	**copying_env(char **old_env);
 char	*ft_strjoin_free(char *s1, char *s2);
 void	free_env_copy(char **env_copy);
@@ -143,9 +153,38 @@ void print_cmd_list(t_command *head);
 
 // folder execute 
 
+
 // executor.c
 bool is_builtin(char *cmd);
 int exec_builtin(t_command *cmd, t_shell *shell);
 void execute_cmd(t_command *cmd, t_shell *shell);
+
+// convert_envp.c
+void	init_env_list(t_shell *shell, char **envp);
+t_env_var *new_env_var(char *name, char *value);
+void add_env_var(t_env_var **list, t_env_var *new);
+
+// export.c 
+int    builtin_export(t_command *cmd, t_shell *shell);
+int     handle_export_var(char *name, char *value, t_shell *shell, int status);
+t_env_var   *find_var(t_env_var *env_list, char *name);
+void    add_var_to_list(t_env_var **env_list, t_env_var *new_var);
+
+// export_utils.c
+void    print_exported_list(t_shell *shell);
+void    parse_arg_var(char *arg, char **name, char **value);
+bool    is_name_valid(const char *name);
+void    print_export_error(char *name);
+void    name_invalid(char *name, char *value);
+
+// export_utils_2.c
+t_env_var *create_var(char *name, char *value, bool booling);
+int init_var_fields(t_env_var *var, char *name, char *value, bool exported);
+void    update_var_value(t_env_var *exist, char *new_value);
+void    free_name_value(char *name, char *value);
+
+// unset.c
+int    builtin_unset(t_command *cmd, t_shell *shell);
+void remove_var(t_env_var **env_list, const char *name);
 
 #endif

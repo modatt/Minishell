@@ -2,38 +2,88 @@
 
 
 // function - 1
-int	count_words(char *str)
-{
-	int	i;
-	int	wc;
+// int	count_words(char *str)
+// {
+// 	int	i;
+// 	int	wc;
 
-	i = 0;
-	wc = 0;
-	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-		i++;
-	if (handle_pipe(str, &i) == 0)
-		return (0);
-	if (str[i] == '>' || str[i] == '<')
-	{
-		if (handle_redir_at_beg(str, &i, &wc) == 0)
-			return (0);
-	}
-	if (str[i])
-	{
-		while (str[i])
-		{
-			if (str[i] == '|' && ( str[i + 1] == '\0' || str[i + 1] == '|'))
-			{
-				write(1, "minishell: syntax error near unexpected token `|'\n", 50);
-				return (0);
-			}
-			count_qoute(str, &i, &wc);
-			if (handle_syntax(str, &i, &wc) == 0)
-				return (0);
-			i++;
-		}
-	}
-	return (wc);
+// 	i = 0;
+// 	wc = 0;
+// 	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+// 		i++;
+// 	if (handle_pipe(str, &i) == 0)
+// 		return (0);
+// 	if (str[i] == '>' && str[i + 1] && str[i + 1] == '>')
+// 	{
+// 		if (handle_redir_at_beg(str, &i, &wc) == 0)
+// 			return (0);
+// 	}
+// 	if (str[i])
+// 	{
+// 		while (str[i])
+// 		{
+// 			if (str[i] == '|' && (!str[i + 1] || str[i + 1] == '|'))
+// 			{
+// 				write(1, "minishell: syntax error near unexpected token `|'\n", 50);
+// 				return (0);
+// 			}
+// 			count_qoute(str, &i, &wc);
+// 			if (handle_syntax(str, &i, &wc) == 0)
+// 				return (0);
+// 			i++;
+// 		}
+// 	}
+// 	return (wc);
+// }
+
+int count_words(char *str)
+{
+    int i;
+    int wc;
+
+    i = 0;
+    wc = 0;
+
+    // Skip leading spaces and tabs
+    while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+        i++;
+
+    if (handle_pipe(str, &i) == 0)
+        return (0);
+
+    // Check for ">>" redirection at the beginning safely
+    if (str[i] == '>' && str[i + 1] && str[i + 1] == '>')
+    {
+        if (handle_redir_at_beg(str, &i, &wc) == 0)
+            return (0);
+    }
+
+    if (str[i])
+    {
+        while (str[i])
+        {
+            // Check for invalid pipe syntax safely
+            if (str[i] == '|' && (!str[i + 1] || str[i + 1] == '|'))
+            {
+                write(1, "minishell: syntax error near unexpected token `|'\n", 50);
+                return (0);
+            }
+
+            // Call count_qoute — make sure it handles bounds internally
+            count_qoute(str, &i, &wc);
+
+            // Call handle_syntax — make sure it handles bounds internally
+            if (handle_syntax(str, &i, &wc) == 0)
+                return (0);
+
+            // Only increment i if not at the end of string to prevent overrun
+            if (str[i] != '\0')
+                i++;
+            else
+                break;
+        }
+    }
+    return (wc);
 }
 
 

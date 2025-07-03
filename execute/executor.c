@@ -6,41 +6,12 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:53:47 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/06/26 14:18:47 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/30 09:13:58 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "libft.h"
-#include <stdio.h>
-#include <stdbool.h>
 #include "minishell.h"
 
-//typedef struct s_shell
-//{
-//	int		argc;
-//	char	**argv;
-//	char	**envp;
-//	int		last_exit_status;
-//}	t_shell;
-
-// int	ft_strcmp(char *s1, char *s2)
-// {
-// 	unsigned int	i;
-
-// 	i = 0;
-// 	while (s1[i] == s2[i] && s1[i] != '\0')
-// 	{
-// 		i++;
-// 	}
-// 	if (s1[i] == s2[i])
-// 	{
-// 		return (0);
-// 	}
-// 	else
-// 	{
-// 		return (s1[i] - s2[i]);
-// 	}
-// }
 bool is_builtin(char *cmd)
 {
     int		i;
@@ -57,15 +28,14 @@ bool is_builtin(char *cmd)
 }
 void 	builtin_env(t_shell *shell)
 {
+	t_env_var *current;
 
-	int	i;
-	
-	i = 0;
-	while(shell->envp[i])
+	current = shell->env_list;
+	while(current)
 	{
-		if(ft_strchr(shell->envp[i], '='))
-			printf("%s \n", shell->envp[i]);
-		i++;
+		if (current->value)
+			printf("%s=%s\n", current->name, current->value);
+		current = current->next;
 	}
 }
 //PATH_MAX = is a constant defiend in <limits.h> that represnt the max num of char in a full absulat file path 
@@ -110,13 +80,14 @@ int exec_builtin(t_command *cmd, t_shell *shell)
 			builtin_echo(cmd);
 	if (!ft_strcmp(cmd->arg[0], "env"))
 			builtin_env(shell);
-    //if (!ft_strcmp(cmd->args[0], "cd"))
+    // if (!ft_strcmp(cmd->arg[0], "cd"))
     //    	builtin_cd(cmd, shell);
-    //    	builtin_export(cmd, shell);
-    //if (!ft_strcmp(cmd->args[0], "unset"))
-    //    	builtin_unset(cmd, shell);
-    //if (!ft_strcmp(cmd->args[0], "exit"))
-    //    	builtin_exit((cmd->args[0]), shell);
+	if (!ft_strcmp(cmd->arg[0], "export"))
+       	builtin_export(cmd, shell);
+    if (!ft_strcmp(cmd->arg[0], "unset"))
+       	builtin_unset(cmd, shell);
+    // if (!ft_strcmp(cmd->arg[0], "exit"))
+    //    	builtin_exit((cmd->arg[0]), shell);
     return (1);
 }
 
@@ -127,39 +98,5 @@ void execute_cmd(t_command *cmd, t_shell *shell)
         exec_builtin(cmd, shell);
     else
 		return ;
-        //exec_external(cmd, shell);
+        // exec_external(cmd, shell);
 }
-
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	t_shell		shell;
-// 	t_command	cmd;
-
-// 	shell.argc = argc;
-// 	shell.argv = argv;
-// 	shell.envp = copying_env(envp);
-// 	shell.last_exit_status = 42;
-
-// 	cmd.args = calloc(4, sizeof(char *));
-// 	if (!cmd.args)
-// 		return (1);
-// 	cmd.args[0] = ft_strdup("echo");
-// 	//cmd.args[1] = ft_strdup("-n");
-// 	cmd.args[1] = ft_strdup("-n-n");
-// 	cmd.args[2] = ft_strdup("hello");
-// 	cmd.args[3] = NULL;
-
-
-// 	execute_cmd(&cmd, &shell);
-
-// 	//free(cmd.args[0]);
-// 	free(cmd.args);
-	
-// 	int i = 0;
-// 	while (shell.envp[i])
-// 		free(shell.envp[i++]);
-// 	free(shell.envp);
-
-// 	return (0);
-// }
-

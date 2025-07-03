@@ -6,42 +6,51 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/06/25 23:14:56 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/29 13:55:51 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 int main(int argc, char **argv, char **envp)
 {
-    greets_minishell();
+    greets_minishell();  // Optional greeting banner
+
     char *command_line;
     t_command *cmd;
-    t_shell *shell = NULL;
-    
-    allocate_memory_shell(&shell);
-    init_shell(shell, argc, argv, envp);
-    
+
+    t_shell *shell = malloc(sizeof(t_shell));
+    if (!shell)
+        return (1);  // Handle memory allocation failure
+
+    init_shell(shell, argc, argv, envp);      // Set argc, argv, etc. (no envp)
+            // Convert envp >> shell->env_list
+
     if (signals_handling() == -1)
-        return -1;  
-        
+        return -1;
+
     while (1)
     {
         command_line = readline("minishell$ ");
         if (command_line == NULL)
-            exit (-1);
-        if (*command_line) //* if the first character not '\0' then the string isn't empty
+            break; // Exit gracefully on Ctrl+D
+
+        if (*command_line)
             add_history(command_line);
+
         cmd = parser(command_line, shell);
-        print_cmd_list(cmd);
+        print_cmd_list(cmd);  // For debugging
+
         execute_cmd(cmd, shell);
-    // Managing memory and cleaning up resources
-        // free_list()
+
+        // free_command_list(cmd);  // If you implemented it
+        free(command_line);
     }
-    // free_cmd_list();
-    // free_tokens();
-    free(command_line);
-    return 0;
+
+    // Cleanup (env_list, etc.)
+    // free_env_list(shell->env_list);
+    free(shell);
+    return (0);
 }
+
 

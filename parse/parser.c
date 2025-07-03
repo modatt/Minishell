@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:25 by modat             #+#    #+#             */
-/*   Updated: 2025/06/25 22:08:58 by modat            ###   ########.fr       */
+/*   Updated: 2025/06/30 18:03:31 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,37 +77,83 @@ void    parser2(char **tokens, int *k, t_command **current)
     
 }
 
-// function - 3
-void    add_arg(char *tokens, t_command **current)
+// // function - 3
+// void    add_arg(char *tokens, t_command **current)
+// {
+//     int i;
+//     int j;
+//     char **new_arg;
+//     // count current args
+//     i = 0;
+//     j = 0;
+//     if ((*current)->arg)
+//         while ((*current)->arg[i])
+//             i++;
+//     // Allocate space for one new arg + NULL terminator
+//     new_arg = malloc(sizeof(char *) * (i + 2));
+//     if (!new_arg)
+//         return ;
+//     // Copy old args
+//     while (j < i)
+//     {
+//         new_arg[j] = (*current)->arg[j];
+//         j++;
+//     }
+//     // Add new arg
+//     new_arg[i] = ft_strdup(tokens);
+//     new_arg[i + 1] = NULL;
+//     // Free old array if it exists (not the strings inside, just the array)
+//     if ((*current)->arg)
+//         free((*current)->arg);       
+//     // Assign new array to cmd
+//     (*current)->arg = new_arg;  
+// }
+
+void add_arg(char *token, t_command **current)
 {
-    int i;
-    int j;
+    int i = 0;
+    int j = 0;
     char **new_arg;
-    // count current args
-    i = 0;
-    j = 0;
+
+    // Count current args
     if ((*current)->arg)
+    {
         while ((*current)->arg[i])
             i++;
-    // Allocate space for one new arg + NULL terminator
+    }
+
+    // Allocate space for existing args + 1 new arg + NULL terminator
     new_arg = malloc(sizeof(char *) * (i + 2));
     if (!new_arg)
-        return ;
-    // Copy old args
+        return; // malloc failure, just return (you may want to handle error differently)
+
+    // Copy old pointers to new array
     while (j < i)
     {
         new_arg[j] = (*current)->arg[j];
         j++;
     }
-    // Add new arg
-    new_arg[i] = ft_strdup(tokens);
+
+    // Duplicate the new token string and add it
+    new_arg[i] = ft_strdup(token);
+    if (!new_arg[i])
+    {
+        // strdup failed, free allocated new_arg but not the strings (still pointed by old)
+        free(new_arg);
+        return;
+    }
+
+    // Null terminate the new array
     new_arg[i + 1] = NULL;
-    // Free old array if it exists (not the strings inside, just the array)
+
+    // Free old array of pointers (not strings)
     if ((*current)->arg)
-        free((*current)->arg);       
-    // Assign new array to cmd
-    (*current)->arg = new_arg;  
+        free((*current)->arg);
+
+    // Assign the new array to current command
+    (*current)->arg = new_arg;
 }
+
 
 // function - 4
 void is_redirection(char **tokens, t_command **current, int *k)

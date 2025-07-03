@@ -17,9 +17,10 @@ NAME = minishell
 
 # Source file base names
 PARSE_FILES = minishell utils greets parser parse_utils parse_utils_2 \
-	env_handler syntax_check extra_help signals_handler env_handler_utils env_handler_utils_2
+	env_handler syntax_check extra_help signals_handler env_handler_utils env_handler_utils_2 \
+	
 
-EXECUTE_FILES = executor
+EXECUTE_FILES = executor convert_envp export export_utils export_utils_2 unset
 
 # Source file paths
 SRCS = $(addsuffix .c, $(addprefix $(PARSE_DIR)/, $(PARSE_FILES))) \

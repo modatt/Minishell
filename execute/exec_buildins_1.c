@@ -33,7 +33,7 @@ int exec_builtin(t_command *cmd, t_shell *shell)
        	builtin_export(cmd, shell);
     else if (!ft_strcmp(cmd->arg[0], "unset"))
        	builtin_unset(cmd, shell);
-    // else if (!ft_strcmp(cmd->arg[0], "exit"))
-    //    	builtin_exit(cmd, shell);
+     else if (!ft_strcmp(cmd->arg[0], "exit"))
+        	builtin_exit(cmd, shell);
     return (1);
 }

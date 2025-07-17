@@ -52,32 +52,35 @@ void free_redir(t_command *cmd)
 
 void    free_shell(t_shell *shell)
 {
-    // while (shell)
-
-    int i;
-
-    if (shell->argv)
+    //int i;
+	//i = 0;
+	// We did not allocate a memory for, we took it from the terminal
+    /*if (shell->argv)
     {
         while (shell->argv[i])
         {
             free(shell->argv[i]);
+			shell->argv[i] = NULL;
             i++;
         }
         free(shell->argv);
-    }
-
+    }*/
+	
     if (shell->envp)
-    {
-        i = 0;
+	{
+			//free_env_copy(shell->envp);
+        int i = 0;
         while (shell->envp[i])
         {
             free(shell->envp[i]);
+			shell->envp[i] = NULL;
             i++;
         }
         free(shell->envp);
-    }
+		shell->envp = NULL;
+	}
     free_env_list(shell);
-    free(shell);
+    //free(shell);
 }
 
 void    free_env_list(t_shell *shell)
@@ -91,6 +94,8 @@ void    free_env_list(t_shell *shell)
         free(shell->env_list->name);
         free(shell->env_list->value);
         free(tmp);
+		if (shell->env_list->next == NULL)
+			break ;
     }
 }
 

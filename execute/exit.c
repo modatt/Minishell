@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 12:47:24 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/07/03 17:57:39 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/17 15:56:13 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	clean_exit(t_shell *shell, long exit_code, t_command *cmd)
 	// Free command list
 	free_cmd(cmd);
 
-	if (shell->envp)
-		free_env_copy(shell->envp);
+	//if (shell->envp)
+	//	free_env_copy(shell->envp);
 	// Free input line buffer (if you're storing it)
 	free_shell(shell);
 	// if (shell->line)

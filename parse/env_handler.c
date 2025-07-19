@@ -3,11 +3,14 @@
 
 
 // function - 1
-static void	free_expanded_tokens(char **tokens, int last)
+static void free_expanded_tokens(char **tokens, int count)
 {
-	while (--last >= 0)
-		free(tokens[last]);
-	free(tokens);
+    int i = 0;
+    while (i < count)
+    {
+        free(tokens[i]);
+        i++;
+    }
 }
 
 // function - 2
@@ -28,33 +31,78 @@ static int	update_quote_state(char c, t_quote_state *state)
 
 // function - 3
 
-char	**tokens_expanded(char **tokens, t_shell *shell)
+char **tokens_expanded(char **tokens, t_shell *shell)
 {
-	int		i;
-	int		count;
-	char	**new_tokens;
+    int     i = 0;
+    int     count = 0;
+    char    **new_tokens;
 
-	if (!tokens)
-		return (NULL);
-	count = 0;
-	while (tokens[count])
-		count++;
-	new_tokens = malloc(sizeof(char *) * (count + 1));
-	if (!new_tokens)
-		return (NULL);
-	i = 0;
-	while (i < count)
-	{
-		new_tokens[i] = expand_variables_in_token(tokens[i], shell);
-		if (!new_tokens[i])
-			return (free_expanded_tokens(new_tokens, i), NULL);
-		i++;
-	}
-	new_tokens[i] = NULL;
-	return (new_tokens);
+    if (!tokens)
+        return NULL;
+
+    while (tokens[count])
+        count++;
+
+    new_tokens = malloc(sizeof(char *) * (count + 1));
+    if (!new_tokens)
+        return NULL;
+
+    while (i < count)
+    {
+        new_tokens[i] = expand_variables_in_token(tokens[i], shell);
+        if (!new_tokens[i])
+        {
+            free_expanded_tokens(new_tokens, i); // free built strings
+            free(new_tokens);                    // free pointer array
+            free_tokens(tokens);                 // ✅ free original tokens
+            return NULL;                         // return NULL instead of tokens
+        }
+        i++;
+    }
+
+    new_tokens[i] = NULL;
+    free_tokens(tokens);  // ✅ free old tokens
+    return new_tokens;    // caller must later free_tokens(new_tokens)
 }
 
-// function - 4
+
+//// function - 4
+//char *expand_variables_in_token(char *input, t_shell *shell)
+//{
+//    int i = 0;
+//    char *result = ft_strdup("");
+//    char *value;
+//    t_quote_state state = {0,0};
+
+//    if (!result)
+//        return NULL;
+//    while (input[i])
+//    {
+//        if (update_quote_state(input[i], &state)) {
+//            i++;
+//            continue;
+//        }
+//        if (input[i] == '$' && !state.in_single)
+//            value = handle_sign(input, shell, &i);
+//        else
+//            value = char_to_str(input[i++]);
+//        if (!value) 
+//		{
+//            free(result);
+//            return NULL;  // prevents leaking partial value
+//        }
+//        char *tmp = ft_strjoin_free(result, value);
+//        if (!tmp) 
+//		{
+//            free(value);   // free partial allocation
+//            free(result);  // free accumulated string
+//            return NULL;   // prevent leak
+//        }
+//        result = tmp;
+//    }
+//    return result;
+//}
+
 char	*expand_variables_in_token(char *input, t_shell *shell)
 {
 	int				i;
@@ -99,25 +147,6 @@ char	*get_env(char *key, t_env_var *env_list)
 }
 
 
-char	*get_envp(char **envp, char *value)
-{
-	int		i;
-	int		len;
-	char	*result;
 
-	len = strlen(value);
-	i = 0;
-	while (envp[i])
-	{
-		if ((ft_strncmp(value, envp[i], len) == 0) && (envp[i][len] == '='))
-		{
-			result = ft_strdup(envp[i] + len + 1);
-			return (result);
-		}
-		i++;
-	}
-	result = ft_strdup("");
-	return (result);
-}
 
 

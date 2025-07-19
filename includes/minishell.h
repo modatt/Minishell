@@ -10,6 +10,9 @@
 #include <string.h>
 #include <signal.h>
 #include <stdbool.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
 
 
     #include <stdio.h>
@@ -163,6 +166,11 @@ void 	builtin_env(t_shell *shell);
 void    update_pwd_env(t_shell *shell, char *old_pwd);
 void    builtin_cd(t_command *cmd, t_shell *shell);
 
+//exce_extranal.c
+void exec_external(t_command *cmd, t_shell *shell);
+
+//exce_external_1.c
+char	*get_envp(char **envp, char *value);
 // exit 
 long	ft_atol(const char *nptr);
 void	clean_exit(t_shell *shell, long exit_code, t_command *cmd);

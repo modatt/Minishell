@@ -80,7 +80,7 @@ void    free_shell(t_shell *shell)
 		shell->envp = NULL;
 	}
     free_env_list(shell);
-    //free(shell);
+    free(shell);
 }
 
 void    free_env_list(t_shell *shell)

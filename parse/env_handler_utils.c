@@ -37,10 +37,13 @@ void	free_env_copy(char **env_copy)
 char	*ft_strjoin_free(char *s1, char *s2)
 {
 	char	*result;
+	//char	*tmp;
 
+	//tmp = s1;
 	result = ft_strjoin(s1, s2);
 	free(s1);
 	free(s2);
+	//free(tmp);
 	return (result);
 }
 

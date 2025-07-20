@@ -6,36 +6,58 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:53:47 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/07/19 15:38:01 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/07/20 16:13:21 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-//Command 'cdd' not found, did you mean: - Hala 
+
+void run_builtin_with_redirection(t_command *cmd, t_shell *shell)
+{
+    // Save current standard fds (stdin, stdout, stderr)
+    int saved_stdin  = dup(STDIN_FILENO);
+    int saved_stdout = dup(STDOUT_FILENO);
+    int saved_stderr = dup(STDERR_FILENO);
+
+    if (saved_stdin < 0 || saved_stdout < 0 || saved_stderr < 0)
+    {
+        perror("dup");
+        return;
+    }
+    // Apply redirections (dup2 for input/output/error files)
+    setup_redirection_fds(cmd);
+    // Execute the builtin command (runs in parent)
+    exec_builtin(cmd, shell);
+    // Restore original standard fds
+    dup2(saved_stdin, STDIN_FILENO);
+    dup2(saved_stdout, STDOUT_FILENO);
+    dup2(saved_stderr, STDERR_FILENO);
+    // Close the saved fds
+    close(saved_stdin);
+    close(saved_stdout);
+    close(saved_stderr);
+}
+
+//       int dup2(int oldfd, int newfd);
 void execute_cmd(t_command *cmd, t_shell *shell)
 {
-	//int		ret;
-    if (!cmd || !cmd->arg)
+    if (!cmd || !cmd->arg || !cmd->arg[0])
         return;
-
+    maybe_preprocess_heredocs(cmd);
     if (is_builtin(cmd->arg[0]))
     {
-        exec_builtin(cmd, shell);
-		return ;
+        if (cmd->redir_count > 0)
+            run_builtin_with_redirection(cmd, shell);
+        else
+            exec_builtin(cmd, shell);
     }
-    //else if
-	exec_external(cmd, shell);
-        //ret = exec_external(cmd, shell);
-    // t == 127) // 127 → command not found
-        //{
-        //    write(2, "Command '", 9);
-        //    write(2, cmd->arg[0], ft_strlen(cmd->arg[0]));
-        //    write(2, "' not found\n", 12);
-        //}
-        //shell->last_exit_status = ret;
-}
+    else
+		exec_external(cmd, shell);
+ }
+
+
 
 
 // void execute_cmd(t_command *cmd, t_shell *shell)

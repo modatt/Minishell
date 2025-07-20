@@ -1,35 +1,56 @@
 #include "minishell.h"
 
 
-// PATH_MAX = is a constant defiend in <limits.h> that represnt the max num of char in a full absulat file path
-// we need a buffer to store the current path
-
-// function - 1
-void	builtin_echo(t_command *cmd)
+// function --- 1
+static int is_n_flag(const char *arg)
 {
-	int	i;
+    int i;
 
-	if (!cmd->arg[1])
-	{
-		printf("\n");
-		return ;
-	}
-	i = 1;
-	while (cmd->arg[i] && (ft_strcmp(cmd->arg[i], "-n") == 0))
-		i++;
-	while (cmd->arg[i])
-	{
-		printf("%s", cmd->arg[i]);
-		i++;
-		if (cmd->arg[i])
-			printf(" ");
-	}
-	if (ft_strcmp(cmd->arg[1], "-n"))
-		printf("\n");
+    if (!arg || arg[0] != '-')  // must start with '-'
+        return (0);
+    i = 1;
+    while (arg[i])
+    {
+        if (arg[i] != 'n')     // if anything other than 'n' → NOT a flag
+            return (0);
+        i++;
+    }
+    return (1); // valid -n flag (like -n, -nn, -nnnnn)
+}
+
+// function --- 2
+void builtin_echo(t_command *cmd)
+{
+    int i;
+    int no_newline;
+
+	no_newline = 0;
+    if (!cmd->arg[1])
+    {
+        printf("\n");
+        return;
+    }
+    i = 1;
+    while (cmd->arg[i] && is_n_flag(cmd->arg[i]))
+    {
+        no_newline = 1;  // means at least one valid -n found
+        i++;
+    }
+    //Print remaining arguments
+    while (cmd->arg[i])
+    {
+        printf("%s", cmd->arg[i]);
+        i++;
+        if (cmd->arg[i])
+            printf(" ");
+    }
+    if (!no_newline)
+        printf("\n");
 }
 
 
-// function - 2
+
+// function ---3
 void	builtin_pwd(t_command *cmd)
 {
 	char	path[PATH_MAX + 1];
@@ -40,8 +61,7 @@ void	builtin_pwd(t_command *cmd)
 	return ;
 }
 
-
-// function - 3
+// function ---4
 void 	builtin_env(t_shell *shell)
 {
 	t_env_var *current;
@@ -54,53 +74,37 @@ void 	builtin_env(t_shell *shell)
 		current = current->next;
 	}
 }
-//PATH_MAX = is a constant defiend in <limits.h> that represnt the max num of char in a full absulat file path 
-// we need a buffer to store the current path
 
-
-// function - 4
-// void update_pwd_env(t_command *cmd, t_shell *shell)
-// {
-//     char *new_pwd;
-
-//     new_pwd = getcwd(NULL, 0);
-//     if (!new_pwd)
-//         return ;
-//     // unset_env(shell, "OLDPWD");
-//     export_env(shell, "OLDPWD", shell->env_list->value);
-//     unset_env(shell, "PWD");
-//     export_env(shell, "PWD", new_pwd);
-//     shell->last_exit_status = 0;
-//     free(new_pwd);
-// }
+// function ---5
+int     handle_export_var_cd(char *name, char *value, t_shell *shell, int status)
+{
+	if (name == NULL ||  name[0] == '\0' || !is_name_valid(name))
+    {
+		name_invalid(name, value);
+        status = 1; // faild
+    }
+    else 
+    { // no allocation because this is for search and find if var already exist
+        t_env_var *exist = find_var(shell->env_list, name);
+        if (exist)
+        {
+			if (value)
+			update_var_value(exist, value);
+            exist->exported = true;
+        }
+        else 
+        {
+			t_env_var *new_var = create_var(name, value, true);
+            if (new_var)
+			add_var_to_list(&shell->env_list, new_var);
+            else
+			status = 1;
+        }
+    }
+    return status;
+}
 
 
 // // function - 5
-// void builtin_cd(t_command *cmd, t_shell *shell)
-// {
-//    char *old_pwd;
-//    char *target;
 
-//    old_pwd = getcwd(NULL, 0);
-//    if (cmd->arg[2])
-//    {
-//        printf("bash: cd: too many arguments\n");
-//        shell->last_exit_status = 1;
-//        free(old_pwd);
-//        return ;
-//    }
-//    target = NULL;
-//    if (!cmd->arg[1])
-//        target = get_env(shell, "HOME");
-//    else
-//        target = cmd->arg[1];
-//    if (chdir(target) == -1)
-//    {
-//        perror("bash: cd: No such file or directory");
-//        shell->last_exit_status = 1;
-//        free(old_pwd);
-//        return ;
-//    }
-//    update_pwd_env(cmd, shell);
-//    free(old_pwd);
-// }
+

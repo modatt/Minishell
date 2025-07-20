@@ -159,12 +159,11 @@ void execute_cmd(t_command *cmd, t_shell *shell);
 bool is_builtin(char *cmd);
 int exec_builtin(t_command *cmd, t_shell *shell);
 
-// execu_buildins_2.c 
+// exec_buildins_2.c 
 void	builtin_echo(t_command *cmd);
 void	builtin_pwd(t_command *cmd);
 void 	builtin_env(t_shell *shell);
-void    update_pwd_env(t_shell *shell, char *old_pwd);
-void    builtin_cd(t_command *cmd, t_shell *shell);
+int     handle_export_var_cd(char *name, char *value, t_shell *shell, int status);
 
 //exce_extranal.c
 void exec_external(t_command *cmd, t_shell *shell);
@@ -177,6 +176,7 @@ void exec_external(t_command *cmd, t_shell *shell);
  char *get_resolved_path(t_command *cmd, t_shell *shell);
 
 // exit 
+// and static one 
 long	ft_atol(const char *nptr);
 void	clean_exit(t_shell *shell, long exit_code, t_command *cmd);
 void	builtin_exit(t_command *cmd, t_shell *shell);
@@ -214,7 +214,7 @@ int    builtin_unset(t_command *cmd, t_shell *shell);
 void remove_var(t_env_var **env_list, const char *name);
 
 // cd.c
-int     handle_export_var_cd(char *name, char *value, t_shell *shell, int status);
+//there are 4 other static funcs
 void builtin_cd(t_command *cmd, t_shell *shell);
 
 // free.c 

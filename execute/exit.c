@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 12:47:24 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/07/17 15:56:13 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/07/20 12:22:59 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,16 @@ void	builtin_exit(t_command *cmd, t_shell *shell)
 		}
 		clean_exit(shell, ft_atol((const char *)cmd->arg[1]), cmd);
 	}
-	if (count > 2 && is_numeric(cmd->arg[1]))
-	{
-		write(2, "bash: exit: too many arguments\n", 31);
-		shell->last_exit_status = 1;
-	}
-	if (count > 2 && !is_numeric(cmd->arg[1]))
-	{
-		print_numric_error(cmd->arg[1]);
-		clean_exit(shell, 2, cmd);
-	}
-	clean_exit(shell, shell->last_exit_status, cmd);
+	if (count > 2)
+    {
+        if (!is_numeric(cmd->arg[1]))
+        {
+            print_numric_error(cmd->arg[1]);
+            clean_exit(shell, 2, cmd);
+        }
+        // First arg is numeric but too many args → DO NOT EXIT
+        write(2, "bash: exit: too many arguments\n", 31);
+        shell->last_exit_status = 1;
+        return;
+    }
 }

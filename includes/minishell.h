@@ -12,10 +12,13 @@
 #include <stdbool.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <fcntl.h>
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 42
+#endif
 
-
-
-    #include <stdio.h>
     #define WHITE "\x1B[37m"
     #define BLUE "\x1B[34m"
     #define RED "\x1B[31m"
@@ -155,6 +158,13 @@ void print_cmd_list(t_command *head);
 // executor.c
 void execute_cmd(t_command *cmd, t_shell *shell);
 
+//redirections.c
+
+void setup_redirection_fds(t_command *cmd);
+void maybe_preprocess_heredocs(t_command *cmd);
+void	preprocess_heredocs(t_command *cmd);
+
+
 // execu_buildins_1.c 
 bool is_builtin(char *cmd);
 int exec_builtin(t_command *cmd, t_shell *shell);
@@ -167,7 +177,8 @@ int     handle_export_var_cd(char *name, char *value, t_shell *shell, int status
 
 //exce_extranal.c
 void exec_external(t_command *cmd, t_shell *shell);
-
+//get_next_line
+char	*get_next_line(int fd);
 //exce_external_utils.c
  void print_command_not_found(t_command *cmd, t_shell *shell);
  char *join_path_cmd(const char *dir, const char *cmd);

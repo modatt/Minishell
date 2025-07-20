@@ -19,9 +19,11 @@ void exec_external(t_command *cmd, t_shell *shell)
 	}
 	else if(pid == 0)
 	{
-			execve(resolved_path, cmd->arg, shell->envp);
-			free(resolved_path);
-			clean_exit(shell, 127, cmd);
+        if (cmd->redir_count > 0)
+			setup_redirection_fds(cmd);
+		execve(resolved_path, cmd->arg, shell->envp);
+		free(resolved_path);
+		clean_exit(shell, 127, cmd);
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))

@@ -123,7 +123,7 @@ char	**copying_env(char **old_env);
 char	*ft_strjoin_free(char *s1, char *s2);
 void	free_env_copy(char **env_copy);
 void	free_tokens(char **tokens);
-
+char	*get_envp(char **envp, char *value);
 
 // syntax_check - 5 // lots of more than 25
 int     count_words(char *str);
@@ -169,8 +169,13 @@ void    builtin_cd(t_command *cmd, t_shell *shell);
 //exce_extranal.c
 void exec_external(t_command *cmd, t_shell *shell);
 
-//exce_external_1.c
-char	*get_envp(char **envp, char *value);
+//exce_external_utils.c
+ void print_command_not_found(t_command *cmd, t_shell *shell);
+ char *join_path_cmd(const char *dir, const char *cmd);
+ char **get_path_dirs(t_shell *shell);
+ char *find_cmd_in_path(char *arg, t_shell *shell);
+ char *get_resolved_path(t_command *cmd, t_shell *shell);
+
 // exit 
 long	ft_atol(const char *nptr);
 void	clean_exit(t_shell *shell, long exit_code, t_command *cmd);

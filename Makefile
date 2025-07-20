@@ -23,7 +23,7 @@ PARSE_FILES = minishell utils greets parser parse_utils parse_utils_2 \
 
 
 EXECUTE_FILES = executor exec_buildins_1  exec_buildins_2 exit exit_utils_1  init_env_list \
-	export export_utils export_utils_2 unset free cd exce_external exce_external_1
+	export export_utils export_utils_2 unset free cd exce_external exce_external_utils
 
 # Source file paths
 SRCS = $(addsuffix .c, $(addprefix $(PARSE_DIR)/, $(PARSE_FILES))) \

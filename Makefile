@@ -17,7 +17,7 @@ NAME = minishell
 
 # Source file base names
 PARSE_FILES = minishell utils greets parser parse_utils parse_utils_2 \
-	env_handler syntax_check extra_help signals_handler env_handler_utils env_handler_utils_2 \
+	env_handler syntax_check extra_help signals_handler_1 signals_handler_2 env_handler_utils env_handler_utils_2 \
 	
 
 

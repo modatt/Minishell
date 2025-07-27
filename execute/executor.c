@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:53:47 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/07/26 17:13:59 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/27 19:20:47 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 
 void run_builtin_with_redirection(t_command *cmd, t_shell *shell)
 {
+	//printf("are we here??\n");
+
+	if(!isatty(0))
+		dup2(2, 0);
+	signals_prompt();
     // Save current standard fds (stdin, stdout, stderr)
     int saved_stdin  = dup(STDIN_FILENO);
     int saved_stdout = dup(STDOUT_FILENO);
@@ -23,6 +28,7 @@ void run_builtin_with_redirection(t_command *cmd, t_shell *shell)
 
     if (saved_stdin < 0 || saved_stdout < 0 || saved_stderr < 0)
     {
+	printf("are we here??\n");
         perror("dup");
         return;
     }
@@ -34,6 +40,9 @@ void run_builtin_with_redirection(t_command *cmd, t_shell *shell)
     dup2(saved_stdin, STDIN_FILENO);
     dup2(saved_stdout, STDOUT_FILENO);
     dup2(saved_stderr, STDERR_FILENO);
+	// dup2(0, STDIN_FILENO);
+    //dup2(1, STDOUT_FILENO);
+    //dup2(2, STDERR_FILENO);
     // Close the saved fds
     close(saved_stdin);
     close(saved_stdout);
@@ -57,10 +66,13 @@ void execute_cmd(t_command *cmd, t_shell *shell)
     
     if (is_builtin(cmd->arg[0]))
     {
-        if (cmd->redir_count > 0)
+        if (cmd->redir_count > 0 && (g_heredoc_interrupted != 130))
             run_builtin_with_redirection(cmd, shell);
         else
-            exec_builtin(cmd, shell);
+		{
+			if (g_heredoc_interrupted != 130)
+            	exec_builtin(cmd, shell);
+		}
     }
     else
 		exec_external(cmd, shell);

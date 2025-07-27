@@ -28,6 +28,7 @@
     #define PEACH "\x1B[38;5;217m"
 
 // grouping the operators that separate the command based on 
+extern volatile sig_atomic_t g_heredoc_interrupted;
 
 typedef enum e_redirection_type
 {
@@ -145,9 +146,15 @@ int	    ft_strcmp(const char *s1, const char *s2);
 t_command   *create_node();
 
 // signals - 7
-int     signals_handling(void);
-void    handler(int sig);
-
+void setup_sig(int sig, void (*handler)(int));
+void handler_prompt(int sig);
+void signals_prompt(void);
+void handler_heredoc(int sig);
+void signals_heredoc(void);
+void signals_execution(void);
+void handler_parent(int sig);
+void handler_parent_quit(int sig);
+void setup_sig_exc(int sig, void (*handler)(int));
 
 // extra help - 8
 void print_command_list(t_command *head);
@@ -164,7 +171,7 @@ void execute_cmd(t_command *cmd, t_shell *shell);
 void setup_redirection_fds(t_command *cmd);
 void maybe_preprocess_heredocs(t_command *cmd);
 void	preprocess_heredocs(t_command *cmd);
-
+ void	write_heredoc_to_file(t_redir *redir, char *tmpfile, char *delimiter);
 
 // execu_buildins_1.c 
 bool is_builtin(char *cmd);

@@ -5,120 +5,77 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/26 12:38:15 by modat             #+#    #+#             */
-/*   Updated: 2025/07/26 12:42:21 by modat            ###   ########.fr       */
+/*   Created: 2025/07/27 20:49:04 by modat             #+#    #+#             */
+/*   Updated: 2025/07/28 00:05:51 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-pid_t   *allocate_child_pid_array(int pipe_nbr)
+// function - 1
+pid_t	*allocate_pid_array(int cmd_count)
 {
-    pid_t   *child_pid;
+	pid_t	*child_pids;
 
-    child_pid = malloc(sizeof(pid_t) * pipe_nbr + 1);
-    if (!child_pid)
-    {
-        perror("minishell: malloc failed for child_pids");
-        exit(EXIT_FAILURE);
-    }
-    return (child_pid);
+	child_pids = malloc(sizeof(pid_t) * cmd_count);
+	if (!child_pids)
+	{
+		perror("minishell: malloc failed for child_pids");
+		return (NULL);
+	}
+	return (child_pids);
 }
 
-
-void handle_fork_error(pid_t     pid)
+// function - 2
+int	count_commands(t_command *cmd_list)
 {
-    if (pid == -1)
-        {
-            perror("minishell: fork faild");
-            exit(EXIT_FAILURE);
-        }
-}    
+	int			cmd_count;
+	t_command	*temp_cmd;
 
-void    handle_child_process(int *prev_pipe, int *pipefd, t_command *cmd, t_shell *shell)
-{
-    if (prev_pipe[0] != -1)
-    {
-          // Step 3.1: Setup input (prev pipe or file)
-            // Step 3.2: Setup output (next pipe or file)
-            // Step 3.3: Close unused FDs
-            // Step 3.4: Execute command (execve or built-in)
-            // Step 3.5: exit
-        dup2(prev_pipe[0], STDIN_FILENO);
-        close(prev_pipe[0]);
-        close(prev_pipe[1]);
-    }
-    if (cmd->is_pipe)
-    {
-        dup2(pipefd[1], STDOUT_FILENO);
-        close(pipefd[0]);
-        close(pipefd[1]);
-    }
-    setup_redirection_fds(cmd);
-    execute_cmd(cmd, shell);
-    exit(127); // command not found not sure about it 
-
+	cmd_count = 0;
+	temp_cmd = cmd_list;
+	while (temp_cmd)
+	{
+		cmd_count++;
+		temp_cmd = temp_cmd->next;
+	}
+	return (cmd_count);
 }
 
-int    handle_parent_process(pid_t  *child_pid, pid_t pid, int *prev_pipe, t_command *cmd, int *pipefd)
+// function - 3
+void	handle_pipe_error(int prev_pipe_read_fd, pid_t *child_pids)
 {
-    int     pid_index;
-
-    pid_index = 0;
-    // Step 4.1: Store child's PID
-    child_pid[pid_index++] = pid;
-    // Step 4.2: Close prev pipe
-    if (prev_pipe[0] != -1)
-    {
-        close(prev_pipe[0]);
-        close(prev_pipe[1]);
-    }
-     // Step 4.3: Update prev_pipe to current pipe
-    if (cmd->is_pipe)
-    {
-        prev_pipe[0] = pipefd[0];
-        prev_pipe[1] = pipefd[1];
-    }
-    return pid_index;
+	perror("minishell: pipe failed");
+	if (prev_pipe_read_fd != STDIN_FILENO)
+		close(prev_pipe_read_fd);
+	free(child_pids);
 }
 
-void    pipe_per_cmd(t_command *cmd, int *pipefd)
+// function - 4
+void	handle_fork_error(t_command *current_cmd, int pipe_fds[2],
+		int prev_pipe_read_fd, pid_t *child_pids)
 {
-      if (cmd->is_pipe)
-        {
-            if (pipe(pipefd) == -1) 
-            {
-                perror("minishell: pipe faild");
-                exit(EXIT_FAILURE);
-            }
-        }
+	perror("minishell: fork failed");
+	if (current_cmd->next != NULL)
+	{
+		close(pipe_fds[0]);
+		close(pipe_fds[1]);
+	}
+	if (prev_pipe_read_fd != STDIN_FILENO)
+		close(prev_pipe_read_fd);
+	free(child_pids);
 }
 
-void    wait_children(t_command *cmd, t_shell *shell, int pid_index)
+// function - 5
+void	setup_input_redirection(int prev_pipe_read_fd)
 {
-    int last_exit_status = 0;
-    int i = 0;
-
-    while (i < pid_index)
-    {
-        int status;
-        if (waitpid(child_pids[i], &status, 0) == -1) {
-            perror("minishell: waitpid failed");
-            continue;
-        }      
-        if (i ==  pipe_index)
-        {
-            if (WIFEXITED(status)) 
-            {
-                last_exit_status = WEXITSTATUS(status);
-            } 
-            else if (WIFSIGNALED(status))
-            {
-                last_exit_status = 128 + WTERMSIG(status);
-            }
-        }
-        i++;
-    }
-    
-    shell->last_exit_status = last_exit_status;
+	if (prev_pipe_read_fd != STDIN_FILENO)
+	{
+		if (dup2(prev_pipe_read_fd, STDIN_FILENO) == -1)
+		{
+			perror("minishell: dup2 stdin failed");
+			exit(EXIT_FAILURE);
+		}
+		close(prev_pipe_read_fd);
+	}
 }

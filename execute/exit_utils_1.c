@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
-
 
 // function - 1
 static int	is_within_long_limit(char *str, int start, int is_negative)
@@ -36,9 +34,8 @@ static int	is_within_long_limit(char *str, int start, int is_negative)
 	return (1);
 }
 
-
-// function - 2 
-int		is_numeric(char *str)
+// function - 2
+int	is_numeric(char *str)
 {
 	int	i;
 	int	digit_count;
@@ -50,9 +47,9 @@ int		is_numeric(char *str)
 	is_negative = 0;
 	if (str[i] == '+' || str[i] == '-')
 	{
-    	if (str[i] == '-')
-        	is_negative = 1;
-    	i++;	
+		if (str[i] == '-')
+			is_negative = 1;
+		i++;
 	}
 	if (!str[i])
 		return (0);
@@ -70,16 +67,16 @@ int		is_numeric(char *str)
 	return (1);
 }
 
-
 // function - 3
 
- int  args_count(char **str)
+int	args_count(char **str)
 {
 	int	i;
+
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		i++;
 	}
-	return(i);
+	return (i);
 }

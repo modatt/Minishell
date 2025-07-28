@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exce_external_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/28 11:49:49 by modat             #+#    #+#             */
+/*   Updated: 2025/07/28 11:49:50 by modat            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // function --- 1
-//fork is also a system call, we should check signals in the child process
- void print_command_not_found(t_command *cmd, t_shell *shell)
+// fork is also a system call, we should check signals in the child process
+void	print_command_not_found(t_command *cmd, t_shell *shell)
 {
 	write(2, "Command '", 9);
 	write(2, cmd->arg[0], ft_strlen(cmd->arg[0]));
@@ -13,26 +25,21 @@
 
 // function --- 2
 // Helper: join a directory and a command into dir/cmd
-char *join_path_cmd(const char *dir, const char *cmd)
+char	*join_path_cmd(const char *dir, const char *cmd)
 {
-    char *tmp;
-    char *full_path;
+	char	*tmp;
+	char	*full_path;
 
-    // First we join "/" to the path
-    tmp = ft_strjoin(dir, "/");
-    if (!tmp)
-        return (NULL);
-
-	//now we join it to look like this :usr/bin/ls
-    full_path = ft_strjoin(tmp, cmd);
-
-    free(tmp);
-	//free(cmd);
-    return (full_path);
+	tmp = ft_strjoin(dir, "/");
+	if (!tmp)
+		return (NULL);
+	full_path = ft_strjoin(tmp, cmd);
+	free(tmp);
+	return (full_path);
 }
 
 // function --- 3
-char **get_path_dirs(t_shell *shell)
+char	**get_path_dirs(t_shell *shell)
 {
 	char	*path_env;
 	char	**dirs;
@@ -46,7 +53,7 @@ char **get_path_dirs(t_shell *shell)
 }
 
 // function --- 4
- char *find_cmd_in_path(char *arg, t_shell *shell)
+char	*find_cmd_in_path(char *arg, t_shell *shell)
 {
 	char	**dirs;
 	char	*full_path;
@@ -74,20 +81,20 @@ char **get_path_dirs(t_shell *shell)
 	free_env_copy(dirs);
 	return (NULL);
 }
+
 // function --- 5
- char *get_resolved_path(t_command *cmd, t_shell *shell)
+char	*get_resolved_path(t_command *cmd, t_shell *shell)
 {
-	char *resolved_path;
-	
-	if(ft_strchr(cmd->arg[0], '/'))
+	char	*resolved_path;
+
+	if (ft_strchr(cmd->arg[0], '/'))
 		resolved_path = ft_strdup(cmd->arg[0]);
 	else
 		resolved_path = find_cmd_in_path(cmd->arg[0], shell);
-	if(!resolved_path)
+	if (!resolved_path)
 	{
 		print_command_not_found(cmd, shell);
-		return(NULL);
+		return (NULL);
 	}
-	return(resolved_path);
+	return (resolved_path);
 }
-

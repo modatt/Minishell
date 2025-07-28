@@ -12,14 +12,12 @@
 
 #include "minishell.h"
 
-
 void	greets_minishell(void)
 {
-	printf(GRN  "__________________________________________________________\n" RESET);
+	printf(GRN "__________________________________________________________\n" RESET);
 	printf("\n");
 	printf(PEACH "                WELCOME TO " WHITE "✨ MINISHELL ✨\n" RESET);
-	printf(PEACH "                Done by"GRN": " WHITE "Hmeltaha" GRN " & " WHITE "Modat\n" RESET);
-	printf(GRN  "__________________________________________________________\n" RESET);
+	printf(PEACH "                Done by" GRN ": " WHITE "Hmeltaha" GRN " & " WHITE "Modat\n" RESET);
+	printf(GRN "__________________________________________________________\n" RESET);
 	printf("\n");
 }
-

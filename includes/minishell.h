@@ -90,6 +90,13 @@ typedef struct s_command
     struct s_command *next;
 } t_command;
 
+typedef struct s_pipeline_data
+{
+    pid_t       *child_pids;
+    int         *pid_count;
+    int         *prev_pipe_rd_fd;
+}   t_pipeline_data;
+
 // main.c 
 void greets_minishell(void);
 
@@ -242,5 +249,25 @@ void free_redir(t_command *cmd);
 void    free_shell(t_shell *shell);
 void    free_env_list(t_shell *shell);
 
-void    execute_pipeline(t_command *cmd, t_shell *shell);
+// pipeline.c & pipeline_utils files
+void	execute_pipeline(t_command *cmd_list, t_shell *shell);
+pid_t	*allocate_pid_array(int cmd_count);
+int	count_commands(t_command *cmd_list);
+void	handle_pipe_error(int prev_pipe_read_fd, pid_t *child_pids);
+void	handle_fork_error(t_command *current_cmd, int pipe_fds[2],
+		int prev_pipe_read_fd, pid_t *child_pids);
+void	setup_input_redirection(int prev_pipe_read_fd);
+void	setup_output_pipe(t_command *current_cmd, int pipe_fds[2]);
+int	create_pipe_and_fork(t_command *current_cmd, t_pipeline_data *data,
+		int pipe_fds[2]);
+void	open_output_file(t_command *current_cmd, int i, int *fd_out);
+int	setup_pipeline_execution(t_command *current_cmd, t_shell *shell,
+		t_pipeline_data *data, int pipe_fds[2]);
+void	init_pipeline_data(t_command *cmd_list, t_pipeline_data *data,
+		int *prev_pipe_rd_fd, int *pid_count);
+void	execute_command(t_command *current_cmd, t_shell *shell);
+void	wait_for_children(pid_t *child_pids, int pid_count, t_shell *shell);
+void	handle_input_file_redirection(t_command *current_cmd);
+void	handle_output_file_redirection(t_command *current_cmd);
+        // void    execute_pipeline(t_command *cmd, t_shell *shell);
 #endif

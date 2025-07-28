@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_handler_utils.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/28 12:09:16 by modat             #+#    #+#             */
+/*   Updated: 2025/07/28 12:09:17 by modat            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // function - 1
@@ -32,18 +44,14 @@ void	free_env_copy(char **env_copy)
 	free(env_copy);
 }
 
-
 // function - 3
 char	*ft_strjoin_free(char *s1, char *s2)
 {
 	char	*result;
-	//char	*tmp;
 
-	//tmp = s1;
 	result = ft_strjoin(s1, s2);
 	free(s1);
 	free(s2);
-	//free(tmp);
 	return (result);
 }
 
@@ -64,7 +72,7 @@ char	*char_to_str(char c)
 char	*handle_question_mark(t_shell *shell, int *i)
 {
 	char	*result;
-	// shell->last_exit_status = 1;
+
 	(*i)++;
 	result = ft_itoa(shell->last_exit_status);
 	(*i)++;

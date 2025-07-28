@@ -1,6 +1,7 @@
 #include "minishell.h"
+
 // volatile sig_atomic_t g_heredoc_interrupted = 0;
-//void	handler(int sig)
+// void	handler(int sig)
 //{
 //	// (void)sig;
 //	/* We don’t need the value itself            */
@@ -18,7 +19,7 @@
 //	return ;
 //}
 
-//int	signals_handling(void)
+// int	signals_handling(void)
 //{
 //	struct sigaction	sig;
 
@@ -41,48 +42,45 @@
 //#include <readline/readline.h>
 
 /* ───────────── Prompt handler ───────────── */
-volatile sig_atomic_t g_heredoc_interrupted = 0;
+volatile sig_atomic_t	g_heredoc_interrupted = 0;
 
-
-
-
-//func 1
-void handler_parent(int sig)
+// func 1
+void	handler_parent(int sig)
 {
-    (void)sig;
-    write(1, "\n", 1);
+	(void)sig;
+	write(1, "\n", 1);
 }
-//func 2
-void signals_prompt(void)
+// func 2
+void	signals_prompt(void)
 {
-    setup_sig(SIGINT, handler_prompt);
-    setup_sig(SIGQUIT, SIG_IGN);
+	setup_sig(SIGINT, handler_prompt);
+	setup_sig(SIGQUIT, SIG_IGN);
 }
-//func 3
-void signals_execution(void)
+// func 3
+void	signals_execution(void)
 {
-    setup_sig(SIGINT, SIG_DFL);   // Default → kills child
-    setup_sig_exc(SIGQUIT, SIG_DFL);  // Default → sends \Quit (core dump message)
+	setup_sig(SIGINT, SIG_DFL); // Default → kills child
+	setup_sig_exc(SIGQUIT, SIG_DFL);
+	// Default → sends \Quit (core dump message)
 }
-//func 4
-void handler_parent_quit(int sig)
+// func 4
+void	handler_parent_quit(int sig)
 {
-    (void)sig;
-    write(1, "Quit (core dumped)\n", 20);
+	(void)sig;
+	write(1, "Quit (core dumped)\n", 20);
 }
-//func 5
-void handler_heredoc(int sig)
+// func 5
+void	handler_heredoc(int sig)
 {
-    (void)sig;
-    g_heredoc_interrupted = 130;
-    write(1, "^C", 3);
+	(void)sig;
+	g_heredoc_interrupted = 130;
+	write(1, "^C", 3);
 	close(0);
-    signals_prompt();
-    //write(STDOUT_FILENO, " Ctrl+C detected in heredoc!\n", 36);
+	signals_prompt();
+	// write(STDOUT_FILENO, " Ctrl+C detected in heredoc!\n", 36);
 }
 
-
-//void signals_heredoc(void)
+// void signals_heredoc(void)
 //{
 //    setup_sig(SIGINT, handler_heredoc);
 //    setup_sig(SIGQUIT, SIG_IGN);

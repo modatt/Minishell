@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_handler_utils_2.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/28 12:07:37 by modat             #+#    #+#             */
+/*   Updated: 2025/07/28 12:07:59 by modat            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-
-// function - 1 
+// function - 1
 char	**copying_env(char **old_env)
 {
 	int		count;
@@ -24,7 +35,6 @@ char	**copying_env(char **old_env)
 		new_env[i] = ft_strdup(old_env[i]);
 		if (!new_env[i])
 		{
-			// Free previously allocated strings on failure
 			while (--i >= 0)
 				free(new_env[i]);
 			free(new_env);
@@ -36,7 +46,7 @@ char	**copying_env(char **old_env)
 	return (new_env);
 }
 
-// function - 2 
+// function - 2
 char	*handle_sign(char *input, t_shell *shell, int *i)
 {
 	char	*value;
@@ -50,21 +60,20 @@ char	*handle_sign(char *input, t_shell *shell, int *i)
 	else
 	{
 		value = expand_env_var(&input[*i], i);
-		// result = get_env(value, shell->envp);
 		result = get_env(value, shell->env_list);
 		free(value);
 	}
 	return (result);
 }
 
-// function - 3 
+// function - 3
 
 char	*handle_bash_parameter(t_shell *shell, int *i, char *input)
 {
 	int		n;
 	char	*result;
 
-	n = input[*i] - '0'; // convert it to integer
+	n = input[*i] - '0';
 	(*i)++;
 	if (n < shell->argc)
 		result = ft_strdup(shell->argv[n]);
@@ -73,7 +82,7 @@ char	*handle_bash_parameter(t_shell *shell, int *i, char *input)
 	return (result);
 }
 
-// function - 4 
+// function - 4
 char	*expand_env_var(char *input, int *i)
 {
 	int		j;
@@ -88,6 +97,8 @@ char	*expand_env_var(char *input, int *i)
 	value = ft_substr(input, 0, j);
 	return (value);
 }
+
+// function - 5
 char	*get_envp(char **envp, char *value)
 {
 	int		i;
@@ -108,4 +119,3 @@ char	*get_envp(char **envp, char *value)
 	result = ft_strdup("");
 	return (result);
 }
-

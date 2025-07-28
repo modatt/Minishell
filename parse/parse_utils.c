@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:25:55 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 12:29:11 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/28 14:29:00 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,58 +33,9 @@ char	**tokenizer(char *line)
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
 	if (line[i])
-	{
 		tokenizer2(tokens, &k, &i, line);
-	}
 	tokens[k] = NULL;
 	return (tokens);
-}
-
-// function - 2
-void	tokenizer2(char **tokens, int *k, int *i, char *line)
-{
-	int	wbeg;
-
-	while (line[*i])
-	{
-		while (line[*i] == ' ' || line[*i] == '\t')
-			(*i)++;
-		if (!line[*i])
-			break ;
-		if (line[*i] == 34)
-		{
-			handle_double_qoute(tokens, k, line, i, &wbeg);
-		}
-		else if (line[*i] == 39)
-		{
-			handle_single_qoute(tokens, k, line, i, &wbeg);
-		}
-		else if (line[*i] == '<' && line[*i + 1] == '<')
-		{
-			tokens[*k] = (char *)malloc(sizeof(char) * 3);
-			if (!tokens[*k])
-				return ;
-			tokens[*k][0] = '<';
-			tokens[*k][1] = '<';
-			tokens[*k][2] = '\0';
-			(*k)++;
-			(*i) += 2;
-		}
-		else if (line[*i] == '|')
-		{
-			tokens[*k] = (char *)malloc(sizeof(char) * 2);
-			if (!tokens[*k])
-				return ;
-			tokens[*k][0] = '|';
-			tokens[*k][1] = '\0';
-			(*k)++;
-			(*i)++;
-		}
-		else if (line[*i] && line[*i] != ' ' && line[*i] != '\t')
-		{
-			handle_word_enhanced(tokens, k, line, i, &wbeg);
-		}
-	}
 }
 
 // function - 3 - Enhanced handle_word to support concatenation
@@ -110,18 +61,18 @@ void	handle_word_enhanced(char **tokens, int *k, char *line, int *i,
 			if (line[*i] == 34)
 				(*i)++;
 		}
-		else if (line[*i] == 39) // Single quote
+		else if (line[*i] == 39)
 		{
-			(*i)++; // Skip opening quote
+			(*i)++;
 			while (line[*i] && line[*i] != 39 && result_len < 1023)
 			{
 				result[result_len++] = line[*i];
 				(*i)++;
 			}
-			if (line[*i] == 39) // Skip closing quote
+			if (line[*i] == 39)
 				(*i)++;
 		}
-		else // Regular character
+		else
 		{
 			if (result_len < 1023)
 				result[result_len++] = line[*i];
@@ -152,7 +103,7 @@ void	handle_word(char **tokens, int *k, char *line, int *i, int *wbeg)
 		if (!tokens[*k])
 			return ;
 		ft_strncpy(tokens[*k], &line[*wbeg], (*i - *wbeg));
-		tokens[*k][*i - *wbeg] = '\0'; // Null terminate
+		tokens[*k][*i - *wbeg] = '\0';
 		(*k)++;
 	}
 }
@@ -182,14 +133,13 @@ void	handle_double_qoute(char **tokens, int *k, char *line, int *i,
 	tokens[*k] = (char *)malloc(sizeof(char) * total_len);
 	if (!tokens[*k])
 		return ;
-	// Build the token: "quoted_content" + continuation
-	tokens[*k][0] = 34; // Opening quote
+	tokens[*k][0] = 34; 
 	ft_strncpy(&tokens[*k][1], &line[quoted_start], quoted_len);
-	tokens[*k][quoted_len + 1] = 34; // Closing quote
+	tokens[*k][quoted_len + 1] = 34;
 	if (continuation_len > 0)
 		ft_strncpy(&tokens[*k][quoted_len + 2], &line[continuation_start],
 			continuation_len);
-	tokens[*k][total_len - 1] = '\0'; // Null terminate
+	tokens[*k][total_len - 1] = '\0';
 	(*k)++;
 }
 
@@ -201,81 +151,29 @@ void	handle_single_qoute(char **tokens, int *k, char *line, int *i,
 	int	continuation_len;
 
 	int quoted_start, quoted_len, total_len = 0;
-	(void)wbeg; // Suppress unused parameter warning
-	// Process the quoted part
-	(*i)++; // Skip opening quote
+	(void)wbeg;
+	(*i)++;
 	quoted_start = *i;
-	while (line[*i] && line[*i] != 39) // Find closing quote
+	while (line[*i] && line[*i] != 39)
 		(*i)++;
 	quoted_len = *i - quoted_start;
-	if (line[*i] == 39) // Skip closing quote if present
+	if (line[*i] == 39)
 		(*i)++;
-	// Check if there are non-space characters immediately following
 	continuation_start = *i;
 	while (line[*i] && line[*i] != ' ' && line[*i] != '\t' && line[*i] != '|'
 		&& line[*i] != 34 && line[*i] != 39 && line[*i] != '<')
 		(*i)++;
 	continuation_len = *i - continuation_start;
-	// Calculate total length: quotes + quoted content + continuation + null
 	total_len = 2 + quoted_len + continuation_len + 1;
 	tokens[*k] = (char *)malloc(sizeof(char) * total_len);
 	if (!tokens[*k])
 		return ;
-	// Build the token: 'quoted_content' + continuation
-	tokens[*k][0] = 39; // Opening quote
+	tokens[*k][0] = 39;
 	ft_strncpy(&tokens[*k][1], &line[quoted_start], quoted_len);
-	tokens[*k][quoted_len + 1] = 39; // Closing quote
+	tokens[*k][quoted_len + 1] = 39;
 	if (continuation_len > 0)
 		ft_strncpy(&tokens[*k][quoted_len + 2], &line[continuation_start],
 			continuation_len);
-	tokens[*k][total_len - 1] = '\0'; // Null terminate
+	tokens[*k][total_len - 1] = '\0';
 	(*k)++;
-}
-
-// function - 6
-char	*read_heredoc(char *delimiter)
-{
-	char	*line;
-	char	*content;
-	char	*temp;
-	size_t	content_len;
-	size_t	line_len;
-
-	content = NULL;
-	content_len = 0;
-	while ((line = readline("> ")) != NULL)
-	{
-		// Check if line matches delimiter exactly
-		if (strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		line_len = strlen(line);
-		// Allocate space for new content + line + newline + null terminator
-		temp = malloc(content_len + line_len + 2);
-		if (!temp)
-		{
-			free(line);
-			free(content);
-			return (NULL);
-		}
-		// Copy existing content if any
-		if (content)
-		{
-			strcpy(temp, content);
-			free(content);
-		}
-		else
-		{
-			temp[0] = 0;
-		}
-		// Append new line with newline
-		strcat(temp, line);
-		strcat(temp, "\n");
-		content = temp;
-		content_len += line_len + 1;
-		free(line);
-	}
-	return (content);
 }

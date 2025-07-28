@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 12:39:37 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/28 13:50:52 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,16 @@ int	main(int argc, char **argv, char **envp)
 	t_command	*cmd;
 	t_shell		*shell;
 
-	greets_minishell(); // Optional greeting banner
+	greets_minishell();
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
 	{
 		perror("Failed to allocate shell structure");
-		return (1); // Handle memory allocation failure
+		return (1);
 	}
-	init_shell(shell, argc, argv, envp); // Set argc, argv, etc. (no envp)
+	init_shell(shell, argc, argv, envp);
 	if (!shell->envp)
-	{
 		printf("Warning: Failed to initialize environment\n");
-		// Continue anyway with empty environment
-	}
-	// Convert envp >> shell->env_list
-	// if (signals_handling() == -1)
-	// {
-	//     free_shell(shell);  // Clean up shell if signal setup fails
-	//     return (-1);
-	// }
 	signals_prompt();
 	while (1)
 	{
@@ -46,12 +37,11 @@ int	main(int argc, char **argv, char **envp)
 		command_line = readline("minishell$ ");
 		if (command_line == NULL)
 		{
-			printf("exit\n"); // Print exit message for Ctrl+D
-			break ;            // Exit gracefully on Ctrl+D
+			printf("exit\n");
+			break ;
 		}
 		if (*command_line)
 			add_history(command_line);
-		// Skip empty commands but don't leak memory
 		if (!*command_line)
 		{
 			free(command_line);
@@ -61,19 +51,17 @@ int	main(int argc, char **argv, char **envp)
 		if (!cmd)
 		{
 			free(command_line);
-			continue ; // Skip if parsing failed
+			continue ;
 		}
-		print_command_list(cmd); // For debugging
-		// Check if we have a pipeline (multiple commands or is_pipe flag set)
+		print_command_list(cmd);
 		if (cmd && (cmd->next != NULL || cmd->is_pipe))
 			execute_pipeline(cmd, shell);
 		else if (cmd)
 			execute_cmd(cmd, shell);
-		free_cmd(cmd); // Free command list after execution
+		free_cmd(cmd);
 		free(command_line);
 	}
-	// Cleanup shell resources before exit
-	clear_history(); // Clear readline history
+	clear_history();
 	free_shell(shell);
 	return (0);
 }

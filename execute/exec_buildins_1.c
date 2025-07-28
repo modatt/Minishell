@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_buildins_1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:43:25 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 12:38:31 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/28 13:29:41 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,16 @@
 bool	is_builtin(char *cmd)
 {
 	int			i;
-	const char	*builtins[] = {"cd", "echo", "pwd", "export", "unset", "env",
-			"exit", NULL};
+	const char	*builtins[] = {
+		"cd",
+		"echo",
+		"pwd",
+		"export",
+		"unset",
+		"env",
+		"exit",
+		NULL
+	};
 
 	i = 0;
 	while (builtins[i])

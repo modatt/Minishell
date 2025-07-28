@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:32:19 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 11:32:20 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/28 13:15:08 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,37 +39,27 @@ int	builtin_export(t_command *cmd, t_shell *shell)
 	return (status);
 }
 
-// function - 2
-int	handle_export_var(char *name, char *value, t_shell *shell, int status)
+static int	update_or_add_var(char *name, char *value, t_shell *shell)
 {
 	t_env_var	*exist;
 	t_env_var	*new_var;
 
-	if (name == NULL || name[0] == '\0' || !is_name_valid(name))
+	exist = find_var(shell->env_list, name);
+	if (exist)
 	{
-		name_invalid(name, value);
-		status = 1;
+		if (value)
+			update_var_value(exist, value);
+		exist->exported = true;
 	}
 	else
 	{
-		exist = find_var(shell->env_list, name);
-		if (exist)
-		{
-			if (value)
-				update_var_value(exist, value);
-			exist->exported = true;
-		}
+		new_var = create_var(name, value, true);
+		if (new_var)
+			add_var_to_list(&shell->env_list, new_var);
 		else
-		{
-			new_var = create_var(name, value, true);
-			if (new_var)
-				add_var_to_list(&shell->env_list, new_var);
-			else
-				status = 1;
-		}
+			return (1);
 	}
-	free_name_value(name, value);
-	return (status);
+	return (0);
 }
 
 // function - 3
@@ -102,4 +92,20 @@ void	add_var_to_list(t_env_var **env_list, t_env_var *new_var)
 			current = current->next;
 		current->next = new_var;
 	}
+}
+
+// function - 5
+int	handle_export_var(char *name, char *value, t_shell *shell, int status)
+{
+	if (name == NULL || name[0] == '\0' || !is_name_valid(name))
+	{
+		name_invalid(name, value);
+		status = 1;
+	}
+	else
+	{
+		status = update_or_add_var(name, value, shell);
+	}
+	free_name_value(name, value);
+	return (status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_buildins_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:47:51 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 11:47:52 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/28 13:13:47 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,28 +89,24 @@ int	handle_export_var_cd(char *name, char *value, t_shell *shell, int status)
 	t_env_var	*exist;
 	t_env_var	*new_var;
 
-	if (name == NULL || name[0] == '\0' || !is_name_valid(name))
+	if (!name || !name[0] || !is_name_valid(name))
 	{
 		name_invalid(name, value);
-		status = 1;
+		return (1);
+	}
+	exist = find_var(shell->env_list, name);
+	if (exist)
+	{
+		if (value)
+			update_var_value(exist, value);
+		exist->exported = true;
 	}
 	else
 	{
-		exist = find_var(shell->env_list, name);
-		if (exist)
-		{
-			if (value)
-				update_var_value(exist, value);
-			exist->exported = true;
-		}
-		else
-		{
-			new_var = create_var(name, value, true);
-			if (new_var)
-				add_var_to_list(&shell->env_list, new_var);
-			else
-				status = 1;
-		}
+		new_var = create_var(name, value, true);
+		if (!new_var)
+			return (1);
+		add_var_to_list(&shell->env_list, new_var);
 	}
 	return (status);
 }

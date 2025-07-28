@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:12:25 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 12:12:49 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/28 13:51:59 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,11 @@ void	print_command_list(t_command *head)
 					printf("  Type: %d\n", head->redirection[i]->redir_type);
 				}
 				else
-				{
 					printf("Redirection %d is NULL\n", i);
-				}
 			}
 		}
 		else
-		{
 			printf("Redirection: (none)\n");
-		}
 		printf("Is pipe? %s\n", head->is_pipe ? "true" : "false");
 		printf("------------------------\n");
 		head = head->next;

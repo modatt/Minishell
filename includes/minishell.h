@@ -97,6 +97,7 @@ typedef struct s_pipeline_data
     int         *prev_pipe_rd_fd;
 }   t_pipeline_data;
 
+
 // main.c 
 void greets_minishell(void);
 
@@ -178,7 +179,7 @@ void execute_cmd(t_command *cmd, t_shell *shell);
 void setup_redirection_fds(t_command *cmd);
 void maybe_preprocess_heredocs(t_command *cmd);
 void	preprocess_heredocs(t_command *cmd);
- void	write_heredoc_to_file(t_redir *redir, char *tmpfile, char *delimiter);
+ void	write_heredoc_to_file(char *tmpfile, char *delimiter);
 
 // execu_buildins_1.c 
 bool is_builtin(char *cmd);
@@ -221,7 +222,7 @@ int    builtin_export(t_command *cmd, t_shell *shell);
 int     handle_export_var(char *name, char *value, t_shell *shell, int status);
 t_env_var   *find_var(t_env_var *env_list, char *name);
 void    add_var_to_list(t_env_var **env_list, t_env_var *new_var);
-
+int	handle_export_var(char *name, char *value, t_shell *shell, int status);
 // export_utils.c
 void    print_exported_list(t_shell *shell);
 void    parse_arg_var(char *arg, char **name, char **value);
@@ -269,5 +270,4 @@ void	execute_command(t_command *current_cmd, t_shell *shell);
 void	wait_for_children(pid_t *child_pids, int pid_count, t_shell *shell);
 void	handle_input_file_redirection(t_command *current_cmd);
 void	handle_output_file_redirection(t_command *current_cmd);
-        // void    execute_pipeline(t_command *cmd, t_shell *shell);
 #endif

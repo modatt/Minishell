@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 // function - 1
 int	handle_three_and_higher_redir(char *str, int *i)
 {
@@ -41,7 +40,6 @@ int	handle_three_and_higher_redir(char *str, int *i)
 	}
 	return (-1);
 }
-
 
 // function - 2
 int	handle_pipe(char *str, int *i)

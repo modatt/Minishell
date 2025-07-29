@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:07:37 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 12:07:59 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/29 12:22:01 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,7 @@ char	**copying_env(char **old_env)
 	int		i;
 	char	**new_env;
 
-	count = 0;
-	i = 0;
-	while (old_env[i])
-	{
-		count++;
-		i++;
-	}
+	count = args_count(old_env);
 	new_env = malloc(sizeof(char *) * (count + 1));
 	if (!new_env)
 		return (NULL);

@@ -156,7 +156,7 @@ void	is_redirection(char **tokens, t_command **current, int *k)
 		return ;
 	}
 	redir->file = ft_strdup(tokens[*k]);
-	if (!redir->file) 
+	if (!redir->file)
 	{
 		free(redir);
 		return ;

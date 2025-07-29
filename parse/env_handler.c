@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:10:12 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 12:10:13 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/29 12:02:42 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,30 +49,25 @@ char	**tokens_expanded(char **tokens, t_shell *shell)
 	int		count;
 	char	**new_tokens;
 
-	i = 0;
-	count = 0;
 	if (!tokens)
 		return (NULL);
-	while (tokens[count])
-		count++;
+	count = args_count(tokens);
 	new_tokens = malloc(sizeof(char *) * (count + 1));
 	if (!new_tokens)
-		return (NULL);
-	while (i < count)
+		return (free_tokens(tokens), NULL);
+	i = -1;
+	while (++i < count)
 	{
 		new_tokens[i] = expand_variables_in_token(tokens[i], shell);
 		if (!new_tokens[i])
 		{
 			free_expanded_tokens(new_tokens, i);
 			free(new_tokens);
-			free_tokens(tokens);
-			return (NULL);
+			return (free_tokens(tokens), NULL);
 		}
-		i++;
 	}
 	new_tokens[i] = NULL;
-	free_tokens(tokens);
-	return (new_tokens);
+	return (free_tokens(tokens), new_tokens);
 }
 
 // function - 4

@@ -75,12 +75,12 @@ void	handle_word(t_token_data *data)
 		(*data->i)++;
 	if (*data->wbeg < *data->i)
 	{
-		data->tokens[*data->k] = (char *)malloc(sizeof(char)
-				* (*data->i - *data->wbeg + 1));
+		data->tokens[*data->k] = (char *)malloc(sizeof(char) * (*data->i
+					- *data->wbeg + 1));
 		if (!data->tokens[*data->k])
 			return ;
-		ft_strncpy(data->tokens[*data->k], &data->line[*data->wbeg],
-			(*data->i - *data->wbeg));
+		ft_strncpy(data->tokens[*data->k], &data->line[*data->wbeg], (*data->i
+				- *data->wbeg));
 		data->tokens[*data->k][*data->i - *data->wbeg] = '\0';
 		(*data->k)++;
 	}

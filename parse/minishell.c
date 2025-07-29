@@ -6,62 +6,91 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 13:50:52 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/29 13:03:54 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+t_shell	*create_shell(int argc, char **argv, char **envp)
 {
-	char		*command_line;
-	t_command	*cmd;
-	t_shell		*shell;
+	t_shell	*shell;
 
-	greets_minishell();
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
 	{
 		perror("Failed to allocate shell structure");
-		return (1);
+		return (NULL);
 	}
-	init_shell(shell, argc, argv, envp);
+	if ((init_shell(shell, argc, argv, envp) != 0))
+	{
+		printf("Failed to initialize shell\n");
+		free(shell);
+		return (NULL);
+	}
 	if (!shell->envp)
 		printf("Warning: Failed to initialize environment\n");
-	signals_prompt();
+	return (shell);
+}
+
+static int	handle_command(t_shell *shell, char *line)
+{
+	t_command	*cmd;
+
+	cmd = parser(line, shell);
+	if (!cmd)
+		return (0);
+	print_command_list(cmd);
+	if (cmd->next || cmd->is_pipe)
+		execute_pipeline(cmd, shell);
+	else
+		execute_cmd(cmd, shell);
+	free_cmd(cmd);
+	return (1);
+}
+
+void	main_loop(t_shell *shell)
+{
+	char	*command_line;
+
 	while (1)
 	{
 		g_heredoc_interrupted = 0;
-		if (!isatty(0))
-			dup2(2, 0);
 		command_line = readline("minishell$ ");
-		if (command_line == NULL)
+		if (!command_line)
 		{
 			printf("exit\n");
 			break ;
 		}
 		if (*command_line)
 			add_history(command_line);
-		if (!*command_line)
+		else
 		{
 			free(command_line);
 			continue ;
 		}
-		cmd = parser(command_line, shell);
-		if (!cmd)
+		if (!handle_command(shell, command_line))
 		{
 			free(command_line);
 			continue ;
 		}
-		print_command_list(cmd);
-		if (cmd && (cmd->next != NULL || cmd->is_pipe))
-			execute_pipeline(cmd, shell);
-		else if (cmd)
-			execute_cmd(cmd, shell);
-		free_cmd(cmd);
 		free(command_line);
 	}
-	clear_history();
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_shell	*shell;
+
+	greets_minishell();
+	shell = create_shell(argc, argv, envp);
+	if (!shell)
+		return (1);
+	signals_prompt();
+	if (!isatty(0))
+		dup2(2, 0);
+	main_loop(shell);
 	free_shell(shell);
+	clear_history();
 	return (0);
 }

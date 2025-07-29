@@ -150,7 +150,7 @@ void	build_single_quote_token(char **tokens, int *k, char *line,
 
 // parse_utils_2.c  - 3
 void    allocate_memory_shell(t_shell **shell);
-void    init_shell(t_shell *shell, int argc, char **argv, char **envp);
+int     init_shell(t_shell *shell, int argc, char **argv, char **envp);
 void	init_command(t_command *cmd);
 bool    is_redirector(char **tokens, int k);
 

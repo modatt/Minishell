@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:21:00 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 12:21:12 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/29 13:02:40 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,35 @@ void	allocate_memory_shell(t_shell **shell)
 }
 
 // function - 2
-void	init_shell(t_shell *shell, int argc, char **argv, char **envp)
+// void	init_shell(t_shell *shell, int argc, char **argv, char **envp)
+// {
+// 	shell->argc = argc;
+// 	shell->argv = argv;
+// 	shell->last_exit_status = 0;
+// 	shell->envp = copying_env(envp);
+// 	shell->env_list = NULL;
+// 	if (!shell->envp)
+// 	{
+// 		shell->env_list = NULL;
+// 		return ;
+// 	}
+// 	init_env_list(shell, envp);
+// }
+
+int init_shell(t_shell *shell, int argc, char **argv, char **envp)
 {
-	shell->argc = argc;
-	shell->argv = argv;
-	shell->last_exit_status = 0;
-	shell->envp = copying_env(envp);
-	shell->env_list = NULL;
-	if (!shell->envp)
-	{
-		shell->env_list = NULL;
-		return ;
-	}
-	init_env_list(shell, envp);
+    shell->argc = argc;
+    shell->argv = argv;
+    shell->last_exit_status = 0;
+    shell->envp = copying_env(envp);
+    shell->env_list = NULL;
+    if (!shell->envp)
+    {
+        shell->env_list = NULL;
+        return (1);
+    }
+    init_env_list(shell, envp);
+    return (0);
 }
 
 // function - 3

@@ -124,6 +124,14 @@ void    parser2(char **tokens, int *k, t_command **current);
 void    add_arg(char *tokens, t_command **current);
 void    is_redirection(char **tokens, t_command **current, int *k); // more then 25 lines
 
+// parser_utils.c - helper functions for parser
+void	copy_existing_args(char **new_arg, char **old_arg, int count);
+int		init_redirection_array(t_command **current);
+void	set_redir_type(t_redir *redir, char *token);
+int		process_redir_file(t_redir *redir, char **tokens, int *k);
+int		handle_current_setup(t_command **current, t_command **cmd_list,
+		char **new_tokens);
+
 
 // parse_utils.c - 2
 char    **tokenizer(char *line);
@@ -302,4 +310,7 @@ void	execute_command(t_command *current_cmd, t_shell *shell);
 void	wait_for_children(pid_t *child_pids, int pid_count, t_shell *shell);
 void	handle_input_file_redirection(t_command *current_cmd);
 void	handle_output_file_redirection(t_command *current_cmd);
+
+void	update_shlvl(t_shell *shell);
+void	update_envp_array(t_shell *shell, const char *name, const char *value);
 #endif

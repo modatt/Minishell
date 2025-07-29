@@ -81,6 +81,23 @@ typedef struct s_quote_state
 	int		in_double;
 }			t_quote_state;
 
+typedef struct s_quote_data
+{
+	int		quoted_start;
+	int		quoted_len;
+	int		continuation_start;
+	int		continuation_len;
+}			t_quote_data;
+
+typedef struct s_token_data
+{
+	char	**tokens;
+	int		*k;
+	char	*line;
+	int		*i;
+	int		*wbeg;
+}			t_token_data;
+
 typedef struct s_command
 {
     char **arg; 
@@ -111,10 +128,25 @@ void    is_redirection(char **tokens, t_command **current, int *k); // more then
 // parse_utils.c - 2
 char    **tokenizer(char *line);
 void    tokenizer2(char **tokens, int *k, int *i, char *line);
-void    handle_word_enhanced(char **tokens, int *k, char *line, int *i, int *wbeg);
-void    handle_word(char **tokens, int *k, char *line, int *i, int *wbeg);
-void    handle_double_qoute(char **tokens, int *k, char *line, int *i, int *wbeg);
-void    handle_single_qoute(char **tokens, int *k, char *line, int *i, int *wbeg);
+void    handle_word_enhanced(t_token_data *data);
+void    handle_word(t_token_data *data);
+void    handle_double_qoute(t_token_data *data);
+void    handle_single_qoute(t_token_data *data);
+
+// parse_utils_4.c - helper functions
+void	process_double_quotes(char *line, int *i, char *result, int *result_len);
+void	process_single_quotes(char *line, int *i, char *result, int *result_len);
+void	finalize_token(char **tokens, int *k, char *result, int result_len);
+int		parse_quoted_content(char *line, int *i, int *quoted_start);
+int		parse_continuation(char *line, int *i, int *continuation_start);
+
+// parse_utils_5.c - helper functions
+void	build_double_quote_token(char **tokens, int *k, char *line,
+		t_quote_data *data);
+int		parse_single_quoted_content(char *line, int *i, int *quoted_start);
+int		parse_single_continuation(char *line, int *i, int *continuation_start);
+void	build_single_quote_token(char **tokens, int *k, char *line,
+		t_quote_data *data);
 
 // parse_utils_2.c  - 3
 void    allocate_memory_shell(t_shell **shell);

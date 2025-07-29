@@ -6,59 +6,58 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:57:51 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 14:01:07 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/28 17:51:27 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_whitespace(char c)
+// Helper function to handle special tokens
+static void	handle_special_tokens(char **tokens, int *k, char *line, int *i)
 {
-	return (c == ' ' || c == '\t');
+	if (line[*i] == '<' && line[*i + 1] == '<')
+	{
+		tokens[*k] = ft_strdup("<<");
+		(*k)++;
+		(*i) += 2;
+	}
+	else if (line[*i] == '|')
+	{
+		tokens[*k] = ft_strdup("|");
+		(*k)++;
+		(*i)++;
+	}
 }
 
-static void	handle_heredoc_token(char **tokens, int *k, int *i)
+// Helper function to handle tokens
+static void	handle_token(char **tokens, int *k, char *line, int *i)
 {
-	tokens[*k] = malloc(sizeof(char) * 3);
-	if (!tokens[*k])
-		return ;
-	tokens[*k][0] = '<';
-	tokens[*k][1] = '<';
-	tokens[*k][2] = '\0';
-	(*k)++;
-	(*i) += 2;
-}
+	t_token_data	data;
+	int				wbeg;
 
-static void	handle_pipe_token(char **tokens, int *k, int *i)
-{
-	tokens[*k] = malloc(sizeof(char) * 2);
-	if (!tokens[*k])
-		return ;
-	tokens[*k][0] = '|';
-	tokens[*k][1] = '\0';
-	(*k)++;
-	(*i)++;
+	data.tokens = tokens;
+	data.k = k;
+	data.line = line;
+	data.i = i;
+	data.wbeg = &wbeg;
+	if (line[*i] == 34)
+		handle_double_qoute(&data);
+	else if (line[*i] == 39)
+		handle_single_qoute(&data);
+	else if (line[*i] == '<' || line[*i] == '|')
+		handle_special_tokens(tokens, k, line, i);
+	else
+		handle_word_enhanced(&data);
 }
 
 void	tokenizer2(char **tokens, int *k, int *i, char *line)
 {
-	int	wbeg;
-
 	while (line[*i])
 	{
-		while (is_whitespace(line[*i]))
+		while (line[*i] == ' ' || line[*i] == '\t')
 			(*i)++;
 		if (!line[*i])
 			break ;
-		if (line[*i] == 34)
-			handle_double_qoute(tokens, k, line, i, &wbeg);
-		else if (line[*i] == 39)
-			handle_single_qoute(tokens, k, line, i, &wbeg);
-		else if (line[*i] == '<' && line[*i + 1] == '<')
-			handle_heredoc_token(tokens, k, i);
-		else if (line[*i] == '|')
-			handle_pipe_token(tokens, k, i);
-		else
-			handle_word_enhanced(tokens, k, line, i, &wbeg);
+		handle_token(tokens, k, line, i);
 	}
 }

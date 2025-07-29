@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:25:55 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 14:29:00 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/28 17:31:20 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,141 +39,79 @@ char	**tokenizer(char *line)
 }
 
 // function - 3 - Enhanced handle_word to support concatenation
-void	handle_word_enhanced(char **tokens, int *k, char *line, int *i,
-		int *wbeg)
+void	handle_word_enhanced(t_token_data *data)
 {
-	int	result_len;
+	int		result_len;
+	char	result[1024];
 
-	char result[1024];
 	result_len = 0;
-	(void)wbeg;
-	while (line[*i] && line[*i] != ' ' && line[*i] != '\t' && line[*i] != '|'
-		&& line[*i] != '<')
+	(void)data->wbeg;
+	while (data->line[*data->i] && data->line[*data->i] != ' '
+		&& data->line[*data->i] != '\t' && data->line[*data->i] != '|'
+		&& data->line[*data->i] != '<')
 	{
-		if (line[*i] == 34)
-		{
-			(*i)++;
-			while (line[*i] && line[*i] != 34 && result_len < 1023)
-			{
-				result[result_len++] = line[*i];
-				(*i)++;
-			}
-			if (line[*i] == 34)
-				(*i)++;
-		}
-		else if (line[*i] == 39)
-		{
-			(*i)++;
-			while (line[*i] && line[*i] != 39 && result_len < 1023)
-			{
-				result[result_len++] = line[*i];
-				(*i)++;
-			}
-			if (line[*i] == 39)
-				(*i)++;
-		}
+		if (data->line[*data->i] == 34)
+			process_double_quotes(data->line, data->i, result, &result_len);
+		else if (data->line[*data->i] == 39)
+			process_single_quotes(data->line, data->i, result, &result_len);
 		else
 		{
 			if (result_len < 1023)
-				result[result_len++] = line[*i];
-			(*i)++;
+				result[result_len++] = data->line[*data->i];
+			(*data->i)++;
 		}
 	}
-	if (result_len > 0)
-	{
-		tokens[*k] = malloc(result_len + 1);
-		if (!tokens[*k])
-			return ;
-		ft_strncpy(tokens[*k], result, result_len);
-		tokens[*k][result_len] = '\0';
-		(*k)++;
-	}
+	finalize_token(data->tokens, data->k, result, result_len);
 }
 
 // function - 4 - ORIGINAL handle_word (kept for compatibility)
-void	handle_word(char **tokens, int *k, char *line, int *i, int *wbeg)
+void	handle_word(t_token_data *data)
 {
-	*wbeg = *i;
-	while (line[*i] && line[*i] != ' ' && line[*i] != '\t' && line[*i] != '|'
-		&& line[*i] != 34 && line[*i] != 39 && line[*i] != '<')
-		(*i)++;
-	if (*wbeg < *i)
+	*data->wbeg = *data->i;
+	while (data->line[*data->i] && data->line[*data->i] != ' '
+		&& data->line[*data->i] != '\t' && data->line[*data->i] != '|'
+		&& data->line[*data->i] != 34 && data->line[*data->i] != 39
+		&& data->line[*data->i] != '<')
+		(*data->i)++;
+	if (*data->wbeg < *data->i)
 	{
-		tokens[*k] = (char *)malloc(sizeof(char) * (*i - *wbeg + 1));
-		if (!tokens[*k])
+		data->tokens[*data->k] = (char *)malloc(sizeof(char)
+				* (*data->i - *data->wbeg + 1));
+		if (!data->tokens[*data->k])
 			return ;
-		ft_strncpy(tokens[*k], &line[*wbeg], (*i - *wbeg));
-		tokens[*k][*i - *wbeg] = '\0';
-		(*k)++;
+		ft_strncpy(data->tokens[*data->k], &data->line[*data->wbeg],
+			(*data->i - *data->wbeg));
+		data->tokens[*data->k][*data->i - *data->wbeg] = '\0';
+		(*data->k)++;
 	}
 }
 
-// function - 4
-void	handle_double_qoute(char **tokens, int *k, char *line, int *i,
-		int *wbeg)
+// function - 5
+void	handle_double_qoute(t_token_data *data)
 {
-	int	continuation_start;
-	int	continuation_len;
+	t_quote_data	quote_data;
 
-	int quoted_start, quoted_len, total_len = 0;
-	(void)wbeg;
-	(*i)++;
-	quoted_start = *i;
-	while (line[*i] && line[*i] != 34)
-		(*i)++;
-	quoted_len = *i - quoted_start;
-	if (line[*i] == 34)
-		(*i)++;
-	continuation_start = *i;
-	while (line[*i] && line[*i] != ' ' && line[*i] != '\t' && line[*i] != '|'
-		&& line[*i] != 34 && line[*i] != 39 && line[*i] != '<')
-		(*i)++;
-	continuation_len = *i - continuation_start;
-	total_len = 2 + quoted_len + continuation_len + 1;
-	tokens[*k] = (char *)malloc(sizeof(char) * total_len);
-	if (!tokens[*k])
-		return ;
-	tokens[*k][0] = 34; 
-	ft_strncpy(&tokens[*k][1], &line[quoted_start], quoted_len);
-	tokens[*k][quoted_len + 1] = 34;
-	if (continuation_len > 0)
-		ft_strncpy(&tokens[*k][quoted_len + 2], &line[continuation_start],
-			continuation_len);
-	tokens[*k][total_len - 1] = '\0';
-	(*k)++;
+	(void)data->wbeg;
+	quote_data.quoted_len = parse_quoted_content(data->line, data->i,
+			&quote_data.quoted_start);
+	if (data->line[*data->i] == 34)
+		(*data->i)++;
+	quote_data.continuation_len = parse_continuation(data->line, data->i,
+			&quote_data.continuation_start);
+	build_double_quote_token(data->tokens, data->k, data->line, &quote_data);
 }
 
-// function - 5
-void	handle_single_qoute(char **tokens, int *k, char *line, int *i,
-		int *wbeg)
+// function - 6
+void	handle_single_qoute(t_token_data *data)
 {
-	int	continuation_start;
-	int	continuation_len;
+	t_quote_data	quote_data;
 
-	int quoted_start, quoted_len, total_len = 0;
-	(void)wbeg;
-	(*i)++;
-	quoted_start = *i;
-	while (line[*i] && line[*i] != 39)
-		(*i)++;
-	quoted_len = *i - quoted_start;
-	if (line[*i] == 39)
-		(*i)++;
-	continuation_start = *i;
-	while (line[*i] && line[*i] != ' ' && line[*i] != '\t' && line[*i] != '|'
-		&& line[*i] != 34 && line[*i] != 39 && line[*i] != '<')
-		(*i)++;
-	continuation_len = *i - continuation_start;
-	total_len = 2 + quoted_len + continuation_len + 1;
-	tokens[*k] = (char *)malloc(sizeof(char) * total_len);
-	if (!tokens[*k])
-		return ;
-	tokens[*k][0] = 39;
-	ft_strncpy(&tokens[*k][1], &line[quoted_start], quoted_len);
-	tokens[*k][quoted_len + 1] = 39;
-	if (continuation_len > 0)
-		ft_strncpy(&tokens[*k][quoted_len + 2], &line[continuation_start],
-			continuation_len);
-	tokens[*k][total_len - 1] = '\0';
-	(*k)++;
+	(void)data->wbeg;
+	quote_data.quoted_len = parse_single_quoted_content(data->line, data->i,
+			&quote_data.quoted_start);
+	if (data->line[*data->i] == 39)
+		(*data->i)++;
+	quote_data.continuation_len = parse_single_continuation(data->line, data->i,
+			&quote_data.continuation_start);
+	build_single_quote_token(data->tokens, data->k, data->line, &quote_data);
 }

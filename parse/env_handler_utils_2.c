@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:07:37 by modat             #+#    #+#             */
-/*   Updated: 2025/07/29 12:22:01 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/29 18:29:36 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,16 @@ char	*handle_sign(char *input, t_shell *shell, int *i)
 
 	(*i)++;
 	if (input[*i] == '?')
-		result = handle_question_mark(shell, i);
+		return (handle_question_mark(shell, i));
 	else if (input[*i] >= '0' && input[*i] <= '9')
-		result = handle_bash_parameter(shell, i, input);
+		return (handle_bash_parameter(shell, i, input));
 	else
 	{
 		value = expand_env_var(&input[*i], i);
-		result = get_env(value, shell->env_list);
+		if (value && ft_strcmp(value, "SHLVL") == 0)
+			result = ft_strdup(get_envp(shell->envp, "SHLVL"));
+		else
+			result = get_env(value, shell->env_list);
 		free(value);
 	}
 	return (result);

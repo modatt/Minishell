@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:40:10 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 13:45:29 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/29 18:00:13 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static int	handle_start(char *s, int *i, int *wc)
 		(*i)++;
 	if (!handle_pipe(s, i))
 		return (0);
-	if ((s[*i] == '>' && s[*i + 1] == '>') || (s[*i] == '<' && s[*i
-			+ 1] == '<'))
+	if ((s[*i] == '>' && s[*i + 1] == '>') || (s[*i] == '<'
+			&& s[*i + 1] == '<'))
 		if (!handle_redir_at_beg(s, i, wc))
 			return (0);
 	return (1);

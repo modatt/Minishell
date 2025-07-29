@@ -63,7 +63,7 @@ int	handle_pipe(char *str, int *i)
 			return (0);
 		}
 	}
-	return (-1);
+	return (1);
 }
 
 // function - 3

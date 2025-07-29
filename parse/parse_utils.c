@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:25:55 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 17:31:20 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/29 17:21:31 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,34 +84,4 @@ void	handle_word(t_token_data *data)
 		data->tokens[*data->k][*data->i - *data->wbeg] = '\0';
 		(*data->k)++;
 	}
-}
-
-// function - 5
-void	handle_double_qoute(t_token_data *data)
-{
-	t_quote_data	quote_data;
-
-	(void)data->wbeg;
-	quote_data.quoted_len = parse_quoted_content(data->line, data->i,
-			&quote_data.quoted_start);
-	if (data->line[*data->i] == 34)
-		(*data->i)++;
-	quote_data.continuation_len = parse_continuation(data->line, data->i,
-			&quote_data.continuation_start);
-	build_double_quote_token(data->tokens, data->k, data->line, &quote_data);
-}
-
-// function - 6
-void	handle_single_qoute(t_token_data *data)
-{
-	t_quote_data	quote_data;
-
-	(void)data->wbeg;
-	quote_data.quoted_len = parse_single_quoted_content(data->line, data->i,
-			&quote_data.quoted_start);
-	if (data->line[*data->i] == 39)
-		(*data->i)++;
-	quote_data.continuation_len = parse_single_continuation(data->line, data->i,
-			&quote_data.continuation_start);
-	build_single_quote_token(data->tokens, data->k, data->line, &quote_data);
 }

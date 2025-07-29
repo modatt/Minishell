@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 12:23:03 by modat             #+#    #+#             */
-/*   Updated: 2025/07/29 12:23:04 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/29 17:35:33 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	setup_sig_exc(int sig, void (*handler)(int))
 	sa.sa_flags = SA_RESTART;
 	sigaction(sig, &sa, NULL);
 }
+
 // func 2
 void	setup_sig(int sig, void (*handler)(int))
 {
@@ -44,6 +45,7 @@ void	signals_heredoc(void)
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 }
+
 // func 4
 void	handler_prompt(int sig)
 {

@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 12:23:09 by modat             #+#    #+#             */
-/*   Updated: 2025/07/29 12:23:55 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/29 17:35:49 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	handler_parent(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 }
+
 // func 2
 void	signals_prompt(void)
 {

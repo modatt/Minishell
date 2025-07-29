@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:25 by modat             #+#    #+#             */
-/*   Updated: 2025/07/29 13:00:08 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/29 14:56:39 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,27 @@
 
 */
 
+// Helper function to initialize parser state
+static int	init_parser_state(t_command **cmd_list, t_command **current)
+{
+	*cmd_list = NULL;
+	*current = NULL;
+	return (1);
+}
+
+// Helper function to expand tokens
+static char	**expand_tokens_safe(char **tokens, t_shell *shell)
+{
+	char	**new_tokens;
+
+	if (!tokens)
+		return (NULL);
+	new_tokens = tokens_expanded(tokens, shell);
+	if (!new_tokens)
+		free_tokens(tokens);
+	return (new_tokens);
+}
+
 // main parsing function - 1
 t_command	*parser(char *command_line, t_shell *shell)
 {
@@ -32,31 +53,17 @@ t_command	*parser(char *command_line, t_shell *shell)
 	t_command	*current;
 
 	k = 0;
-	cmd_list = NULL;
-	current = NULL;
 	tokens = tokenizer(command_line);
-	if (!tokens)
-		return (NULL);
-	new_tokens = tokens_expanded(tokens, shell);
+	init_parser_state(&cmd_list, &current);
+	new_tokens = expand_tokens_safe(tokens, shell);
 	if (!new_tokens)
-	{
-		free_tokens(tokens);
 		return (NULL);
-	}
 	while (new_tokens[k])
 	{
 		if (!current)
 		{
-			current = create_node();
-			if (!current)
-			{
-				free_tokens(new_tokens);
-				if (cmd_list)
-					free_cmd(cmd_list);
+			if (!handle_current_setup(&current, &cmd_list, new_tokens))
 				return (NULL);
-			}
-			if (!cmd_list)
-				cmd_list = current;
 		}
 		parser2(new_tokens, &k, &current);
 		k++;
@@ -66,7 +73,6 @@ t_command	*parser(char *command_line, t_shell *shell)
 }
 
 // function - 2
-
 void	parser2(char **tokens, int *k, t_command **current)
 {
 	if (ft_strcmp(tokens[*k], "|") == 0)
@@ -86,82 +92,21 @@ void	parser2(char **tokens, int *k, t_command **current)
 		add_arg(tokens[*k], current);
 }
 
-// function - 3
-void	add_arg(char *token, t_command **current)
-{
-	int		i;
-	int		j;
-	char	**new_arg;
-
-	i = 0;
-	j = 0;
-	if ((*current)->arg)
-		while ((*current)->arg[i])
-			i++;
-	new_arg = malloc(sizeof(char *) * (i + 2));
-	if (!new_arg)
-		return ;
-	while (j < i)
-	{
-		new_arg[j] = (*current)->arg[j];
-		j++;
-	}
-	new_arg[i] = ft_strdup(token);
-	if (!new_arg[i])
-		return ;
-	new_arg[i + 1] = NULL;
-	if ((*current)->arg)
-		free((*current)->arg);
-	(*current)->arg = new_arg;
-}
-
 // function - 4
 void	is_redirection(char **tokens, t_command **current, int *k)
 {
 	t_redir	*redir;
 
-	if (!(*current)->redirection)
-	{
-		(*current)->redirection = malloc(sizeof(t_redir *) * 10);
-		if (!(*current)->redirection)
-		{
-			perror("malloc failed");
-			exit(EXIT_FAILURE);
-		}
-		(*current)->redir_count = 0;
-	}
+	init_redirection_array(current);
 	redir = malloc(sizeof(t_redir));
 	if (!redir)
 	{
 		perror("malloc failed");
 		exit(EXIT_FAILURE);
 	}
-	if (ft_strcmp(tokens[*k], ">") == 0)
-		redir->redir_type = REDIR_OUTPUT;
-	else if (ft_strcmp(tokens[*k], ">>") == 0)
-		redir->redir_type = REDIR_APPEND;
-	else if (ft_strcmp(tokens[*k], "<") == 0)
-		redir->redir_type = REDIR_INPUT;
-	else if (ft_strcmp(tokens[*k], "<<") == 0)
-		redir->redir_type = REDIR_HEREDOC;
-	else
-	{
-		free(redir);
+	set_redir_type(redir, tokens[*k]);
+	if (!process_redir_file(redir, tokens, k))
 		return ;
-	}
-	(*k)++;
-	if (!tokens[*k])
-	{
-		free(redir);
-		return ;
-	}
-	redir->file = ft_strdup(tokens[*k]);
-	if (!redir->file)
-	{
-		free(redir);
-		return ;
-	}
-	(*current)->redirection[(*current)->redir_count++] = redir;
+	(*current)->redirection[(*current)->redir_count] = redir;
+	(*current)->redir_count++;
 }
-
-// function - 5

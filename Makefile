@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -g
+CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR)
 
 # Directories
 PARSE_DIR = parse

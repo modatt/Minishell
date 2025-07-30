@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:45:20 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 13:45:21 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/30 09:35:30 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static int	handle_single_redir_beg(char *s, int *i)
 		(*i)++;
 	if (!s[*i])
 		return (print_newline_error_bash());
+	// while (s[*i] && s[*i] != ' ' && s[*i] != '\t')
+	// 	(*i)++;
 	return (-1);
 }
 

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+read -p "Enter msg: " MSG
 git add .
-git commit -m "parse: single redirct solved"
+git commit -m "$MSG"
 git push

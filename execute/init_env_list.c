@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:54:14 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 11:54:20 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/31 11:44:27 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	init_env_list(t_shell *shell, char **envp)
 		name = strndup(envp[i], equal - envp[i]);
 		value = ft_strdup(equal + 1);
 		new = new_env_var(name, value);
+		if (!name || !value || new)
+			return ;
 		add_env_var(&shell->env_list, new);
 		free(name);
 		free(value);

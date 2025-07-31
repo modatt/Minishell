@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR)
+CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -g
 
 # Directories
 PARSE_DIR = parse
@@ -19,9 +19,8 @@ NAME = minishell
 PARSE_FILES = minishell utils greets parser parser_utils parse_utils parse_utils_2 \
 	env_handler syntax_check extra_help signals_handler_1 signals_handler_2 env_handler_utils env_handler_utils_2 \
 	syntax_check_utils syntax_check_utils_1 syntax_check_utils_2 parse_utils_1 parse_utils_3 parse_utils_4 parse_utils_5 \
-	shlvl 
+	shlvl non_interative
 	
-
 
 
 EXECUTE_FILES = executor exec_buildins_1  exec_buildins_2 exit exit_utils_1  init_env_list \

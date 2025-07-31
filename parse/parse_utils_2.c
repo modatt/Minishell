@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:21:00 by modat             #+#    #+#             */
-/*   Updated: 2025/07/29 17:32:19 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/31 12:01:37 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ int	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 	shell->argv = argv;
 	shell->last_exit_status = 0;
 	shell->envp = copying_env(envp);
+	shell->is_interactive = isatty(STDIN_FILENO);
 	shell->env_list = NULL;
 	if (!shell->envp)
 	{
 		shell->env_list = NULL;
 		return (1);
 	}
+	shell->heredoc_interrupted = 0;
 	init_env_list(shell, envp);
 	return (0);
 }

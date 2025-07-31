@@ -17,6 +17,8 @@
 #include <fcntl.h>
 #ifndef BUFFER_SIZE
 #define BUFFER_SIZE 42
+#define READLINE_BUFFER_SIZE 1024 // Define a buffer size for reading chunks
+
 #endif
 
     #define WHITE "\x1B[37m"
@@ -47,6 +49,13 @@ typedef struct s_env_var
 	struct s_env_var	*next;
 }						t_env_var;
 
+typedef struct s_read_buffer
+{
+    char *buffer;
+    int  buffer_pos;
+    int  bytes_in_buffer;
+}   t_read_buffer;
+
 typedef struct s_shell
 {
 	int			argc;
@@ -54,6 +63,8 @@ typedef struct s_shell
 	int			last_exit_status;
     char        **envp;
 	t_env_var	*env_list;  //  replaces char **envp
+    int     is_interactive;
+    int     heredoc_interrupted;
 }				t_shell;
 
 
@@ -313,4 +324,7 @@ void	handle_output_file_redirection(t_command *current_cmd);
 
 void	update_shlvl(t_shell *shell);
 void	update_envp_array(t_shell *shell, const char *name, const char *value);
+
+// non_interactive.c
+char *readline_non_interactive(int fd);
 #endif

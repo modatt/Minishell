@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 12:47:24 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/07/20 12:22:59 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/07/28 13:43:53 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,14 @@ long	ft_atol(const char *nptr)
 	return (result * sign);
 }
 
-
-// function - 2 
+// function - 2
 void	clean_exit(t_shell *shell, long exit_code, t_command *cmd)
 {
 	(void)cmd;
-
 	if (!shell)
 		exit(exit_code);
-	// Free command list
 	free_cmd(cmd);
-
-	//if (shell->envp)
-	//	free_env_copy(shell->envp);
-	// Free input line buffer (if you're storing it)
 	free_shell(shell);
-	// if (shell->line)
-	//     free(shell->line);
-	// Close and free pipe fds (if implemented)
-	// close_all_pipes(shell);
-	// Clear readline history (important if using readline)
-	//clear_history();
 	exit(exit_code);
 }
 
@@ -70,7 +57,7 @@ static void	print_numric_error(char *arg)
 	write(2, ": numeric argument required\n", 28);
 }
 
-// function - 4 
+// function - 4
 void	builtin_exit(t_command *cmd, t_shell *shell)
 {
 	int	count;
@@ -87,15 +74,15 @@ void	builtin_exit(t_command *cmd, t_shell *shell)
 		clean_exit(shell, ft_atol((const char *)cmd->arg[1]), cmd);
 	}
 	if (count > 2)
-    {
-        if (!is_numeric(cmd->arg[1]))
-        {
-            print_numric_error(cmd->arg[1]);
-            clean_exit(shell, 2, cmd);
-        }
-        // First arg is numeric but too many args → DO NOT EXIT
-        write(2, "bash: exit: too many arguments\n", 31);
-        shell->last_exit_status = 1;
-        return;
-    }
+	{
+		if (!is_numeric(cmd->arg[1]))
+		{
+			print_numric_error(cmd->arg[1]);
+			clean_exit(shell, 2, cmd);
+		}
+		write(2, "bash: exit: too many arguments\n", 31);
+		shell->last_exit_status = 1;
+		return ;
+	}
+	clean_exit(shell, 0, cmd);
 }

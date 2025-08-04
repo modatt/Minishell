@@ -66,7 +66,10 @@
     "vector": "c",
     "string_view": "c",
     "initializer_list": "c",
-    "minishell.h": "c"
+    "minishell.h": "c",
+    "stdio.h": "c",
+    "stdlib.h": "c"
   },
-  "C_Cpp.errorSquiggles": "disabled"
+"C_Cpp.errorSquiggles": "disabled",
+"github.copilot.nextEditSuggestions.enabled": true
 }

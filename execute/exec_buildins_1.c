@@ -1,39 +1,56 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_buildins_1.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/28 11:43:25 by modat             #+#    #+#             */
+/*   Updated: 2025/07/28 13:29:41 by hmeltaha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-
-
-
-bool 	is_builtin(char *cmd)
+bool	is_builtin(char *cmd)
 {
-    int		i;
-	char *builtins[] = {"cd", "echo", "pwd", "export", "unset", "env", "exit", NULL};
-	
+	int			i;
+	const char	*builtins[] = {
+		"cd",
+		"echo",
+		"pwd",
+		"export",
+		"unset",
+		"env",
+		"exit",
+		NULL
+	};
+
 	i = 0;
-    while (builtins[i])
-    {
+	while (builtins[i])
+	{
 		if (!ft_strcmp(cmd, builtins[i]))
-		return (true);
-        i++;
-    }
-    return (false);
+			return (true);
+		i++;
+	}
+	return (false);
 }
 
-
-int exec_builtin(t_command *cmd, t_shell *shell)
+int	exec_builtin(t_command *cmd, t_shell *shell)
 {
 	if (!ft_strcmp(cmd->arg[0], "pwd"))
-			builtin_pwd(cmd);
+		builtin_pwd(cmd);
 	else if (!ft_strcmp(cmd->arg[0], "echo"))
-			builtin_echo(cmd);
+		builtin_echo(cmd);
 	else if (!ft_strcmp(cmd->arg[0], "env"))
-			builtin_env(shell);
-    else if (!ft_strcmp(cmd->arg[0], "cd"))
-       	builtin_cd(cmd, shell);
+		builtin_env(shell);
+	else if (!ft_strcmp(cmd->arg[0], "cd"))
+		builtin_cd(cmd, shell);
 	else if (!ft_strcmp(cmd->arg[0], "export"))
-       	builtin_export(cmd, shell);
-    else if (!ft_strcmp(cmd->arg[0], "unset"))
-       	builtin_unset(cmd, shell);
-     else if (!ft_strcmp(cmd->arg[0], "exit"))
-        	builtin_exit(cmd, shell);
-    return (1);
+		builtin_export(cmd, shell);
+	else if (!ft_strcmp(cmd->arg[0], "unset"))
+		builtin_unset(cmd, shell);
+	else if (!ft_strcmp(cmd->arg[0], "exit"))
+		builtin_exit(cmd, shell);
+	return (1);
 }

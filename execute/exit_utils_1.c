@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exce_utils_1.c                                     :+:      :+:    :+:   */
+/*   exit_utils_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 11:36:46 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/07/03 15:12:14 by modat            ###   ########.fr       */
+/*   Updated: 2025/07/28 13:48:16 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
-
 
 // function - 1
 static int	is_within_long_limit(char *str, int start, int is_negative)
@@ -36,23 +34,20 @@ static int	is_within_long_limit(char *str, int start, int is_negative)
 	return (1);
 }
 
-
-// function - 2 
-int		is_numeric(char *str)
+// function - 2
+int	is_numeric_i(char *str, int i)
 {
-	int	i;
 	int	digit_count;
 	int	is_negative;
 
 	if (!str || !str[0])
 		return (0);
-	i = 0;
 	is_negative = 0;
 	if (str[i] == '+' || str[i] == '-')
 	{
-    	if (str[i] == '-')
-        	is_negative = 1;
-    	i++;	
+		if (str[i] == '-')
+			is_negative = 1;
+		i++;
 	}
 	if (!str[i])
 		return (0);
@@ -63,23 +58,27 @@ int		is_numeric(char *str)
 			return (0);
 		digit_count++;
 	}
-	if (digit_count > 19)
-		return (0);
-	if (digit_count == 19 && !is_within_long_limit(str, i, is_negative))
+	if (digit_count > 19 || (digit_count == 19 && !is_within_long_limit(str, i,
+				is_negative)))
 		return (0);
 	return (1);
 }
 
-
 // function - 3
+int	is_numeric(char *str)
+{
+	return (is_numeric_i(str, 0));
+}
 
- int  args_count(char **str)
+// function - 4
+int	args_count(char **str)
 {
 	int	i;
+
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		i++;
 	}
-	return(i);
+	return (i);
 }

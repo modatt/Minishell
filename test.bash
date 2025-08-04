@@ -1,2 +1,2 @@
 
-clear && make re && make clean && clear && echo && ./minishell
+clear && make re && make clean && clear && echo && valgrind ./minishell

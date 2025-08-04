@@ -51,10 +51,8 @@ static int should_continue_loop(int status)
 
 static void process_command(t_shell *shell, char *line)
 {
-    if (!line || line[0] == '\0') {
-        // Empty input, nothing to process or free
+    if (!line || line[0] == '\0')
         return;
-    }
     if (!handle_command(shell, line))
     {
         free(line);

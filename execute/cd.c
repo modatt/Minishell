@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:43:02 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/07/20 12:12:41 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/04 23:09:18 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	cd_check_args(t_command *cmd, t_shell *shell)
 	count = args_count(cmd->arg);
 	if (count > 2)
 	{
-		printf("bash: cd: too many arguments\n");
+		printf("minishell: cd: too many arguments\n");
 		shell->last_exit_status = 1;
 		return (1);
 	}
@@ -45,7 +45,7 @@ static char	*cd_get_target_path(t_command *cmd, t_shell *shell)
 		home = get_envp(shell->envp, "HOME");
 		if (!home)
 		{
-			printf("bash: cd: HOME not set\n");
+			printf("minishell: cd: HOME not set\n");
 			shell->last_exit_status = 1;
 			return (NULL);
 		}
@@ -62,7 +62,7 @@ static int	cd_update_pwd(t_shell *shell, char *old_pwd)
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
 	{
-		perror("bash: cd: getcwd failed");
+		perror("minishell: cd: getcwd failed");
 		shell->last_exit_status = 1;
 		free(old_pwd);
 		return (1);

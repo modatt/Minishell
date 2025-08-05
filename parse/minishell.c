@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/08/03 19:22:40 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/05 12:29:39 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	handle_command(t_shell *shell, char *line)
         // shell->last_exit_status should be set by parser for syntax errors (e.g., 2)
         return (0); // Indicate failure to process command
     }
-	//print_command_list(cmd);
+	print_command_list(cmd);
 	if (cmd->next || cmd->is_pipe)
 		execute_pipeline(cmd, shell);
 	else

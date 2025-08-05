@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:59:44 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/03 18:15:34 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/05 12:09:36 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,12 @@ void	write_heredoc_to_file(char *tmpfile, char *delimiter)
 	}
 	close(fd);
 }
-
+static void	print_numric_error(char *arg)
+{
+	write(2, "minishell: ", 11);
+	write(2, arg, ft_strlen(arg));
+	write(2, ": No such file or directory\n", 28);
+}
 // func --- 1
 void	setup_redirection_fds(t_command *cmd)
 {
@@ -88,7 +93,11 @@ void	setup_redirection_fds(t_command *cmd)
 		fd = -1;
 		redir = cmd->redirection[i];
 		if (redir->redir_type == REDIR_INPUT)
+		{
 			fd = open(redir->file, O_RDONLY);
+			if(fd == -1)
+				print_numric_error(redir->file);
+		}
 		else if (redir->redir_type == REDIR_OUTPUT)
 			fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (redir->redir_type == REDIR_APPEND)
@@ -99,7 +108,8 @@ void	setup_redirection_fds(t_command *cmd)
 			dup2(fd, STDIN_FILENO);
 		else
 			dup2(fd, STDOUT_FILENO);
-		close(fd);
+		if(fd != -1)
+			close(fd);
 		i++;
 	}
 }

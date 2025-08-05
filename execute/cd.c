@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:43:02 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/04 23:09:18 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/05 10:58:43 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	builtin_cd(t_command *cmd, t_shell *shell)
 	}
 	if (chdir(target) == -1)
 	{
-		perror("bash: cd");
+		perror("minishell: cd");
 		shell->last_exit_status = 1;
 		free(old_pwd);
 		return ;

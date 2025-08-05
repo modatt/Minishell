@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check_utils_1.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:40:10 by modat             #+#    #+#             */
-/*   Updated: 2025/08/01 01:24:49 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/05 11:37:19 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	check_pipe_err(char *s, int i)
 	return (1);
 }
 
-static int	main_loop_1(char *s, int *i, int *wc)
+static int	pipe_loop(char *s, int *i, int *wc)
 {
 	while (s[*i])
 	{
@@ -59,7 +59,7 @@ int	count_words(char *s)
 	wc = 0;
 	if (!handle_start(s, &i, &wc))
 		return (0);
-	if (s[i] && !main_loop_1(s, &i, &wc))
+	if (s[i] && !pipe_loop(s, &i, &wc))
 		return (0);
 	return (wc);
 }

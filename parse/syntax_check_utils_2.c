@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check_utils_2.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:45:20 by modat             #+#    #+#             */
-/*   Updated: 2025/07/30 10:20:05 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/05 12:56:30 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // function - 1
 static int	print_newline_error_bash(void)
 {
-	write(1, "bash: syntax error near unexpected token `newline'\n", 51);
+	write(1, "minishell: syntax error near unexpected token `newline'\n", 56);
 	return (0);
 }
 

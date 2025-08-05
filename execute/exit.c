@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 12:47:24 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/07/28 13:43:53 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/05 12:06:18 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	clean_exit(t_shell *shell, long exit_code, t_command *cmd)
 // function - 3
 static void	print_numric_error(char *arg)
 {
-	write(2, "bash: exit: ", 12);
+	write(2, "minishell: exit: ", 17);
 	write(2, arg, ft_strlen(arg));
 	write(2, ": numeric argument required\n", 28);
 }

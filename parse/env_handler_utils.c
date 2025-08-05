@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_handler_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:09:16 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 12:09:17 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/05 11:06:25 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,5 @@ char	*handle_question_mark(t_shell *shell, int *i)
 
 	(*i)++;
 	result = ft_itoa(shell->last_exit_status);
-	(*i)++;
 	return (result);
 }

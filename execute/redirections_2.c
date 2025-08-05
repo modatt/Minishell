@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:59:44 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/05 17:41:49 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/05 19:43:11 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,17 @@ static int	open_heredoc_file(char *tmpfile)
 {
 	int	fd;
 
-	fd = open(tmpfile, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	fd = open(tmpfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		perror("minishell: heredoc open failed");
 		free(tmpfile);
-		exit(1);
+		return(-1);
 	}
 	return (fd);
 }
 
-static int	handle_heredoc_eof(char *line, int fd, char *tmpfile,
-		char *delimiter)
+static int	handle_heredoc_eof(char *line, int fd, char *tmpfile,char *delimiter)
 {
 	(void)fd;
 	(void)tmpfile;
@@ -55,6 +54,8 @@ void	write_heredoc_to_file(char *tmpfile, char *delimiter)
 	rl_catch_signals = 0;
 	setup_heredoc_signals();
 	fd = open_heredoc_file(tmpfile);
+	if (fd == -1)
+		return ;
 	while (1)
 	{
 		line = readline("> ");
@@ -74,6 +75,7 @@ void	write_heredoc_to_file(char *tmpfile, char *delimiter)
 	}
 	close(fd);
 }
+
 static void	print_numric_error(char *arg)
 {
 	write(2, "minishell: ", 11);

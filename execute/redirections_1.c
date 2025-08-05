@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:59:32 by modat             #+#    #+#             */
-/*   Updated: 2025/08/03 18:13:31 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/05 19:59:13 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,14 @@ static int	process_single_heredoc(t_redir *redir, int index)
 	char	*tmpfile;
 	char	*idx_str;
 	char	*delimiter;
-
+	//printf("im here\n");
 	delimiter = ft_strdup(redir->file);
 	if (!delimiter)
 		return (1);
 	idx_str = ft_itoa(index);
-	tmpfile = ft_strjoin("/tmp/minishell_heredoc_", idx_str);
+	tmpfile = ft_strjoin("/tmp/heredoc_", idx_str);
 	free(idx_str);
 	write_heredoc_to_file(tmpfile, delimiter);
-	// heredoc interruption is now tracked in shell struct, not global
-	// The main loop should set shell->heredoc_interrupted after SIGINT
-	// If needed, check shell->heredoc_interrupted in main logic
-	// (No check here)
-	
-	// ...existing code...
 	free(redir->file);
 	free(delimiter);
 	redir->file = tmpfile;

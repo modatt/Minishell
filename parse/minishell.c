@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 18:06:39 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/05 19:49:25 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	handle_command(t_shell *shell, char *line)
 	if (!line || line[0] == 0)
 		return 0;
 	cmd = parser(line, shell);
+	print_command_list(cmd);
 	
 	if ((!cmd || !cmd->arg || cmd->arg[0] == 0) &&(cmd->redir_count < 0))
         return (0);
@@ -77,7 +78,6 @@ int	handle_command(t_shell *shell, char *line)
 		run_with_redirection(cmd, shell);
 		return(1);
 	}
-	//print_command_list(cmd);
 	if (cmd->next || cmd->is_pipe)
 		execute_pipeline(cmd, shell);
 	else

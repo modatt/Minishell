@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_buildins_1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:43:25 by modat             #+#    #+#             */
-/*   Updated: 2025/08/04 23:14:52 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/05 13:55:14 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	exec_builtin(t_command *cmd, t_shell *shell)
 	else if (!ft_strcmp(cmd->arg[0], "cd"))
 		builtin_cd(cmd, shell);
 	else if (!ft_strcmp(cmd->arg[0], "export"))
-		builtin_export(cmd, shell);
+		shell->last_exit_status = builtin_export(cmd, shell);
 	else if (!ft_strcmp(cmd->arg[0], "unset"))
 		builtin_unset(cmd, shell);
 	else if (!ft_strcmp(cmd->arg[0], "exit"))

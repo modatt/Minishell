@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 12:29:39 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/05 14:57:06 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ int	handle_command(t_shell *shell, char *line)
 {
 	t_command	*cmd;
 
+	if (!line || line[0] == 0)
+		return 0;
 	cmd = parser(line, shell);
-	if (!cmd)
+	if (!cmd || cmd->arg[0] == 0 )
 	 {
         // Parser failed (e.g., syntax error, unclosed quotes)
         // shell->last_exit_status should be set by parser for syntax errors (e.g., 2)
@@ -62,20 +64,21 @@ int interactive(t_shell *shell, char **command_line)
 	*command_line = readline("minishell$ ");
 	if (*command_line == NULL)
 	{
-		// // Check if this is due to a signal interruption
+		// Check if this is due to a signal interruption
 		// if (g_signal_status != 0)
 		// {
 		// 	// Signal was handled, continue the loop
 		// 	return 2; // Continue loop without processing command
 		// }
 		// // Genuine EOF (Ctrl+D)
-		return 0; // Break loop
+		return 0; // Break loozp
+		// exit(EXIT_FAILURE);
 	}
 	if (**command_line)
 		add_history(*command_line);
 	else
 	{
-		free(*command_line);
+		// free(*command_line);
 		return 2; // Continue loop
 	}
 	return 1; // Success
@@ -103,6 +106,7 @@ int non_interactive(t_shell *shell, char **command_line)
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
+	int stat;
 
 	shell = create_shell(argc, argv, envp);
 	if (!shell)
@@ -122,7 +126,8 @@ int	main(int argc, char **argv, char **envp)
 		exit(EXIT_FAILURE);
 	}
 	main_loop(shell);
+	stat = shell->last_exit_status;
 	free_shell(shell);
 	clear_history();
-	return (shell->last_exit_status);
+	return (stat);
 }

@@ -3,34 +3,6 @@
 #define INPUT_OK      1  // Proceed with parsing and execution
 #define INPUT_RETRY   2  // Continue loop without parsing
 
-static int handle_signals(t_shell *shell)
-{
-    if (g_signal_status == SIGINT)
-    {
-        if (shell->is_interactive)
-        {
-            write(STDOUT_FILENO, "\n", 1);
-            rl_replace_line("", 0);
-            rl_on_new_line();
-            rl_redisplay();
-            shell->last_exit_status = 130;
-            g_signal_status = 0; // Reset signal status after handling
-            return (1);
-        }
-    }
-    else if (g_signal_status == SIGQUIT)
-    {
-        if (shell->is_interactive)
-        {
-            rl_on_new_line();
-            rl_redisplay();
-            shell->last_exit_status = 131;
-            g_signal_status = 0; // Reset signal status after handling
-            return (1);
-        }
-    }
-    return 0; // no signal
-}
 
 static int get_command_line(t_shell *shell, char **line)
 {
@@ -52,13 +24,13 @@ static int should_continue_loop(int status)
 static void process_command(t_shell *shell, char *line)
 {
     if (!line || line[0] == '\0')
-        return;
-    if (!handle_command(shell, line))
+        return ;
+    if (handle_command(shell, line) == 0)
     {
         free(line);
-        return;
+        return ;
     }
-    free(line);
+    // free(line);
 }
 
 void main_loop(t_shell *shell)
@@ -69,13 +41,11 @@ void main_loop(t_shell *shell)
 
     while (1)
     {
-        shell->heredoc_interrupted = 0;
+        g_signal_status = 0;
         if (shell->is_interactive)
             setup_interactive_signals();
         else
             setup_non_interactive_signals();
-        if (handle_signals(shell))
-            continue;
         status = get_command_line(shell, &command_line);
         check = should_continue_loop(status);
         if (check == INPUT_EOF)

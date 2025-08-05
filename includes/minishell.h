@@ -65,7 +65,6 @@ typedef struct s_shell
     char        **envp;
     t_env_var	*env_list;  //  replaces char **envp
     int     is_interactive;
-    int     heredoc_interrupted;
 }				t_shell;
 
 

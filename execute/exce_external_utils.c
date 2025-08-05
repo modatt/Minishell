@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:49:49 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 13:04:51 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/05 20:18:35 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,6 @@ char	*get_resolved_path(t_command *cmd, t_shell *shell)
 	else
 		resolved_path = find_cmd_in_path(cmd->arg[0], shell);
 	if (!resolved_path)
-	{
-		print_command_not_found(cmd, shell);
 		return (NULL);
-	}
 	return (resolved_path);
 }

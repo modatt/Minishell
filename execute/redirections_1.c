@@ -6,13 +6,13 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:59:32 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 19:59:13 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/05 20:12:15 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// func --- 2
+// func --- 1
 void	maybe_preprocess_heredocs(t_command *cmd)
 {
 	if (cmd && cmd->redir_count > 0)
@@ -25,7 +25,6 @@ static int	process_single_heredoc(t_redir *redir, int index)
 	char	*tmpfile;
 	char	*idx_str;
 	char	*delimiter;
-	//printf("im here\n");
 	delimiter = ft_strdup(redir->file);
 	if (!delimiter)
 		return (1);

@@ -6,12 +6,13 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:59:44 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/05 19:43:11 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/05 20:13:44 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//func------1
 static int	open_heredoc_file(char *tmpfile)
 {
 	int	fd;
@@ -26,6 +27,7 @@ static int	open_heredoc_file(char *tmpfile)
 	return (fd);
 }
 
+//func------2
 static int	handle_heredoc_eof(char *line, int fd, char *tmpfile,char *delimiter)
 {
 	(void)fd;
@@ -51,7 +53,6 @@ void	write_heredoc_to_file(char *tmpfile, char *delimiter)
 	int		fd;
 	char	*line;
 
-	rl_catch_signals = 0;
 	setup_heredoc_signals();
 	fd = open_heredoc_file(tmpfile);
 	if (fd == -1)
@@ -76,13 +77,15 @@ void	write_heredoc_to_file(char *tmpfile, char *delimiter)
 	close(fd);
 }
 
+//func------4
 static void	print_numric_error(char *arg)
 {
 	write(2, "minishell: ", 11);
 	write(2, arg, ft_strlen(arg));
 	write(2, ": No such file or directory\n", 28);
 }
-// func --- 1
+
+// func --- 5
 void	setup_redirection_fds(t_command *cmd)
 {
 	int		i;

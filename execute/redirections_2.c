@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:59:44 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/05 12:09:36 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:41:49 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	setup_redirection_fds(t_command *cmd)
 		else if (redir->redir_type == REDIR_APPEND)
 			fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd < 0)
-			exit(1);
+			return ;
 		if (redir->redir_type == REDIR_INPUT)
 			dup2(fd, STDIN_FILENO);
 		else

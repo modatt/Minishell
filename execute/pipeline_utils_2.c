@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 20:49:04 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 00:04:49 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/05 16:14:29 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	handle_input_file_redirection(t_command *current_cmd)
 	int	i;
 
 	i = 0;
+	fprintf(stderr, "dsgfdsgfd"); 	
 	while (i < current_cmd->redir_count)
 	{
 		if (current_cmd->redirection[i]->redir_type == REDIR_INPUT)
@@ -52,6 +53,7 @@ void	handle_input_file_redirection(t_command *current_cmd)
 			fd_in = open(current_cmd->redirection[i]->file, O_RDONLY);
 			if (fd_in == -1)
 			{
+				// printf("here\n\n");
 				perror(current_cmd->redirection[i]->file);
 				exit(1);
 			}

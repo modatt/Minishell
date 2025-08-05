@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:53:47 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/05 14:14:00 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/05 17:12:00 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	run_builtin_with_redirection(t_command *cmd, t_shell *shell)
 	saved_stderr = dup(STDERR_FILENO);
 	if (saved_stdin < 0 || saved_stdout < 0 || saved_stderr < 0)
 	{
-		printf("are we here??\n");
+		// printf("are we here??\n");
 		perror("dup");
 		return ;
 	}
@@ -51,12 +51,10 @@ void	run_builtin_with_redirection(t_command *cmd, t_shell *shell)
 
 void	execute_cmd(t_command *cmd, t_shell *shell)
 {
-	if (!cmd)
+	if ((!cmd || !cmd->arg || cmd->arg[0] == 0) && (cmd->redir_count < 0))
 		return ;
 	maybe_preprocess_heredocs(cmd);
-	if (!cmd->arg || !cmd->arg[0])
-		return ;
-	if (is_builtin(cmd->arg[0]))
+	if (cmd->arg && is_builtin(cmd->arg[0]))
 	{
 		if (cmd->redir_count > 0 && (g_signal_status != 130))
 			run_builtin_with_redirection(cmd, shell);

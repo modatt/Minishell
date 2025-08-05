@@ -243,7 +243,7 @@ void	builtin_echo(t_command *cmd);
 void	builtin_pwd(t_command *cmd);
 void 	builtin_env(t_shell *shell);
 int     handle_export_var_cd(char *name, char *value, t_shell *shell, int status);
-
+void	xx(t_command *cmd);
 //exce_extranal.c
 void exec_external(t_command *cmd, t_shell *shell);
 //get_next_line

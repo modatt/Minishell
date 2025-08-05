@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:51:46 by modat             #+#    #+#             */
-/*   Updated: 2025/08/03 17:52:56 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/05 17:59:40 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,13 @@ static pid_t fork_and_exec_child(t_command *cmd, t_shell *shell, char *resolved_
 
 	if (pid == 0)
 	{
+		if (cmd->redir_count)
+			setup_redirection_fds(cmd);
 		unblock_fork_signals(old_mask);
 		if (setup_child_signals() == -1)
 			clean_exit(shell, 1, cmd);
-
-		if (cmd->redir_count)
-			setup_redirection_fds(cmd);
-
 		execve(resolved_path, cmd->arg, shell->envp);
+		// write(1, "\n", 1);
 		perror("execve");
 		free(resolved_path);
 		clean_exit(shell, 127, cmd);

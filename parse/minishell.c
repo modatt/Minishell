@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 14:57:06 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:06:39 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,33 @@ t_shell	*create_shell(int argc, char **argv, char **envp)
 		printf("Warning: Failed to initialize environment\n");
 	return (shell);
 }
+static void	run_with_redirection(t_command *cmd, t_shell *shell)
+{
+	int	saved_stdin;
+	int	saved_stdout;
+	int	saved_stderr;
 
+	if (!shell->is_interactive)
+		dup2(2, 0);
+	saved_stdin = dup(STDIN_FILENO);
+	saved_stdout = dup(STDOUT_FILENO);
+	saved_stderr = dup(STDERR_FILENO);
+	if (saved_stdin < 0 || saved_stdout < 0 || saved_stderr < 0)
+	{
+		// printf("are we here??\n");
+		perror("dup");
+		return ;
+	}
+	setup_redirection_fds(cmd);
+	//exec_builtin(cmd, shell);
+	//handle_signal_exit_status(shell);
+	dup2(saved_stdin, STDIN_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
+	dup2(saved_stderr, STDERR_FILENO);
+	close(saved_stdin);
+	close(saved_stdout);
+	close(saved_stderr);
+}
 // function - 2
 int	handle_command(t_shell *shell, char *line)
 {
@@ -42,13 +68,16 @@ int	handle_command(t_shell *shell, char *line)
 	if (!line || line[0] == 0)
 		return 0;
 	cmd = parser(line, shell);
-	if (!cmd || cmd->arg[0] == 0 )
-	 {
-        // Parser failed (e.g., syntax error, unclosed quotes)
-        // shell->last_exit_status should be set by parser for syntax errors (e.g., 2)
-        return (0); // Indicate failure to process command
-    }
-	print_command_list(cmd);
+	
+	if ((!cmd || !cmd->arg || cmd->arg[0] == 0) &&(cmd->redir_count < 0))
+        return (0);
+	if ((!cmd || !cmd->arg || cmd->arg[0] == 0) && (cmd->redir_count > 0))
+	{
+		maybe_preprocess_heredocs(cmd);
+		run_with_redirection(cmd, shell);
+		return(1);
+	}
+	//print_command_list(cmd);
 	if (cmd->next || cmd->is_pipe)
 		execute_pipeline(cmd, shell);
 	else
@@ -61,6 +90,7 @@ int	handle_command(t_shell *shell, char *line)
 int interactive(t_shell *shell, char **command_line)
 {
 	(void)shell;
+	// write(STDOUT_FILENO, "\n", 1);
 	*command_line = readline("minishell$ ");
 	if (*command_line == NULL)
 	{
@@ -72,16 +102,12 @@ int interactive(t_shell *shell, char **command_line)
 		// }
 		// // Genuine EOF (Ctrl+D)
 		return 0; // Break loozp
-		// exit(EXIT_FAILURE);
 	}
 	if (**command_line)
 		add_history(*command_line);
 	else
-	{
-		// free(*command_line);
-		return 2; // Continue loop
-	}
-	return 1; // Success
+		return 2;
+	return 1;
 }
 
 // function - 4

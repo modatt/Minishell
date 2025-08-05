@@ -21,15 +21,16 @@ static int should_continue_loop(int status)
     return INPUT_OK;      // valid command
 }
 
-static void process_command(t_shell *shell, char *line)
+static int process_command(t_shell *shell, char *line)
 {
     if (!line || line[0] == '\0')
-        return ;
+        return 0;
     if (handle_command(shell, line) == 0)
     {
         free(line);
-        return ;
+        return 0;
     }
+    return 1;
     // free(line);
 }
 
@@ -56,6 +57,6 @@ void main_loop(t_shell *shell)
         if (check == INPUT_RETRY)
             continue;
         if (check == INPUT_OK)
-            process_command(shell, command_line);
+              process_command(shell, command_line);
     }
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 20:49:04 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 20:16:06 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:22:56 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	handle_input_file_redirection(t_command *current_cmd)
 	int	i;
 
 	i = 0;
-	fprintf(stderr, "dsgfdsgfd"); 	
+	// fprintf(stderr, "dsgfdsgfd"); 	
 	while (i < current_cmd->redir_count)
 	{
 		if (current_cmd->redirection[i]->redir_type == REDIR_INPUT)

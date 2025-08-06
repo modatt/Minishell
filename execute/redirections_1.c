@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:59:32 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 20:12:15 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/06 11:48:21 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,3 +57,4 @@ void	preprocess_heredocs(t_command *cmd)
 		i++;
 	}
 }
+	

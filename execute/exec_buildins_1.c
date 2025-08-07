@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_buildins_1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:43:25 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 13:55:14 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/06 17:23:07 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	exec_builtin(t_command *cmd, t_shell *shell)
 	if (!ft_strcmp(cmd->arg[0], "pwd"))
 		builtin_pwd(cmd);
 	else if (!ft_strcmp(cmd->arg[0], "echo"))
-		builtin_echo(cmd);
+		builtin_echo(cmd, shell);
 	else if (!ft_strcmp(cmd->arg[0], "env"))
 		builtin_env(shell);
 	else if (!ft_strcmp(cmd->arg[0], "cd"))

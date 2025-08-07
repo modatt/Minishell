@@ -232,14 +232,14 @@ void execute_cmd(t_command *cmd, t_shell *shell);
 void setup_redirection_fds(t_command *cmd);
 void maybe_preprocess_heredocs(t_command *cmd);
 void	preprocess_heredocs(t_command *cmd);
- void	write_heredoc_to_file(char *tmpfile, char *delimiter);
-
+int		write_heredoc_to_file(char *tmpfile, char *delimiter);
+void	run_with_redirection(t_command *cmd, t_shell *shell);
 // execu_buildins_1.c 
 bool is_builtin(char *cmd);
 int exec_builtin(t_command *cmd, t_shell *shell);
 
 // exec_buildins_2.c 
-void	builtin_echo(t_command *cmd);
+void	builtin_echo(t_command *cmd, t_shell *shell);
 void	builtin_pwd(t_command *cmd);
 void 	builtin_env(t_shell *shell);
 int     handle_export_var_cd(char *name, char *value, t_shell *shell, int status);
@@ -335,8 +335,19 @@ int non_interactive(t_shell *shell, char **command_line);
 int interactive(t_shell *shell, char **command_line);
 int	handle_command(t_shell *shell, char *line);
 void main_loop(t_shell *shell);
-
+void	parent_handle_pipe(pid_t pid, t_shell *shell);
 // signals_interactive.c
+void	signals_prompt(void);
+void	handler_prompt(int sig);
+void	handler_parent(int sig);
+void	signals_heredoc(void);
+void	setup_sig(int sig, void (*handler)(int));
+void	signals_execution(void);
+void	setup_sig_exc(int sig, void (*handler)(int));
+void	handler_parent_quit(int sig);
+void	handler_heredoc(int sig);
+void	setup_redirection_fds(t_command *cmd);
+
 void handle_sigint_prompt(int sig);
 void handle_sigquit_prompt(int sig);
 void handle_sigint_heredoc(int sig);

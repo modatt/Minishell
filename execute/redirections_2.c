@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:59:44 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/05 20:13:44 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/07 11:16:21 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,43 @@ static int	handle_heredoc_eof(char *line, int fd, char *tmpfile,char *delimiter)
 	// heredoc interruption is now tracked in shell struct, not global
 	if (!line)
 	{
-		write(STDERR_FILENO, msg, 69);
-		write(STDERR_FILENO, delimiter, ft_strlen(delimiter));
-		write(STDERR_FILENO, "`)\n", 3);
+		if (g_signal_status != 130)
+		{
+			write(STDERR_FILENO, msg, 69);
+			write(STDERR_FILENO, delimiter, ft_strlen(delimiter));
+			write(STDERR_FILENO, "`)\n", 3);
+		}
 		return (1);
 	}
 	return (0);
 }
 
 // func --- 3
-void	write_heredoc_to_file(char *tmpfile, char *delimiter)
+int	write_heredoc_to_file(char *tmpfile, char *delimiter)
 {
 	int		fd;
 	char	*line;
 
-	setup_heredoc_signals();
+	signals_heredoc();
 	fd = open_heredoc_file(tmpfile);
 	if (fd == -1)
-		return ;
+		return(1);
 	while (1)
 	{
 		line = readline("> ");
+		//fprintf(stderr, "--->%d \n", g_signal_status);
+		if (g_signal_status == 130)
+		{
+			signals_prompt();
+			dup2(2, 0);
+			if (line)
+				free(line);
+			return(2);
+		}
 		if (!line)
 		{
 			if (handle_heredoc_eof(line, fd, tmpfile, delimiter))
-				return ;
+				return(1);
 		}
 		if (ft_strcmp(line, delimiter) == 0)
 		{
@@ -75,6 +87,7 @@ void	write_heredoc_to_file(char *tmpfile, char *delimiter)
 		free(line);
 	}
 	close(fd);
+	return(0);
 }
 
 //func------4

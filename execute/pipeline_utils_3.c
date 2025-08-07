@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils_3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 20:49:04 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 00:05:19 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/07 12:58:49 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	create_pipe_and_fork(t_command *current_cmd, t_pipeline_data *data,
 			data->child_pids);
 		return (-1);
 	}
+	
 	return (pid);
 }
 
@@ -100,6 +101,7 @@ int	setup_pipeline_execution(t_command *current_cmd, t_shell *shell,
 		return (0);
 	if (pid == 0)
 	{
+		signals_execution();
 		free(data->child_pids);
 		setup_input_redirection(*(data->prev_pipe_rd_fd));
 		handle_input_file_redirection(current_cmd);

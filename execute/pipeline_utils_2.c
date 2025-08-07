@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 20:49:04 by modat             #+#    #+#             */
-/*   Updated: 2025/08/06 10:22:56 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/07 13:49:26 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,14 @@ void	wait_for_children(pid_t *child_pids, int pid_count, t_shell *shell)
 	int	status;
 	int	i;
 
+	(void)child_pids;
 	last_exit_status = 0;
 	i = 0;
 	while (i < pid_count)
 	{
-		if (waitpid(child_pids[i], &status, 0) == -1)
+		signal(SIGINT, handler_parent);
+		signal(SIGQUIT, handler_parent_quit);
+		if (waitpid(-1, &status, 0) == -1)
 		{
 			perror("minishell: waitpid failed");
 			i++;
@@ -96,6 +99,7 @@ void	wait_for_children(pid_t *child_pids, int pid_count, t_shell *shell)
 		}
 		i++;
 	}
+	signals_prompt();
 	shell->last_exit_status = last_exit_status;
 }
 

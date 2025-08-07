@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 20:49:04 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 00:06:01 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/07 13:29:18 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@ void	execute_pipeline(t_command *cmd_list, t_shell *shell)
 	int				prev_pipe_rd_fd;
 	int				pid_count;
 	t_pipeline_data	data;
-
+	//signal(SIGINT ,SIG_IGN);
 	init_pipeline_data(cmd_list, &data, &prev_pipe_rd_fd, &pid_count);
 	if (!data.child_pids)
 		return ;
 	run_pipeline_loop(cmd_list, shell, &data);
 	wait_for_children(data.child_pids, pid_count, shell);
+	//signals_prompt();
 	free(data.child_pids);
 }

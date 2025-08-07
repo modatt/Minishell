@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_buildins_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:47:51 by modat             #+#    #+#             */
-/*   Updated: 2025/08/04 23:17:03 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/06 17:27:45 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	is_n_flag(const char *arg)
 }
 
 // function --- 2
-void	builtin_echo(t_command *cmd)
+void	builtin_echo(t_command *cmd, t_shell *shell)
 {
 	int	i;
 	int	no_newline;
@@ -39,6 +39,7 @@ void	builtin_echo(t_command *cmd)
 	if (!cmd->arg[1])
 	{
 		printf("\n");
+		shell->last_exit_status = 0;
 		return ;
 	}
 	i = 1;
@@ -56,6 +57,7 @@ void	builtin_echo(t_command *cmd)
 	}
 	if (!no_newline)
 		printf("\n");
+	shell->last_exit_status = 0;
 }
 
 // function ---3

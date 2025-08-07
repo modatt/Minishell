@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 19:49:25 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/07 13:44:42 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,33 +33,7 @@ t_shell	*create_shell(int argc, char **argv, char **envp)
 		printf("Warning: Failed to initialize environment\n");
 	return (shell);
 }
-static void	run_with_redirection(t_command *cmd, t_shell *shell)
-{
-	int	saved_stdin;
-	int	saved_stdout;
-	int	saved_stderr;
 
-	if (!shell->is_interactive)
-		dup2(2, 0);
-	saved_stdin = dup(STDIN_FILENO);
-	saved_stdout = dup(STDOUT_FILENO);
-	saved_stderr = dup(STDERR_FILENO);
-	if (saved_stdin < 0 || saved_stdout < 0 || saved_stderr < 0)
-	{
-		// printf("are we here??\n");
-		perror("dup");
-		return ;
-	}
-	setup_redirection_fds(cmd);
-	//exec_builtin(cmd, shell);
-	//handle_signal_exit_status(shell);
-	dup2(saved_stdin, STDIN_FILENO);
-	dup2(saved_stdout, STDOUT_FILENO);
-	dup2(saved_stderr, STDERR_FILENO);
-	close(saved_stdin);
-	close(saved_stdout);
-	close(saved_stderr);
-}
 // function - 2
 int	handle_command(t_shell *shell, char *line)
 {
@@ -68,7 +42,7 @@ int	handle_command(t_shell *shell, char *line)
 	if (!line || line[0] == 0)
 		return 0;
 	cmd = parser(line, shell);
-	print_command_list(cmd);
+	//print_command_list(cmd);
 	
 	if ((!cmd || !cmd->arg || cmd->arg[0] == 0) &&(cmd->redir_count < 0))
         return (0);

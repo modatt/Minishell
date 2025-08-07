@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 15:25:31 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/07 19:45:33 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	handle_command(t_shell *shell, char *line)
 	if (cmd->next || cmd->is_pipe)
 	{
 		maybe_preprocess_heredocs(cmd);
-		execute_pipeline(cmd, shell);
+		if (g_signal_status != 130)
+			execute_pipeline(cmd, shell);
 	}
 	else
 		execute_cmd(cmd, shell);

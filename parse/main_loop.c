@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:55:00 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 15:27:16 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/07 19:57:20 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static void	set_signal_status(t_shell *shell)
 	{
 		g_signal_status = 0;
 		shell->last_exit_status = 130;
+		signals_prompt();
 	}
 }
 

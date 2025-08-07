@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 15:09:51 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 15:23:53 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/07 20:14:06 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	handler_heredoc(int sig)
 {
 	write(1, "\n", 1);
 	close(0);
+	//signals_prompt();
 	if (sig == SIGINT)
 		g_signal_status = 130;
 }

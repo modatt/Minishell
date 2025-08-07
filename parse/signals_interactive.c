@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_interactive.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:59:08 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 15:05:30 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/07 20:12:49 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	signals_prompt(void)
 // function - 2
 void	handler_parent(int sig)
 {
+	write(1, "me2", 3);
 	(void)sig;
 	write(1, "\n", 1);
 }
@@ -32,6 +33,7 @@ void	handler_parent(int sig)
 void	handler_prompt(int sig)
 {
 	(void)sig;
+	write(1, "me", 2);
 	g_signal_status = 130;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();

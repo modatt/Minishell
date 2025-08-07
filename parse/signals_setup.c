@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_setup.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 15:14:56 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 15:14:57 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/07 20:15:49 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,15 @@ void	setup_sig_exc(int sig, void (*handler)(int))
 }
 
 // function - 4
-void	handle_sigint_prompt(int sig)
-{
-	(void)sig;
-	g_signal_status = SIGINT;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+//void	handle_sigint_prompt(int sig)
+//{
+//	(void)sig;
+//	g_signal_status = SIGINT;
+//	write(STDOUT_FILENO, "\n", 1);
+//	rl_on_new_line();
+//	rl_replace_line("", 0);
+//	rl_redisplay();
+//}
 
 // function - 5
 void	signals_heredoc(void)

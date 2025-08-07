@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 20:49:04 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 13:49:26 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:13:55 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ void	handle_input_file_redirection(t_command *current_cmd)
 	int	fd_in;
 	int	i;
 
-	i = 0;
-	// fprintf(stderr, "dsgfdsgfd"); 	
+	i = 0;	
 	while (i < current_cmd->redir_count)
 	{
 		if (current_cmd->redirection[i]->redir_type == REDIR_INPUT)
@@ -53,7 +52,6 @@ void	handle_input_file_redirection(t_command *current_cmd)
 			fd_in = open(current_cmd->redirection[i]->file, O_RDONLY);
 			if (fd_in == -1)
 			{
-				// printf("here\n\n");
 				perror(current_cmd->redirection[i]->file);
 				exit(1);
 			}

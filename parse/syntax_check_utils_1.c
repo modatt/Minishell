@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:40:10 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 15:29:41 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/07 14:47:07 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	check_pipe_err(char *s, int i)
 static int	pipe_loop(char *s, int *i, int *wc)
 {
 	if (!s)
-		return 0;
+		return (0);
 	while (s[*i])
 	{
 		if (!check_pipe_err(s, *i))

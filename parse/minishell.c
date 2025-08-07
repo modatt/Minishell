@@ -3,57 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 13:44:42 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/07 15:25:31 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // function - 1
-t_shell	*create_shell(int argc, char **argv, char **envp)
-{
-	t_shell	*shell;
-
-	shell = malloc(sizeof(t_shell));
-	if (!shell)
-	{
-		perror("Failed to allocate shell structure");
-		return (NULL);
-	}
-	if ((init_shell(shell, argc, argv, envp) != 0))
-	{
-		printf("Failed to initialize shell\n");
-		free(shell);
-		return (NULL);
-	}
-	if (!shell->envp)
-		printf("Warning: Failed to initialize environment\n");
-	return (shell);
-}
-
-// function - 2
 int	handle_command(t_shell *shell, char *line)
 {
 	t_command	*cmd;
 
 	if (!line || line[0] == 0)
-		return 0;
+		return (0);
 	cmd = parser(line, shell);
-	//print_command_list(cmd);
-	
-	if ((!cmd || !cmd->arg || cmd->arg[0] == 0) &&(cmd->redir_count < 0))
-        return (0);
-	if ((!cmd || !cmd->arg || cmd->arg[0] == 0) && (cmd->redir_count > 0))
+	if (!cmd)
+		return (0);
+	// print_command_list(cmd);
+	if ((!cmd->arg || cmd->arg[0] == 0) && (cmd->redir_count < 0))
+		return (0);
+	if ((!cmd->arg || cmd->arg[0] == 0) && (cmd->redir_count > 0))
 	{
 		maybe_preprocess_heredocs(cmd);
 		run_with_redirection(cmd, shell);
-		return(1);
+		return (1);
 	}
 	if (cmd->next || cmd->is_pipe)
+	{
+		maybe_preprocess_heredocs(cmd);
 		execute_pipeline(cmd, shell);
+	}
 	else
 		execute_cmd(cmd, shell);
 	free_cmd(cmd);
@@ -61,63 +43,52 @@ int	handle_command(t_shell *shell, char *line)
 }
 
 // function - 3
-int interactive(t_shell *shell, char **command_line)
+int	interactive(t_shell *shell, char **command_line)
 {
 	(void)shell;
-	// write(STDOUT_FILENO, "\n", 1);
 	*command_line = readline("minishell$ ");
 	if (*command_line == NULL)
-	{
-		// Check if this is due to a signal interruption
-		// if (g_signal_status != 0)
-		// {
-		// 	// Signal was handled, continue the loop
-		// 	return 2; // Continue loop without processing command
-		// }
-		// // Genuine EOF (Ctrl+D)
-		return 0; // Break loozp
-	}
+		return (0);
 	if (**command_line)
 		add_history(*command_line);
 	else
-		return 2;
-	return 1;
+		return (2);
+	return (1);
 }
 
 // function - 4
-int non_interactive(t_shell *shell, char **command_line)
+int	non_interactive(t_shell *shell, char **command_line)
 {
 	*command_line = readline_non_interactive(STDIN_FILENO);
 	if (!*command_line)
 	{
 		shell->last_exit_status = 0;
-		return 0; // Break loop
+		return (0);
 	}
-	if (!**command_line) // Handles empty lines from script
+	if (!**command_line)
 	{
 		free(*command_line);
-		return 2; // Continue loop
+		return (2);
 	}
-	return 1; // Success
+	return (1);
 }
-
 
 // function - 6
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
-	int stat;
+	int		stat;
 
 	shell = create_shell(argc, argv, envp);
 	if (!shell)
 		return (1);
 	if (shell->is_interactive)
 	{
-		if (setup_interactive_signals() == -1)
-		{
-			free(shell);
-			exit(EXIT_FAILURE);
-		}
+		// if (setup_interactive_signals() == -1)
+		// {
+		// 	free(shell);
+		// 	exit(EXIT_FAILURE);
+		// }
 		greets_minishell();
 	}
 	else if (setup_non_interactive_signals() == -1)

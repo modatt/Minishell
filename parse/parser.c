@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:25 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 14:36:23 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/07 14:52:56 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ t_command	*parser(char *command_line, t_shell *shell)
 	t_command	*cmd_list;
 	t_command	*current;
 
-	if(!command_line)
-		return(NULL);
+	if (!command_line)
+		return (NULL);
 	k = 0;
 	tokens = tokenizer(command_line);
 	init_parser_state(&cmd_list, &current);
@@ -63,10 +63,8 @@ t_command	*parser(char *command_line, t_shell *shell)
 	while (new_tokens[k])
 	{
 		if (!current)
-		{
 			if (!handle_current_setup(&current, &cmd_list, new_tokens))
 				return (NULL);
-		}
 		parser2(new_tokens, &k, &current);
 		k++;
 	}

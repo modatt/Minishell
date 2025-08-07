@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_buildins_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:47:51 by modat             #+#    #+#             */
-/*   Updated: 2025/08/06 17:27:45 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:08:45 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,5 @@ int	handle_export_var_cd(char *name, char *value, t_shell *shell, int status)
 		}
 		add_var_to_list(&shell->env_list, new_var);
 	}
-	// free(name);
-	// free(value);
 	return (status);
 }

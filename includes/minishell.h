@@ -19,6 +19,9 @@
 #ifndef BUFFER_SIZE
 #define BUFFER_SIZE 42
 #define READLINE_BUFFER_SIZE 1024 // Define a buffer size for reading chunks
+#define INPUT_EOF 0   // Exit the main loop
+#define INPUT_OK 1    // Proceed with parsing and execution
+#define INPUT_RETRY 2 // Continue loop without parsing
 
 #endif
 
@@ -357,4 +360,9 @@ int setup_non_interactive_signals(void);
 int setup_child_signals(void);
 int block_fork_signals(sigset_t *old_mask);
 int unblock_fork_signals(sigset_t *old_mask);
+void	handle_input_status(t_shell *shell, int status, char *cmd);
+int	init_read_buffer(t_read_buffer *rb);
+int	fill_buffer(int fd, t_read_buffer *rb);
+t_shell	*create_shell(int argc, char **argv, char **envp);
+int	process_command(t_shell *shell, char *line);
 #endif

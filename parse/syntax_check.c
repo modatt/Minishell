@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:14:34 by modat             #+#    #+#             */
-/*   Updated: 2025/07/29 18:48:59 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/07 14:24:37 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,12 @@ int	handle_pipe(char *str, int *i)
 		(*i)++;
 		while (str[*i] == ' ' || str[*i] == '\t')
 			(*i)++;
-		if (str[x] == '|' && !(str[*i] == '\0' || str[*i] == '|'))
+		if (str[x] == '|' && !(str[*i + 1] == '\0' || str[*i + 1] == '|'))
+		{
+			write(1, "minishell: syntax error near unexpected token `|'\n", 50);
+			return (0);
+		}
+		if (str[*i] == '\0' || str[*i] == '|')
 		{
 			write(1, "minishell: syntax error near unexpected token `|'\n", 50);
 			return (0);

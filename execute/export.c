@@ -3,91 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:32:19 by modat             #+#    #+#             */
-/*   Updated: 2025/08/06 13:57:09 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:12:35 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//static int	check_signal_and_return_exit_status(void)
-//{
-//	if (g_signal_status == SIGINT)
-//		return (130);
-//	else if (g_signal_status == SIGQUIT)
-//		return (131);
-//	return (-1); // No signal
-//}
+int	builtin_export(t_command *cmd, t_shell *shell)
+{
+	int		status;
+	int		i;
+	char	*name;
+	char	*value;
 
-
-// function - 1
-//int	builtin_export(t_command *cmd, t_shell *shell)
-//{
-//	int		status;
-//	int		i;
-//	char	*name;
-//	char	*value;
-//	int		sig;
-
-//	status = 0;
-//	if (cmd->arg[1] == NULL)
-//	{
-//		print_exported_list(shell);
-//		sig = check_signal_and_return_exit_status();
-//		if (sig != -1)
-//			return (sig);
-//		return (0);
-//	}
-//	i = 1;
-//	while (cmd->arg[i])
-//	{
-//		sig = check_signal_and_return_exit_status();
-//		if (sig != -1)
-//			return (sig);
-//		name = NULL;
-//		value = NULL;
-//		parse_arg_var(cmd->arg[i], &name, &value);
-//		if (handle_export_var(name, value, shell, status))
-//			status = 1;
-//		i++;
-//	}
-//	sig = check_signal_and_return_exit_status();
-//	if (sig != -1)
-//		return (sig);
-//	return (status);
-//}
-
-
-
-
-
- int	builtin_export(t_command *cmd, t_shell *shell)
- {
- 	int		status;
- 	int		i;
- 	char	*name;
- 	char	*value;
-
- 	status = 0;
- 	if (cmd->arg[1] == NULL)
- 	{
- 		print_exported_list(shell);
- 		return (0);
- 	}
- 	i = 1;
- 	while (cmd->arg[i])
- 	{
- 		name = NULL;
- 		value = NULL;
- 		parse_arg_var(cmd->arg[i], &name, &value);
- 		if (handle_export_var(name, value, shell, status))
- 			status = 1;
- 		i++;
- 	}
- 	return (status);
- }
+	status = 0;
+	if (cmd->arg[1] == NULL)
+	{
+		print_exported_list(shell);
+		return (0);
+	}
+	i = 1;
+	while (cmd->arg[i])
+	{
+		name = NULL;
+		value = NULL;
+		parse_arg_var(cmd->arg[i], &name, &value);
+		if (handle_export_var(name, value, shell, status))
+			status = 1;
+		i++;
+	}
+	return (status);
+}
 
 static int	update_or_add_var(char *name, char *value, t_shell *shell)
 {

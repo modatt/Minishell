@@ -64,8 +64,6 @@ void main_loop(t_shell *shell)
 			signals_prompt();
 		else
 			setup_non_interactive_signals();
-		//if (shell->is_interactive)
-		//signals_prompt();
 		g_signal_status = 0;
         status = get_command_line(shell, &command_line);
 		set_signal_status(shell);

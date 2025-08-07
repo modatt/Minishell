@@ -64,23 +64,6 @@ void	handler_parent_quit(int sig)
 	write(1, "Quit (core dumped)\n", 20);
 }
 
-void close_all_fds()
-{
-	int fd;
-	fd = 0;
-	while (fd <1024)
-	{
-		if(fd == 2)
-		{
-			fd++;
-			continue;
-		}
-		close(fd);
-		fd++;
-	}
-
-
-}
 
 void	signals_heredoc(void)
 {

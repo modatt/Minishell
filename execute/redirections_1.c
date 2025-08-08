@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:59:32 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 11:15:55 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 11:48:10 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,12 @@ static int	process_single_heredoc(t_redir *redir, int index)
 	char	*idx_str;
 	char	*delimiter;
 	int i; 
-	
+
+	if(redir->file == NULL)
+	{
+		write(1, "minishell: syntax error near unexpected token `newline'\n", 56);
+		return(2);
+	}
 	delimiter = ft_strdup(redir->file);
 	if (!delimiter)
 		return (1);

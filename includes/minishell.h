@@ -131,6 +131,7 @@ typedef struct s_pipeline_data
 // main.c 
 void greets_minishell(void);
 
+int 	ft_isspace(char s);
 // Parser.c  - 1
 t_command    *parser(char *command_line, t_shell *shell);
 void    parser2(char **tokens, int *k, t_command **current);
@@ -148,7 +149,7 @@ int		handle_current_setup(t_command **current, t_command **cmd_list,
 
 
 // parse_utils.c - 2
-char    **tokenizer(char *line);
+char    **tokenizer(char *line, t_shell *shell);
 void    tokenizer2(char **tokens, int *k, int *i, char *line);
 void    handle_word_enhanced(t_token_data *data);
 void    handle_word(t_token_data *data);
@@ -253,7 +254,7 @@ void exec_external(t_command *cmd, t_shell *shell);
 char	*get_next_line(int fd);
 //exce_external_utils.c
  void print_command_not_found(t_command *cmd, t_shell *shell);
- char *join_path_cmd(const char *dir, const char *cmd);
+ char *join_path_cmd(char *dir, char *cmd);
  char **get_path_dirs(t_shell *shell);
  char *find_cmd_in_path(char *arg, t_shell *shell);
  char *get_resolved_path(t_command *cmd, t_shell *shell);

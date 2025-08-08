@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:49:49 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 20:18:35 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 12:53:47 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // function --- 1
 // Helper: join a directory and a command into dir/cmd
-char	*join_path_cmd(const char *dir, const char *cmd)
+char	*join_path_cmd(char *dir, char *cmd)
 {
 	char	*tmp;
 	char	*full_path;
@@ -23,6 +23,11 @@ char	*join_path_cmd(const char *dir, const char *cmd)
 	if (!tmp)
 		return (NULL);
 	full_path = ft_strjoin(tmp, cmd);
+	if (!full_path)
+	{
+		free(tmp);
+		return (NULL);
+	}
 	free(tmp);
 	return (full_path);
 }
@@ -55,6 +60,7 @@ char	*find_cmd_in_path(char *arg, t_shell *shell)
 	char	*full_path;
 	int		i;
 
+	full_path = NULL;
 	dirs = get_path_dirs(shell);
 	if (!dirs)
 		return (NULL);

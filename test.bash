@@ -1,2 +1,2 @@
 
-clear && make re && make clean && clear && echo && valgrind ./minishell
+clear && make re && make clean && clear && echo && valgrind --suppressions=readline_curses.supp --leak-check=full --show-leak-kinds=all ./minishell

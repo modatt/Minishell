@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 20:49:04 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 19:25:49 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 12:54:04 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	execute_command(t_command *current_cmd, t_shell *shell)
 		if (!cmd_path)
 		{
 			write(2, "minishell: command not found: ", 30);
-			write(2, current_cmd->arg[0], strlen(current_cmd->arg[0]));
+			write(2, current_cmd->arg[0], ft_strlen(current_cmd->arg[0]));
 			write(2, "\n", 1);
 			exit(127);
 		}

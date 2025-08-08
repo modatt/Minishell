@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:25 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 14:52:56 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/08 12:22:12 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ t_command	*parser(char *command_line, t_shell *shell)
 	if (!command_line)
 		return (NULL);
 	k = 0;
-	tokens = tokenizer(command_line);
+	tokens = tokenizer(command_line, shell);
+	if (!tokens)
+		return NULL;
 	init_parser_state(&cmd_list, &current);
 	new_tokens = expand_tokens_safe(tokens, shell);
 	if (!new_tokens)

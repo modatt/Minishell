@@ -6,14 +6,14 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:25:55 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 13:00:44 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 10:56:37 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // main function - 1
-char	**tokenizer(char *line)
+char	**tokenizer(char *line, t_shell *shell)
 {
 	int		i;
 	int		k;
@@ -26,7 +26,10 @@ char	**tokenizer(char *line)
 	k = 0;
 	wc = count_words(line);
 	if (wc == 0)
+	{
+		shell->last_exit_status = 2;	
 		return (NULL);
+	}
 	tokens = (char **)malloc(sizeof(char *) * (wc + 10));
 	if (!tokens)
 		return (NULL);

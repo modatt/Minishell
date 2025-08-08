@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 17:53:47 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/07 11:37:44 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 15:55:34 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	run_builtin_with_redirection(t_command *cmd, t_shell *shell)
 	saved_stderr = dup(STDERR_FILENO);
 	if (saved_stdin < 0 || saved_stdout < 0 || saved_stderr < 0)
 	{
-		// printf("are we here??\n");
 		perror("dup");
 		return ;
 	}

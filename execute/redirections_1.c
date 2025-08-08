@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:59:32 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 11:48:10 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:12:51 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,20 @@ void	preprocess_heredocs(t_command *cmd)
 	int		i;
 	t_redir	*redir;
 
-	i = 0;
-	while (i < cmd->redir_count)
+	while(cmd)
 	{
-		redir = cmd->redirection[i];
-		if (redir->redir_type == REDIR_HEREDOC)
+		i = 0;
+		while (i < cmd->redir_count)
 		{
-			if (process_single_heredoc(redir, i) == 2)
-				return ;
+			redir = cmd->redirection[i];
+			if (redir->redir_type == REDIR_HEREDOC)
+			{
+				if (process_single_heredoc(redir, i) == 2)
+					return ;
+			}
+			i++;
 		}
-		i++;
+		cmd = cmd->next;
 	}
 }
 //func --- 4	
@@ -70,6 +74,7 @@ void	run_with_redirection(t_command *cmd, t_shell *shell)
 	int	saved_stdin;
 	int	saved_stdout;
 	int	saved_stderr;
+
 	if (!shell->is_interactive)
 		dup2(2, 0);
 	saved_stdin = dup(STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:31:34 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/08 12:52:45 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 13:10:43 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,7 @@ void	exec_external(t_command *cmd, t_shell *shell)
 		free(resolved_path);
 		clean_exit(shell, 127, cmd);
 	}
+	if (resolved_path)
+		free(resolved_path);
 	parent_handle(pid, shell);
 }

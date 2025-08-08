@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 15:14:56 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 20:15:49 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 13:15:59 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	setup_non_interactive_signals(void)
 {
 	struct sigaction	sa;
 
-	printf("8\n");
 	sa.sa_handler = SIG_DFL;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;

@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:40:10 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 12:19:13 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 13:29:10 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	check_pipe_err(char *s, int i)
 	{
 		if (s[i] == '|' && (!s[i + 1] || s[i + 1] == '|'))
 		{
-			write(2, "minishell: syntax error near unexpected token `|'\n", 50);
+			write(2, "minishell: syntax error near unexpected token `||'\n", 51);
 			return (0);
 		}
 		i++;

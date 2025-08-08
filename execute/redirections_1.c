@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:59:32 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 16:12:51 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:57:15 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 // func --- 1
 void	maybe_preprocess_heredocs(t_command *cmd)
 {
-	if (cmd && cmd->redir_count > 0)
+	//printf("%d \n", cmd->redir_count);
+	//if (cmd && cmd->redir_count > 0)
+	//{
 		preprocess_heredocs(cmd);
+	//}
 }
 
 // func --- 2
@@ -37,6 +40,7 @@ static int	process_single_heredoc(t_redir *redir, int index)
 		return (1);
 	idx_str = ft_itoa(index);
 	tmpfile = ft_strjoin("/tmp/heredoc_", idx_str);
+	printf("%s\n", tmpfile);
 	free(idx_str);
 	i = write_heredoc_to_file(tmpfile, delimiter);
 	free(redir->file);
@@ -51,19 +55,23 @@ void	preprocess_heredocs(t_command *cmd)
 {
 	int		i;
 	t_redir	*redir;
+	int		j;
 
+	j = 0;
 	while(cmd)
 	{
 		i = 0;
 		while (i < cmd->redir_count)
 		{
+			printf("i : %d j : %d \n", i, j);
 			redir = cmd->redirection[i];
 			if (redir->redir_type == REDIR_HEREDOC)
 			{
-				if (process_single_heredoc(redir, i) == 2)
+				if (process_single_heredoc(redir, j) == 2)
 					return ;
 			}
 			i++;
+			j++;
 		}
 		cmd = cmd->next;
 	}
@@ -87,7 +95,7 @@ void	run_with_redirection(t_command *cmd, t_shell *shell)
 	}
 	if (g_signal_status != 130)
 		setup_redirection_fds(cmd);
-	
+	free_cmd(cmd);
 	dup2(saved_stdin, STDIN_FILENO);
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stderr, STDERR_FILENO);

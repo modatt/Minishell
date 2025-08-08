@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 20:49:04 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 15:32:37 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:13:07 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	handle_output_file_redirection(t_command *current_cmd)
 	i = 0;
 	while (i < current_cmd->redir_count)
 	{
+		//fprintf(stderr, "\n\n\n%d\n\n\n", current_cmd->redir_count);
 		if (current_cmd->redirection[i]->redir_type == REDIR_OUTPUT
 			|| current_cmd->redirection[i]->redir_type == REDIR_APPEND)
 		{
@@ -32,7 +33,7 @@ void	handle_output_file_redirection(t_command *current_cmd)
 				exit(EXIT_FAILURE);
 			}
 			close(fd_out);
-			break ;
+			//break ;
 		}
 		i++;
 	}
@@ -49,6 +50,7 @@ void	handle_input_file_redirection(t_command *current_cmd)
 	{
 		if (current_cmd->redirection[i]->redir_type == REDIR_INPUT)
 		{
+			//fprintf(stderr, "\n\n\n%d\n\n\n", current_cmd->redir_count);
 			fd_in = open(current_cmd->redirection[i]->file, O_RDONLY);
 			if (fd_in == -1)
 			{
@@ -62,7 +64,7 @@ void	handle_input_file_redirection(t_command *current_cmd)
 				exit(EXIT_FAILURE);
 			}
 			close(fd_in);
-			break ;
+			//break ;
 		}
 		i++;
 	}
@@ -104,6 +106,8 @@ void	execute_command(t_command *current_cmd, t_shell *shell)
 {
 	char	*cmd_path;
 
+	if (!current_cmd->arg || !current_cmd->arg[0])
+		clean_exit(shell, shell->last_exit_status, current_cmd);
 	if (is_builtin(current_cmd->arg[0]))
 	{
 		exec_builtin(current_cmd, shell);

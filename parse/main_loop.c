@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:55:00 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 14:31:35 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 18:10:32 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,14 @@ static int	should_continue_loop(int status)
 }
 
 // func 3
-int	process_command(t_shell *shell, char *line)
+int	process_command(t_shell *shell, char **line)
 {
-	if (!line || line[0] == '\0')
+	if (!*line || *line[0] == '\0')
 		return (0);
-	if (handle_command(shell, line) == 0)
+	if (handle_command(shell, *line) == 0)
 	{
-		free(line);
+		free(*line);
+		*line = NULL;
 		return (0);
 	}
 	return (1);
@@ -79,7 +80,7 @@ void	main_loop(t_shell *shell)
 		}
 		if (check == INPUT_RETRY)
 			continue ;
-		handle_input_status(shell, status, command_line);
+		handle_input_status(shell, status, &command_line);
 		set_signal_status(shell);
 		if (command_line != NULL)
 			free(command_line);

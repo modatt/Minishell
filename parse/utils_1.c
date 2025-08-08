@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 15:09:51 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 15:45:33 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 18:10:01 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	handler_heredoc(int sig)
 }
 
 // func - 2
-void	handle_input_status(t_shell *shell, int status, char *cmd)
+void	handle_input_status(t_shell *shell, int status, char **cmd)
 {
 	if (status == INPUT_OK)
 		process_command(shell, cmd);

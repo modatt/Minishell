@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:59:44 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/07 11:16:21 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:51:07 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	handle_heredoc_eof(char *line, int fd, char *tmpfile,char *delimiter)
 
 	msg = "minishell: warning: here-document delimited by end-of-file "
 		"(wanted `";
-	// heredoc interruption is now tracked in shell struct, not global
+	close(fd);
 	if (!line)
 	{
 		if (g_signal_status != 130)
@@ -70,6 +70,7 @@ int	write_heredoc_to_file(char *tmpfile, char *delimiter)
 			dup2(2, 0);
 			if (line)
 				free(line);
+			close(fd);
 			return(2);
 		}
 		if (!line)

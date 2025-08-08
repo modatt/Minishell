@@ -324,7 +324,7 @@ int	setup_pipeline_execution(t_command *current_cmd, t_shell *shell,
 void	init_pipeline_data(t_command *cmd_list, t_pipeline_data *data,
         int *prev_pipe_rd_fd, int *pid_count);
 void	execute_command(t_command *current_cmd, t_shell *shell);
-void	wait_for_children(pid_t *child_pids, int pid_count, t_shell *shell);
+void	wait_for_children(int pid_count, t_shell *shell);
 void	handle_input_file_redirection(t_command *current_cmd);
 void	handle_output_file_redirection(t_command *current_cmd);
 
@@ -366,4 +366,5 @@ int	init_read_buffer(t_read_buffer *rb);
 int	fill_buffer(int fd, t_read_buffer *rb);
 t_shell	*create_shell(int argc, char **argv, char **envp);
 int	process_command(t_shell *shell, char *line);
+void	handle_signal_pipe(void);
 #endif

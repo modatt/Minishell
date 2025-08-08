@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 20:49:04 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 12:54:04 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 15:32:37 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,17 @@ void	handle_input_file_redirection(t_command *current_cmd)
 }
 
 // function - 3
-void	wait_for_children(pid_t *child_pids, int pid_count, t_shell *shell)
+void	wait_for_children(int pid_count, t_shell *shell)
 {
 	int	last_exit_status;
 	int	status;
 	int	i;
 
-	(void)child_pids;
 	last_exit_status = 0;
 	i = 0;
 	while (i < pid_count)
 	{
-		signal(SIGINT, handler_parent);
-		signal(SIGQUIT, handler_parent_quit);
+		handle_signal_pipe();
 		if (waitpid(-1, &status, 0) == -1)
 		{
 			perror("minishell: waitpid failed");
@@ -109,7 +107,7 @@ void	execute_command(t_command *current_cmd, t_shell *shell)
 	if (is_builtin(current_cmd->arg[0]))
 	{
 		exec_builtin(current_cmd, shell);
-		exit(shell->last_exit_status);
+		clean_exit(shell, shell->last_exit_status, current_cmd);
 	}
 	else
 	{

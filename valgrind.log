@@ -1,15 +1,5 @@
-==341400== FILE DESCRIPTORS: 4 open (3 std) at exit.
-==341400== Open file descriptor 3: /home/hmeltaha/anan5/valgrind.log
-==341400==    <inherited from parent>
-==341400== 
-==341400== 
-==341400== 252 bytes in 1 blocks are definitely lost in loss record 1 of 1
-==341400==    at 0x484DCD3: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==341400==    by 0x405549: append_char_to_line (non_interative.c:20)
-==341400==    by 0x405723: process_char (non_interative.c:61)
-==341400==    by 0x40561C: readline_non_interactive (non_interative.c:86)
-==341400==    by 0x401526: non_interactive (minishell.c:63)
-==341400==    by 0x405A7F: get_command_line (main_loop.c:21)
-==341400==    by 0x4059D0: main_loop (main_loop.c:72)
-==341400==    by 0x40161B: main (minishell.c:100)
-==341400== 
+==348729== FILE DESCRIPTORS: 4 open (3 std) at exit.
+==348729== Open file descriptor 3: /home/hmeltaha/anan5/valgrind.log
+==348729==    <inherited from parent>
+==348729== 
+==348729== 

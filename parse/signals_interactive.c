@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:59:08 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 13:37:44 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:34:52 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	handler_parent(int sig)
 void	handler_prompt(int sig)
 {
 	(void)sig;
-	write(1, "me", 2);
 	g_signal_status = 130;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();

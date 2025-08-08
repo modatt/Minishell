@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:38 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 12:06:26 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/08 15:32:20 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,3 +65,8 @@ t_command	*create_node(void)
 }
 
 // function - 5
+void	handle_signal_pipe(void)
+{
+	signal(SIGINT, handler_parent);
+	signal(SIGQUIT, handler_parent_quit);
+}

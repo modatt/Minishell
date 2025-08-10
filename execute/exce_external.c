@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exce_external.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:31:34 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/08 13:10:43 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/09 22:23:35 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,17 @@ static void	parent_handle(pid_t pid, t_shell *shell)
 }
 
 // function - 3
+static	void	exec_child(t_command *cmd, t_shell *shell, char *resolved_path)
+{
+	signals_execution();
+	if (cmd->redir_count)
+		setup_redirection_fds(cmd);
+	execve(resolved_path, cmd->arg, shell->envp);
+	free(resolved_path);
+	clean_exit(shell, 127, cmd);
+}
+
+// function - 4
 void	exec_external(t_command *cmd, t_shell *shell)
 {
 	char	*resolved_path;
@@ -56,15 +67,7 @@ void	exec_external(t_command *cmd, t_shell *shell)
 		return ;
 	}
 	if (pid == 0)
-	{
-		signals_execution();
-		if (cmd->redir_count)
-			setup_redirection_fds(cmd);
-		execve(resolved_path, cmd->arg, shell->envp);
-		free(resolved_path);
-		clean_exit(shell, 127, cmd);
-	}
-	if (resolved_path)
-		free(resolved_path);
+		exec_child(cmd, shell, resolved_path);
+	free(resolved_path);
 	parent_handle(pid, shell);
 }

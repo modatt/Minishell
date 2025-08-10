@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils_3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 20:49:04 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 15:15:26 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/10 00:03:09 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	setup_pipeline_execution(t_command *current_cmd, t_shell *shell,
 		t_pipeline_data *data, int pipe_fds[2])
 {
 	pid_t	pid;
-	
+
 	pid = create_pipe_and_fork(current_cmd, data, pipe_fds);
 	if (pid == -1)
 		return (0);

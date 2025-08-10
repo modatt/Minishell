@@ -1,3 +1,5 @@
+.PHONY: all clean fclean re
+
 # Compiler and flags
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -g
@@ -16,17 +18,17 @@ LIBFT = $(LIBFT_DIR)/libft.a
 NAME = minishell
 
 # Source file base names
-PARSE_FILES = minishell utils greets parser parser_utils parse_utils parse_utils_2 \
+PARSE_FILES = minishell greets parser parser_utils parse_utils parse_utils_2 \
 	env_handler syntax_check extra_help  env_handler_utils env_handler_utils_2 \
 	syntax_check_utils syntax_check_utils_1 syntax_check_utils_2 parse_utils_1 parse_utils_3 parse_utils_4 parse_utils_5 \
-	shlvl non_interative  signals_interactive main_loop signals_setup utils_1 \
+	shlvl non_interative  signals_interactive main_loop signals_setup utils_1 utils_2\
 # 	signals_handler_1 signals_handler_2 
 	
 
 
 EXECUTE_FILES = executor exec_buildins_1  exec_buildins_2 exit exit_utils_1  init_env_list \
-	export export_utils export_utils_2 unset free cd exce_external exce_external_utils \
-	pipeline pipeline_utils pipeline_utils_2 pipeline_utils_3 redirections_1 redirections_2
+	export export_utils_1 export_utils_2 unset free cd exce_external exce_external_utils \
+	pipeline pipeline_utils pipeline_utils_2 pipeline_utils_3 redirections_1 redirections_2 redirections_utils \
 
 # Source file paths
 SRCS = $(addsuffix .c, $(addprefix $(PARSE_DIR)/, $(PARSE_FILES))) \
@@ -54,5 +56,3 @@ fclean: clean
 	@make -C $(LIBFT_DIR) fclean
 
 re: fclean all
-
-.PHONY: all clean fclean re

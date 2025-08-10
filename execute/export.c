@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:32:19 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 14:12:35 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/10 03:18:16 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	builtin_export(t_command *cmd, t_shell *shell)
 	return (status);
 }
 
-static int	update_or_add_var(char *name, char *value, t_shell *shell)
+int	update_or_add_var(char *name, char *value, t_shell *shell)
 {
 	t_env_var	*exist;
 	t_env_var	*new_var;

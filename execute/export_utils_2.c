@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:34:36 by modat             #+#    #+#             */
-/*   Updated: 2025/08/02 13:01:39 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/10 00:05:06 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ t_env_var	*create_var(char *name, char *value, bool booling)
 		return (NULL);
 	if (init_var_fields(new_var, name, value, booling))
 		return (new_var);
-	free(new_var);  // Free the allocated memory on failure
+	free(new_var);
 	return (NULL);
 }
 
 // function - 2
-
 int	init_var_fields(t_env_var *var, char *name, char *value, bool exported)
 {
 	var->name = ft_strdup(name);
@@ -56,7 +55,6 @@ int	init_var_fields(t_env_var *var, char *name, char *value, bool exported)
 }
 
 // function - 3
-
 void	update_var_value(t_env_var *exist, char *new_value)
 {
 	if (!new_value)
@@ -70,4 +68,20 @@ void	free_name_value(char *name, char *value)
 {
 	free(name);
 	free(value);
+}
+
+// function  - 5
+void	name_invalid(char *name, char *value)
+{
+	if (value == NULL)
+		print_export_error(name);
+	else
+	{
+		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd(name, 2);
+		ft_putstr_fd("=", 2);
+		ft_putstr_fd(value, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+	}
+	(void)value;
 }

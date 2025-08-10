@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:43:02 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/08 15:06:12 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/10 03:35:45 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ void	builtin_cd(t_command *cmd, t_shell *shell)
 		return ;
 	}
 	if (args_count(cmd->arg) == 1)
-	{
 		free (target);
-	}
 	shell->last_exit_status = 0;
 }

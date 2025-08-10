@@ -277,6 +277,7 @@ void add_env_var(t_env_var **list, t_env_var *new);
 // export.c 
 int    builtin_export(t_command *cmd, t_shell *shell);
 int     handle_export_var(char *name, char *value, t_shell *shell, int status);
+int     update_or_add_var(char *name, char *value, t_shell *shell);
 t_env_var   *find_var(t_env_var *env_list, char *name);
 void    add_var_to_list(t_env_var **env_list, t_env_var *new_var);
 int	handle_export_var(char *name, char *value, t_shell *shell, int status);
@@ -368,4 +369,10 @@ t_shell	*create_shell(int argc, char **argv, char **envp);
 int	process_command(t_shell *shell, char **line);
 void	handle_signal_pipe(void);
 void	preprocess_heredocs_pipe(t_command *cmd);
+//redirections utils
+int	get_redirection_fd(t_redir *redir);
+int heredoc_process_line(char *line, char *delimiter,int fd, char *tmpfile);
+int	heredoc_interrupted(char *line, int fd);
+//redirections 1
+int	handle_heredoc_eof(char *line, int fd, char *tmpfile, char *delimiter);
 #endif

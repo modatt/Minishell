@@ -3,15 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check_utils_1.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:40:10 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 13:29:10 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/09 12:18:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
+static int handle_med_and_end(char *s, int i)
+{
+	while (s[i])
+	{
+		if (s[i] == '|' && ft_isalpha(s[i - 1]) && s[i + 1] == '|')
+		{
+			write(2, "minishell: syntax error near unexpected token `||'\n", 51);
+			return (0);
+		}
+		else if (s[i] == '|' && ft_isalpha(s[i - 1]))
+		{
+			write(2, "minishell: syntax error near unexpected token `|'\n", 50);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
 // function - 1 
 static int	handle_start(char *s, int *i, int *wc)
 {
@@ -76,9 +95,10 @@ int	count_words(char *s)
 	wc = 0;
 	if (!handle_start(s, &i, &wc))
 		return (0);
+	if (!handle_med_and_end(s, i))
+		return (0);
 	if (s[i] && !pipe_loop(s, &i, &wc))
 		return (0);
-	//if (!handle_med_and_end())
 	return (wc);
 }
 

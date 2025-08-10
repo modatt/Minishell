@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:59:32 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 19:57:15 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/10 03:26:45 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,7 @@
 // func --- 1
 void	maybe_preprocess_heredocs(t_command *cmd)
 {
-	//printf("%d \n", cmd->redir_count);
-	//if (cmd && cmd->redir_count > 0)
-	//{
-		preprocess_heredocs(cmd);
-	//}
+	preprocess_heredocs(cmd);
 }
 
 // func --- 2
@@ -28,19 +24,19 @@ static int	process_single_heredoc(t_redir *redir, int index)
 	char	*tmpfile;
 	char	*idx_str;
 	char	*delimiter;
-	int i; 
+	int		i;
 
-	if(redir->file == NULL)
+	if (redir->file == NULL)
 	{
-		write(1, "minishell: syntax error near unexpected token `newline'\n", 56);
-		return(2);
+		write(1, "minishell: syntax error near unexpected token `newline'\n",
+			56);
+		return (2);
 	}
 	delimiter = ft_strdup(redir->file);
 	if (!delimiter)
 		return (1);
 	idx_str = ft_itoa(index);
 	tmpfile = ft_strjoin("/tmp/heredoc_", idx_str);
-	printf("%s\n", tmpfile);
 	free(idx_str);
 	i = write_heredoc_to_file(tmpfile, delimiter);
 	free(redir->file);
@@ -58,12 +54,11 @@ void	preprocess_heredocs(t_command *cmd)
 	int		j;
 
 	j = 0;
-	while(cmd)
+	while (cmd)
 	{
 		i = 0;
 		while (i < cmd->redir_count)
 		{
-			printf("i : %d j : %d \n", i, j);
 			redir = cmd->redirection[i];
 			if (redir->redir_type == REDIR_HEREDOC)
 			{
@@ -76,7 +71,8 @@ void	preprocess_heredocs(t_command *cmd)
 		cmd = cmd->next;
 	}
 }
-//func --- 4	
+
+// func --- 4
 void	run_with_redirection(t_command *cmd, t_shell *shell)
 {
 	int	saved_stdin;
@@ -88,7 +84,8 @@ void	run_with_redirection(t_command *cmd, t_shell *shell)
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stderr = dup(STDERR_FILENO);
-	if ((g_signal_status != 130) && (saved_stdin < 0 || saved_stdout < 0 || saved_stderr < 0))
+	if ((g_signal_status != 130) && (saved_stdin < 0 || saved_stdout < 0
+			|| saved_stderr < 0))
 	{
 		perror("dup");
 		return ;

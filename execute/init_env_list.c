@@ -6,13 +6,13 @@
 /*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:54:14 by modat             #+#    #+#             */
-/*   Updated: 2025/08/04 23:42:56 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/10 00:00:01 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// init the env_list
+// func ---1
 void	init_env_list(t_shell *shell, char **envp)
 {
 	int			i;
@@ -48,6 +48,7 @@ void	init_env_list(t_shell *shell, char **envp)
 	}
 }
 
+//func ---2
 t_env_var	*new_env_var(char *name, char *value)
 {
 	t_env_var	*node;
@@ -62,6 +63,7 @@ t_env_var	*new_env_var(char *name, char *value)
 	return (node);
 }
 
+//func ---3
 void	add_env_var(t_env_var **list, t_env_var *new)
 {
 	t_env_var	*cur;

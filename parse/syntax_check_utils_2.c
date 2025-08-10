@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check_utils_2.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:45:20 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 12:56:30 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/10 04:02:49 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,12 @@ int	handle_redir_at_beg(char *s, int *i, int *wc)
 		return (handle_single_redir_beg(s, i));
 	}
 	return (-1);
+}
+
+// function - 5
+int	ft_isspace(char s)
+{
+	if (s == ' ' || s == '\t')
+		return (1);
+	return (0);
 }

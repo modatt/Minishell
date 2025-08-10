@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check_utils_1.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:40:10 by modat             #+#    #+#             */
-/*   Updated: 2025/08/09 12:18:25 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/10 04:01:37 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-static int handle_med_and_end(char *s, int i)
+static int	handle_med_and_end(char *s, int i)
 {
 	while (s[i])
 	{
 		if (s[i] == '|' && ft_isalpha(s[i - 1]) && s[i + 1] == '|')
 		{
-			write(2, "minishell: syntax error near unexpected token `||'\n", 51);
+			write(2, "minishell: syntax error near unexpected token `||'\n",
+				51);
 			return (0);
 		}
 		else if (s[i] == '|' && ft_isalpha(s[i - 1]))
@@ -31,15 +31,15 @@ static int handle_med_and_end(char *s, int i)
 	}
 	return (1);
 }
-// function - 1 
+
+// function - 1
 static int	handle_start(char *s, int *i, int *wc)
 {
 	while (s[*i] && (s[*i] == ' ' || s[*i] == '\t'))
 		(*i)++;
 	if (!handle_pipe(s, i))
 		return (0);
-	if ((s[*i] == '>' && s[*i + 1] == '>') || (s[*i] == '<'
-			&& s[*i + 1] == '<'))
+	if ((s[*i] == '>' && s[*i + 1] == '>') || (s[*i] == '<' && s[*i+ 1] == '<'))
 		if (!handle_redir_at_beg(s, i, wc))
 			return (0);
 	return (1);
@@ -52,7 +52,8 @@ static int	check_pipe_err(char *s, int i)
 	{
 		if (s[i] == '|' && (!s[i + 1] || s[i + 1] == '|'))
 		{
-			write(2, "minishell: syntax error near unexpected token `||'\n", 51);
+			write(2, "minishell: syntax error near unexpected token `||'\n",
+				51);
 			return (0);
 		}
 		i++;
@@ -61,7 +62,7 @@ static int	check_pipe_err(char *s, int i)
 		if (s[i] == '|')
 		{
 			write(2, "minishell: syntax error near unexpected token `|'\n", 50);
-			return (0);	
+			return (0);
 		}
 	}
 	return (1);
@@ -100,12 +101,4 @@ int	count_words(char *s)
 	if (s[i] && !pipe_loop(s, &i, &wc))
 		return (0);
 	return (wc);
-}
-
-// function - 5
-int 	ft_isspace(char s)
-{
-	if (s == ' ' || s == '\t')
-		return (1);
-	return (0);
 }

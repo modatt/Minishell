@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:25:55 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 10:56:37 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/10 04:02:09 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**tokenizer(char *line, t_shell *shell)
 	wc = count_words(line);
 	if (wc == 0)
 	{
-		shell->last_exit_status = 2;	
+		shell->last_exit_status = 2;
 		return (NULL);
 	}
 	tokens = (char **)malloc(sizeof(char *) * (wc + 10));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:25 by modat             #+#    #+#             */
-/*   Updated: 2025/08/10 04:03:11 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/10 12:39:53 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,13 @@ static char	**expand_tokens_safe(char **tokens, t_shell *shell)
 }
 
 // main parsing function - 1
-t_command	*parser(char *command_line, t_shell *shell)
-{
-	char		**tokens;
-	char		**new_tokens;
-	int			k;
-	t_command	*cmd_list;
-	t_command	*current;
 
-	if (!command_line)
-		return (NULL);
+t_command	*parser_loop(char **new_tokens, t_command *cmd_list,
+		t_command *current)
+{
+	int	k;
+
 	k = 0;
-	tokens = tokenizer(command_line, shell);
-	if (!tokens)
-		return (NULL);
-	init_parser_state(&cmd_list, &current);
-	new_tokens = expand_tokens_safe(tokens, shell);
-	if (!new_tokens)
-		return (NULL);
 	while (new_tokens[k])
 	{
 		if (!current)
@@ -70,6 +59,26 @@ t_command	*parser(char *command_line, t_shell *shell)
 		parser2(new_tokens, &k, &current);
 		k++;
 	}
+	return (cmd_list);
+}
+
+t_command	*parser(char *command_line, t_shell *shell)
+{
+	char		**tokens;
+	char		**new_tokens;
+	t_command	*cmd_list;
+	t_command	*current;
+
+	if (!command_line)
+		return (NULL);
+	tokens = tokenizer(command_line, shell);
+	if (!tokens)
+		return (NULL);
+	init_parser_state(&cmd_list, &current);
+	new_tokens = expand_tokens_safe(tokens, shell);
+	if (!new_tokens)
+		return (NULL);
+	cmd_list = parser_loop(new_tokens, cmd_list, current);
 	free_tokens(new_tokens);
 	return (cmd_list);
 }
@@ -92,23 +101,4 @@ void	parser2(char **tokens, int *k, t_command **current)
 		is_redirection(tokens, current, k);
 	else
 		add_arg(tokens[*k], current);
-}
-
-// function - 4
-void	is_redirection(char **tokens, t_command **current, int *k)
-{
-	t_redir	*redir;
-
-	init_redirection_array(current);
-	redir = malloc(sizeof(t_redir));
-	if (!redir)
-	{
-		perror("malloc failed");
-		exit(EXIT_FAILURE);
-	}
-	set_redir_type(redir, tokens[*k]);
-	if (!process_redir_file(redir, tokens, k))
-		return ;
-	(*current)->redirection[(*current)->redir_count] = redir;
-	(*current)->redir_count++;
 }

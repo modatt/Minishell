@@ -3,50 +3,88 @@
 /*                                                        :::      ::::::::   */
 /*   init_env_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:54:14 by modat             #+#    #+#             */
-/*   Updated: 2025/08/10 00:00:01 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/10 11:30:26 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// func ---1
-void	init_env_list(t_shell *shell, char **envp)
+// func ---2
+static void	add_env(t_shell *shell, char *env_str)
 {
-	int			i;
 	char		*name;
 	char		*value;
 	char		*equal;
 	t_env_var	*new;
 
+	equal = ft_strchr(env_str, '=');
+	if (!equal)
+		return ;
+	name = strndup(env_str, equal - env_str);
+	value = ft_strdup(equal + 1);
+	new = new_env_var(name, value);
+	if (!name || !value || !new)
+	{
+		free(name);
+		free(value);
+		return ;
+	}
+	add_env_var(&shell->env_list, new);
+	free(name);
+	free(value);
+}
+
+// func ---2
+void	init_env_list(t_shell *shell, char **envp)
+{
+	int	i;
+
 	i = 0;
 	shell->env_list = NULL;
 	while (envp[i])
 	{
-		equal = ft_strchr(envp[i], '=');
-		if (!equal)
-		{
-			i++;
-			continue ;
-		}
-		name = strndup(envp[i], equal - envp[i]);
-		value = ft_strdup(equal + 1);
-		new = new_env_var(name, value);
-		if (!name || !value || !new)
-		{
-			free(name);
-			free(value);
-			i++;
-			continue ;
-		}
-		add_env_var(&shell->env_list, new);
-		free(name);
-		free(value);
+		add_env(shell, envp[i]);
 		i++;
 	}
 }
+
+// void	init_env_list(t_shell *shell, char **envp)
+// {
+// 	int			i;
+// 	char		*name;
+// 	char		*value;
+// 	char		*equal;
+// 	t_env_var	*new;
+
+// 	i = 0;
+// 	shell->env_list = NULL;
+// 	while (envp[i])
+// 	{
+// 		equal = ft_strchr(envp[i], '=');
+// 		if (!equal)
+// 		{
+// 			i++;
+// 			continue ;
+// 		}
+// 		name = strndup(envp[i], equal - envp[i]);
+// 		value = ft_strdup(equal + 1);
+// 		new = new_env_var(name, value);
+// 		if (!name || !value || !new)
+// 		{
+// 			free(name);
+// 			free(value);
+// 			i++;
+// 			continue ;
+// 		}
+// 		add_env_var(&shell->env_list, new);
+// 		free(name);
+// 		free(value);
+// 		i++;
+// 	}
+// }
 
 //func ---2
 t_env_var	*new_env_var(char *name, char *value)

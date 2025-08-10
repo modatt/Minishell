@@ -6,7 +6,7 @@
 /*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:43:02 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/10 03:35:45 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/10 03:52:01 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static char	*cd_get_target_path(t_command *cmd, t_shell *shell)
 }
 
 // function - 4
-static int	cd_update_pwd(t_shell *shell, char *old_pwd)
+int	cd_update_pwd(t_shell *shell, char *old_pwd)
 {
 	char	*new_pwd;
 
@@ -87,23 +87,8 @@ void	builtin_cd(t_command *cmd, t_shell *shell)
 	if (cd_check_args(cmd, shell) == 1)
 		return ;
 	target = cd_get_target_path(cmd, shell);
-	if (!target)
-	{
-		free(old_pwd);
+	if (handle_cd_errors(shell, old_pwd, target))
 		return ;
-	}
-	if (chdir(target) == -1)
-	{
-		perror("minishell: cd");
-		shell->last_exit_status = 1;
-		free(old_pwd);
-		return ;
-	}
-	if (cd_update_pwd(shell, old_pwd) == 1)
-	{
-		free(target);
-		return ;
-	}
 	if (args_count(cmd->arg) == 1)
 		free (target);
 	shell->last_exit_status = 0;

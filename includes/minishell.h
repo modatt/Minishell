@@ -301,7 +301,8 @@ void remove_var(t_env_var **env_list, const char *name);
 // cd.c
 //there are 4 other static funcs
 void builtin_cd(t_command *cmd, t_shell *shell);
-
+int	handle_cd_errors(t_shell *shell, char *old_pwd, char *target);
+int	cd_update_pwd(t_shell *shell, char *old_pwd);
 // free.c 
 void free_cmd(t_command *cmd);
 void free_redir(t_command *cmd);

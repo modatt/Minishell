@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 10:46:25 by modat             #+#    #+#             */
-/*   Updated: 2025/08/11 17:21:21 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/12 01:36:00 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 #  define INPUT_EOF 0               // Exit the main loop
 #  define INPUT_OK 1                // Proceed with parsing and execution
 #  define INPUT_RETRY 2             // Continue loop without parsing
-# define PATH_MAX 4096
+#  define PATH_MAX 4096
 # endif
 
 # define WHITE "\x1B[37m"

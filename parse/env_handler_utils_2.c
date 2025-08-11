@@ -105,7 +105,7 @@ char	*get_envp(char **envp, char *value)
 	i = 0;
 	while (envp[i])
 	{
-		if ((envp[i][len] == '=') &&  (ft_strncmp(value, envp[i], len) == 0))
+		if ((envp[i][len] == '=') && (ft_strncmp(value, envp[i], len) == 0))
 		{
 			result = ft_strdup(envp[i] + len + 1);
 			return (result);

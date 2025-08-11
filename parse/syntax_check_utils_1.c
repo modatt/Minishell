@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check_utils_1.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:40:10 by modat             #+#    #+#             */
-/*   Updated: 2025/08/11 14:25:10 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/12 01:37:44 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,5 @@ int	count_words(char *s)
 		return (0);
 	if (s[i] && !pipe_loop(s, &i, &wc))
 		return (0);
-	// if (ha)
 	return (wc);
 }

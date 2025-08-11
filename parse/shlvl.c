@@ -6,7 +6,7 @@
 /*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:23:59 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/12 01:08:01 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/12 01:25:03 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	update_envp_array(t_shell *shell, const char *name, const char *value)
 	char	*prefix;
 
 	if (!name || !value || !shell->envp)
-		return;
+		return ;
 	prefix = ft_strjoin(name, "=");
 	if (!prefix)
-		return;
+		return ;
 	key_len = ft_strlen(prefix);
 	i = -1;
 	while (shell->envp[++i])
@@ -32,16 +32,16 @@ void	update_envp_array(t_shell *shell, const char *name, const char *value)
 		{
 			new_entry = ft_strjoin(prefix, value);
 			if (!new_entry)
-				break;
+				break ;
 			free(shell->envp[i]);
 			shell->envp[i] = new_entry;
-			break;
+			break ;
 		}
 	}
 	free(prefix);
 }
 
-//func ---1
+// func ---1
 void	update_shlvl(t_shell *shell)
 {
 	char	*shlvl_str;
@@ -60,7 +60,7 @@ void	update_shlvl(t_shell *shell)
 	if (!new_val)
 		return ;
 	update_envp_array(shell, "SHLVL", new_val);
-	if(new_val)
+	if (new_val)
 		free(new_val);
 	if (shlvl_str)
 		free(shlvl_str);

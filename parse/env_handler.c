@@ -111,9 +111,9 @@ char	*get_env(char *key, t_env_var *env_list)
 		{
 			result = ft_strdup(env_list->value);
 			if (result == NULL)
-				return(ft_strdup(""));
+				return (ft_strdup(""));
 			else
-				return(result);
+				return (result);
 		}
 		env_list = env_list->next;
 	}

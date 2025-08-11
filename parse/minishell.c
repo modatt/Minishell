@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/08/11 14:02:06 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/12 01:38:43 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	main(int argc, char **argv, char **envp)
 	t_shell	*shell;
 	int		stat;
 
-	// g_signal_status = 0;
+	g_signal_status = 0;
 	shell = create_shell(argc, argv, envp);
 	if (!shell)
 		return (1);

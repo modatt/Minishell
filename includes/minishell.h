@@ -66,7 +66,7 @@ typedef struct s_shell
     char		**argv;
     int			last_exit_status;
     char        **envp;
-    t_env_var	*env_list;  //  replaces char **envp
+    t_env_var	*env_list;
     int     is_interactive;
 }				t_shell;
 

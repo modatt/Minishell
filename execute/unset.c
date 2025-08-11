@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:30:31 by modat             #+#    #+#             */
-/*   Updated: 2025/07/28 11:30:32 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/11 11:28:04 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,19 @@ void	remove_var(t_env_var **env_list, const char *name)
 		prev = current;
 		current = current->next;
 	}
+}
+
+void	add_env_var(t_env_var **list, t_env_var *new)
+{
+	t_env_var	*cur;
+
+	if (!*list)
+	{
+		*list = new;
+		return ;
+	}
+	cur = *list;
+	while (cur->next)
+		cur = cur->next;
+	cur->next = new;
 }

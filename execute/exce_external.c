@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exce_external.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 15:31:34 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/10 20:52:24 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/11 10:01:06 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	exec_external(t_command *cmd, t_shell *shell)
 	}
 	if (pid == 0)
 		exec_child(cmd, shell, resolved_path);
-	printf("hi\n");
 	free(resolved_path);
 	parent_handle(pid, shell);
 }

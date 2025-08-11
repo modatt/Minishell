@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:43:02 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/10 03:52:01 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/11 10:08:54 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	cd_check_args(t_command *cmd, t_shell *shell)
 	count = args_count(cmd->arg);
 	if (count > 2)
 	{
-		printf("minishell: cd: too many arguments\n");
+		write(2, "minishell: cd: too many arguments\n", 34);
 		shell->last_exit_status = 1;
 		return (1);
 	}
@@ -45,7 +45,7 @@ static char	*cd_get_target_path(t_command *cmd, t_shell *shell)
 		home = get_envp(shell->envp, "HOME");
 		if (!home)
 		{
-			printf("minishell: cd: HOME not set\n");
+			write(2, "minishell: cd: HOME not set\n", 28);
 			shell->last_exit_status = 1;
 			return (NULL);
 		}

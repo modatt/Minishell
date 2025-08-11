@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:32:19 by modat             #+#    #+#             */
-/*   Updated: 2025/08/10 03:18:16 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/11 11:09:02 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	update_or_add_var(char *name, char *value, t_shell *shell)
 	t_env_var	*exist;
 	t_env_var	*new_var;
 
-	exist = find_var(shell->env_list, name);
+	exist = find_var(name, shell->env_list);
 	if (exist)
 	{
 		if (value)
@@ -62,7 +62,7 @@ int	update_or_add_var(char *name, char *value, t_shell *shell)
 }
 
 // function - 3
-t_env_var	*find_var(t_env_var *env_list, char *name)
+t_env_var	*find_var(char *name, t_env_var *env_list)
 {
 	if (!name)
 		return (NULL);

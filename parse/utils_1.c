@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 15:09:51 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 18:10:01 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/11 10:12:59 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ t_shell	*create_shell(int argc, char **argv, char **envp)
 	}
 	if ((init_shell(shell, argc, argv, envp) != 0))
 	{
-		printf("Failed to initialize shell\n");
+		write(2, "Failed to initialize shell\n", 27);
 		free(shell);
 		return (NULL);
 	}
 	if (!shell->envp)
-		printf("Warning: Failed to initialize environment\n");
+		write(2, "Warning: Failed to initialize environment\n", 42);
 	return (shell);
 }
 

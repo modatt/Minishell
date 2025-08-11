@@ -1,0 +1,49 @@
+==592159== 3,728 bytes in 12 blocks are still reachable in loss record 7 of 8
+==592158== 3,728 bytes in 12 blocks are still reachable in loss record 7 of 8
+==592159==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==592158==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==592159==    by 0x48A896E: _nl_intern_locale_data (loadlocale.c:97)
+==592158==    by 0x48A896E: _nl_intern_locale_data (loadlocale.c:97)
+==592159==    by 0x48A9370: _nl_load_locale_from_archive (loadarchive.c:477)
+==592158==    by 0x48A9370: _nl_load_locale_from_archive (loadarchive.c:477)
+==592159==    by 0x48A80DF: _nl_find_locale (findlocale.c:152)
+==592158==    by 0x48A80DF: _nl_find_locale (findlocale.c:152)
+==592159==    by 0x48A7856: setlocale (setlocale.c:337)
+==592158==    by 0x48A7856: setlocale (setlocale.c:337)
+==592159==    by 0x48A7856: setlocale (setlocale.c:217)
+==592158==    by 0x48A7856: setlocale (setlocale.c:217)
+==592159==    by 0x10A769: ??? (in /usr/bin/cat)
+==592158==    by 0x10A769: ??? (in /usr/bin/cat)
+==592159==    by 0x489AD8F: (below main) (libc_start_call_main.h:58)
+==592158==    by 0x489AD8F: (below main) (libc_start_call_main.h:58)
+==592159== 
+==592158== 
+==592159== 135,167 bytes in 1 blocks are still reachable in loss record 8 of 8
+==592158== 135,167 bytes in 1 blocks are still reachable in loss record 8 of 8
+==592159==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==592158==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==592159==    by 0x10B477: ??? (in /usr/bin/cat)
+==592158==    by 0x10B477: ??? (in /usr/bin/cat)
+==592159==    by 0x489AD8F: (below main) (libc_start_call_main.h:58)
+==592158==    by 0x489AD8F: (below main) (libc_start_call_main.h:58)
+==592159== 
+==592158== 
+==592159== LEAK SUMMARY:
+==592158== LEAK SUMMARY:
+==592159==    definitely lost: 0 bytes in 0 blocks
+==592158==    definitely lost: 0 bytes in 0 blocks
+==592159==    indirectly lost: 0 bytes in 0 blocks
+==592158==    indirectly lost: 0 bytes in 0 blocks
+==592159==      possibly lost: 0 bytes in 0 blocks
+==592158==      possibly lost: 0 bytes in 0 blocks
+==592159==    still reachable: 139,227 bytes in 30 blocks
+==592158==    still reachable: 139,227 bytes in 30 blocks
+==592159==         suppressed: 0 bytes in 0 blocks
+==592158==         suppressed: 0 bytes in 0 blocks
+==592159== 
+==592158== 
+==592159== For lists of detected and suppressed errors, rerun with: -s
+==592158== For lists of detected and suppressed errors, rerun with: -s
+==592159== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==592158== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+

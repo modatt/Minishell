@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:59:32 by modat             #+#    #+#             */
-/*   Updated: 2025/08/10 03:26:45 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/11 18:08:46 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	process_single_heredoc(t_redir *redir, int index)
 	if (!delimiter)
 		return (1);
 	idx_str = ft_itoa(index);
-	tmpfile = ft_strjoin("/tmp/heredoc_", idx_str);
+	tmpfile = ft_strjoin("/home/hmeltaha/herdoc/heredoc_", idx_str);
 	free(idx_str);
 	i = write_heredoc_to_file(tmpfile, delimiter);
 	free(redir->file);

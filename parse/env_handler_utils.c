@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_handler_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:09:16 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 11:06:25 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:03:50 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	char	*result;
 
 	result = ft_strjoin(s1, s2);
-	free(s1);
-	free(s2);
+	if (s1)
+		free(s1);
+	if(s2)
+		free(s2);
 	return (result);
 }
 

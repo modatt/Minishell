@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 10:46:25 by modat             #+#    #+#             */
-/*   Updated: 2025/08/11 11:26:49 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/11 17:21:21 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 #  define INPUT_EOF 0               // Exit the main loop
 #  define INPUT_OK 1                // Proceed with parsing and execution
 #  define INPUT_RETRY 2             // Continue loop without parsing
-
+# define PATH_MAX 4096
 # endif
 
 # define WHITE "\x1B[37m"
@@ -50,11 +50,11 @@ extern volatile sig_atomic_t	g_signal_status;
 typedef enum e_redirection_type
 {
 	REDIR_NONE,
-	REDIR_INPUT,// <
-	REDIR_OUTPUT, // >
-	REDIR_APPEND, // >>
-	REDIR_HEREDOC // <<
-} t_redirection;
+	REDIR_INPUT,
+	REDIR_OUTPUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC
+}								t_redirection;
 
 typedef struct s_read_buffer
 {
@@ -140,7 +140,8 @@ typedef struct s_pipeline_data
 
 // main.c
 void							greets_minishell(void);
-bool is_redirector(char **tokens, int k); // mo9eba change int to bool bool to int
+bool							is_redirector(char **tokens, int k);
+// mo9eba change int to bool bool to int
 
 int								ft_isspace(char s);
 // Parser.c  - 1
@@ -312,7 +313,8 @@ void							print_export_error(char *name);
 void							name_invalid(char *name, char *value);
 
 // export_utils_2.c
-t_env_var						*create_var(char *name, char *value, bool booling);
+t_env_var						*create_var(char *name, char *value,
+									bool booling);
 int								init_var_fields(t_env_var *var, char *name,
 									char *value, bool exported);
 void							update_var_value(t_env_var *exist,
@@ -325,7 +327,6 @@ void							remove_var(t_env_var **env_list,
 									const char *name);
 
 // cd.c
-// there are 4 other static funcs
 void							builtin_cd(t_command *cmd, t_shell *shell);
 int								handle_cd_errors(t_shell *shell, char *old_pwd,
 									char *target);
@@ -363,8 +364,8 @@ void							execute_command(t_command *current_cmd,
 									t_shell *shell);
 void							wait_for_children(int pid_count,
 									t_shell *shell);
-void							handle_input_file_redirection(t_command *current_cmd);
-void							handle_output_file_redirection(t_command *current_cmd);
+void							handle_input_file_redir(t_command *current_cmd);
+void							handle_output_file_redi(t_command *current_cmd);
 
 void							update_shlvl(t_shell *shell);
 void							update_envp_array(t_shell *shell,
@@ -372,7 +373,7 @@ void							update_envp_array(t_shell *shell,
 
 // non_interactive.c
 char							*readline_non_interactive(int fd);
-int	signals_non_interactive(void); // Changed from void to int
+int								signals_non_interactive(void);
 void							reset_child_signals(void);
 int								non_interactive(t_shell *shell,
 									char **command_line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_interactive.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:59:08 by modat             #+#    #+#             */
-/*   Updated: 2025/08/10 20:46:09 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/11 14:05:12 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	handler_prompt(int sig)
 	(void)sig;
 	g_signal_status = 130;
 	write(STDOUT_FILENO, "\n", 1);
-	g_signal_status = 0;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 20:49:04 by modat             #+#    #+#             */
-/*   Updated: 2025/08/10 00:02:52 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/11 11:49:41 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // function - 1
-void	handle_output_file_redirection(t_command *current_cmd)
+void	handle_output_file_redi(t_command *current_cmd)
 {
 	int	fd_out;
 	int	i;
@@ -38,7 +38,7 @@ void	handle_output_file_redirection(t_command *current_cmd)
 }
 
 // function - 2
-void	handle_input_file_redirection(t_command *current_cmd)
+void	handle_input_file_redir(t_command *current_cmd)
 {
 	int	fd_in;
 	int	i;

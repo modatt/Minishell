@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_handler_utils_2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:07:37 by modat             #+#    #+#             */
-/*   Updated: 2025/08/11 15:14:43 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/12 01:10:52 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*handle_sign(char *input, t_shell *shell, int *i)
 	{
 		value = expand_env_var(&input[*i], i);
 		if (value && ft_strcmp(value, "SHLVL") == 0)
-			result = ft_strdup(get_envp(shell->envp, "SHLVL"));
+			result = get_envp(shell->envp, "SHLVL");
 		else
 			result = get_env(value, shell->env_list);
 		free(value);

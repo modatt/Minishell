@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   init_env_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:54:14 by modat             #+#    #+#             */
-/*   Updated: 2025/08/04 23:42:56 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/11 09:54:13 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// init the env_list
+
+
 void	init_env_list(t_shell *shell, char **envp)
 {
 	int			i;

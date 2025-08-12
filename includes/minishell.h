@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 10:46:25 by modat             #+#    #+#             */
-/*   Updated: 2025/08/12 08:12:14 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/12 08:23:05 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,9 +239,7 @@ char							*ft_strcpy(char *des, char *src);
 int								ft_strcmp(const char *s1, const char *s2);
 t_command						*create_node(void);
 
-
 // folder execute
-
 // executor.c
 void							execute_cmd(t_command *cmd, t_shell *shell);
 
@@ -267,8 +265,7 @@ int								handle_export_var_cd(char *name, char *value,
 void							xx(t_command *cmd);
 // exce_extranal.c
 void							exec_external(t_command *cmd, t_shell *shell);
-// get_next_line
-char							*get_next_line(int fd);
+
 // exce_external_utils.c
 void							print_command_not_found(t_command *cmd,
 									t_shell *shell);

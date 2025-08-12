@@ -22,7 +22,7 @@ NAME = minishell
 PARSE_FILES = minishell greets parser parser_utils parse_utils parse_utils_2 \
 	env_handler syntax_check env_handler_utils env_handler_utils_2 \
 	syntax_check_utils syntax_check_utils_1 syntax_check_utils_2 parse_utils_1 parse_utils_3 parse_utils_4 parse_utils_5 \
-	shlvl non_interative  signals_interactive main_loop signals_setup utils_1 utils_2
+	shlvl non_interative  signals_interactive main_loop signals_setup utils_1 utils_2 syntax_check_utils_3
 	
 
 

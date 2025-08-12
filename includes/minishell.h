@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 10:46:25 by modat             #+#    #+#             */
-/*   Updated: 2025/08/12 01:36:00 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/12 08:12:14 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,15 +229,16 @@ int								handle_redir_at_beg(char *str, int *i, int *wc);
 int								handle_pipe(char *str, int *i);
 void							count_qoute(char *str, int *i, int *wc);
 int								handle_syntax(char *str, int *i, int *wc);
+int								handle_start(char *s, int *i, int *wc);
 
+// syntax_check_utils_3.c
+int								handle_start(char *s, int *i, int *wc);
 // utils.c - 6
 char							*ft_strncpy(char *des, char *src, int n);
 char							*ft_strcpy(char *des, char *src);
 int								ft_strcmp(const char *s1, const char *s2);
 t_command						*create_node(void);
 
-// extra help - 8
-void							print_command_list(t_command *head);
 
 // folder execute
 

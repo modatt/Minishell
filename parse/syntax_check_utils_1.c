@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check_utils_1.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:40:10 by modat             #+#    #+#             */
-/*   Updated: 2025/08/12 01:37:44 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/12 08:17:08 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// func - 1
 static int	handle_med_and_end(char *s, int i)
 {
 	while (s[i])
@@ -30,20 +31,6 @@ static int	handle_med_and_end(char *s, int i)
 		}
 		i++;
 	}
-	return (1);
-}
-
-// function - 1
-static int	handle_start(char *s, int *i, int *wc)
-{
-	while (s[*i] && (s[*i] == ' ' || s[*i] == '\t'))
-		(*i)++;
-	if (!handle_pipe(s, i))
-		return (0);
-	if ((s[*i] == '>' && s[*i + 1] == '>')
-		|| (s[*i] == '<' && s[*i + 1] == '<'))
-		if (!handle_redir_at_beg(s, i, wc))
-			return (0);
 	return (1);
 }
 

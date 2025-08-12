@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 10:46:25 by modat             #+#    #+#             */
-/*   Updated: 2025/08/12 08:23:05 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/12 19:36:50 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -418,4 +418,5 @@ int								heredoc_interrupted(char *line, int fd);
 // redirections 1
 int								handle_heredoc_eof(char *line, int fd,
 									char *tmpfile, char *delimiter);
+void	print_command_list(t_command *head);
 #endif

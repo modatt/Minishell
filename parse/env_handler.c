@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:10:12 by modat             #+#    #+#             */
-/*   Updated: 2025/08/11 15:07:19 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/12 19:47:43 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,19 @@ static int	update_quote_state(char c, t_quote_state *state)
 	}
 	return (0);
 }
+//static void	print_tokens(char **tokens)
+//{
+//	int	i;
 
+//	if (!tokens)
+//		return ;
+//	i = 0;
+//	while (tokens[i])
+//	{
+//		printf("%s->",tokens[i]);
+//		i++;
+//	}
+//}
 // function - 3
 
 char	**tokens_expanded(char **tokens, t_shell *shell)

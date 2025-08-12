@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:32:19 by modat             #+#    #+#             */
-/*   Updated: 2025/08/11 20:57:17 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/12 20:12:11 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int	handle_export_var(char *name, char *value, t_shell *shell, int status)
 	else
 	{
 		status = update_or_add_var(name, value, shell);
+		update_envp_array(shell, name, value);
 	}
 	free_name_value(name, value);
 	return (status);

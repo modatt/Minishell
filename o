@@ -1,0 +1,10 @@
+execute
+includes
+libft
+Makefile
+minishell
+o
+parse
+readline_curses.supp
+test.bash
+test.txt

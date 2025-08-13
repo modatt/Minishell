@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:21:00 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 14:13:43 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/11 17:28:30 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	init_shell(t_shell *shell, int argc, char **argv, char **envp)
 		shell->env_list = NULL;
 		return (1);
 	}
+	update_shlvl(shell);
 	init_env_list(shell, envp);
 	return (0);
 }

@@ -12,12 +12,13 @@
 
 #include "libft.h"
 #include <stdlib.h>
+
 //#include <stdio.h>
 //#include <string.h>
 /*
 char	passfunc(unsigned int i, char amended_s);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-			
+
 int	main(void)
 {
 	char	amended_s[] = "hola amigo";
@@ -59,4 +60,3 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	amended_s[i] = '\0';
 	return (amended_s);
 }
-

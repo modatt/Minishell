@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 12:47:24 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/05 12:06:18 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/11 13:42:56 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,5 @@ void	builtin_exit(t_command *cmd, t_shell *shell)
 		shell->last_exit_status = 1;
 		return ;
 	}
-	clean_exit(shell, 0, cmd);
+	clean_exit(shell, shell->last_exit_status, cmd);
 }

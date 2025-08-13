@@ -6,7 +6,7 @@
 /*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:07:37 by modat             #+#    #+#             */
-/*   Updated: 2025/08/04 23:21:42 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/12 01:10:52 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*handle_sign(char *input, t_shell *shell, int *i)
 	{
 		value = expand_env_var(&input[*i], i);
 		if (value && ft_strcmp(value, "SHLVL") == 0)
-			result = ft_strdup(get_envp(shell->envp, "SHLVL"));
+			result = get_envp(shell->envp, "SHLVL");
 		else
 			result = get_env(value, shell->env_list);
 		free(value);
@@ -64,7 +64,6 @@ char	*handle_sign(char *input, t_shell *shell, int *i)
 }
 
 // function - 3
-
 char	*handle_bash_parameter(t_shell *shell, int *i, char *input)
 {
 	int		n;
@@ -102,11 +101,11 @@ char	*get_envp(char **envp, char *value)
 	int		len;
 	char	*result;
 
-	len = strlen(value);
+	len = ft_strlen(value);
 	i = 0;
 	while (envp[i])
 	{
-		if ((ft_strncmp(value, envp[i], len) == 0) && (envp[i][len] == '='))
+		if ((envp[i][len] == '=') && (ft_strncmp(value, envp[i], len) == 0))
 		{
 			result = ft_strdup(envp[i] + len + 1);
 			return (result);

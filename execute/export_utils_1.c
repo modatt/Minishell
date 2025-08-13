@@ -3,20 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:33:24 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 14:11:32 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/10 00:05:47 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Export utils/ helper functions
-
 // function - 1 // when passing export without args
-// it will print the list of var
-
 void	print_exported_list(t_shell *shell)
 {
 	t_env_var	*current;
@@ -36,14 +32,11 @@ void	print_exported_list(t_shell *shell)
 }
 
 // function - 2 // in case of export with args
-// parsing args and split into name & value
-
-
-static char *trim_value_part(char *str)
+static char	*trim_value_part(char *str)
 {
-	int 	start;
-	int 	end;
-	int		len;
+	int	start;
+	int	end;
+	int	len;
 
 	start = 0;
 	while (str[start] == ' ' || str[start] == '\t')
@@ -55,15 +48,15 @@ static char *trim_value_part(char *str)
 	return (ft_substr(str, start, len));
 }
 
+// func --3
 void	parse_arg_var(char *arg, char **name, char **value)
 {
 	char	*is_equal_sign;
 	int		equal_index;
-	
+
 	is_equal_sign = ft_strchr(arg, '=');
 	if (is_equal_sign)
 	{
-		// equal_index++;
 		equal_index = is_equal_sign - arg;
 		(*name) = ft_substr(arg, 0, equal_index);
 		(*value) = trim_value_part(arg + equal_index + 1);
@@ -75,8 +68,7 @@ void	parse_arg_var(char *arg, char **name, char **value)
 	}
 }
 
-// function - 3 // check if the name of the var is valid
-
+// function - 4
 bool	is_name_valid(const char *name)
 {
 	int	i;
@@ -96,27 +88,10 @@ bool	is_name_valid(const char *name)
 	return (true);
 }
 
-// function - 4 // print error in case of invalid var name
+// function - 5 // print error in case of invalid var name
 void	print_export_error(char *name)
 {
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putstr_fd(name, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
-}
-
-// function  - 5
-void	name_invalid(char *name, char *value)
-{
-	if (value == NULL)
-		print_export_error(name);
-	else
-	{
-		ft_putstr_fd("minishell: export: `", 2);
-		ft_putstr_fd(name, 2);
-		ft_putstr_fd("=", 2);
-		ft_putstr_fd(value, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
-	}
-	// Don't free here - caller will handle cleanup
-	(void)value; // Suppress unused parameter warning
 }

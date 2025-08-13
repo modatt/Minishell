@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 14:30:15 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 15:23:16 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/10 14:50:19 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,21 @@ char	*append_char_to_line(char *line, int *line_len, char c)
 {
 	char	*new_line;
 
-	new_line = (char *)realloc(line, *line_len + 2);
+	new_line = malloc(sizeof(char) * (*line_len + 2));
 	if (!new_line)
 	{
 		free(line);
 		return (NULL);
 	}
-	line = new_line;
+	if (line)
+	{
+		ft_memcpy(new_line, line, *line_len);
+		free(line);
+	}
 	line[*line_len] = c;
 	(*line_len)++;
-	return (line);
+	new_line[*line_len] = '\0';
+	return (new_line);
 }
 
 // function - 4

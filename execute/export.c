@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:32:19 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 14:12:35 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/13 16:57:44 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ int	builtin_export(t_command *cmd, t_shell *shell)
 	return (status);
 }
 
-static int	update_or_add_var(char *name, char *value, t_shell *shell)
+int	update_or_add_var(char *name, char *value, t_shell *shell)
 {
 	t_env_var	*exist;
 	t_env_var	*new_var;
 
-	exist = find_var(shell->env_list, name);
+	exist = find_var(name, shell->env_list);
 	if (exist)
 	{
 		if (value)
@@ -62,7 +62,7 @@ static int	update_or_add_var(char *name, char *value, t_shell *shell)
 }
 
 // function - 3
-t_env_var	*find_var(t_env_var *env_list, char *name)
+t_env_var	*find_var(char *name, t_env_var *env_list)
 {
 	if (!name)
 		return (NULL);
@@ -104,6 +104,7 @@ int	handle_export_var(char *name, char *value, t_shell *shell, int status)
 	else
 	{
 		status = update_or_add_var(name, value, shell);
+		update_envp_array(shell, name, value);
 	}
 	free_name_value(name, value);
 	return (status);

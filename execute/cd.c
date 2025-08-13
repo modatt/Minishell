@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:43:02 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/08 15:06:12 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/11 10:08:54 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	cd_check_args(t_command *cmd, t_shell *shell)
 	count = args_count(cmd->arg);
 	if (count > 2)
 	{
-		printf("minishell: cd: too many arguments\n");
+		write(2, "minishell: cd: too many arguments\n", 34);
 		shell->last_exit_status = 1;
 		return (1);
 	}
@@ -45,7 +45,7 @@ static char	*cd_get_target_path(t_command *cmd, t_shell *shell)
 		home = get_envp(shell->envp, "HOME");
 		if (!home)
 		{
-			printf("minishell: cd: HOME not set\n");
+			write(2, "minishell: cd: HOME not set\n", 28);
 			shell->last_exit_status = 1;
 			return (NULL);
 		}
@@ -55,7 +55,7 @@ static char	*cd_get_target_path(t_command *cmd, t_shell *shell)
 }
 
 // function - 4
-static int	cd_update_pwd(t_shell *shell, char *old_pwd)
+int	cd_update_pwd(t_shell *shell, char *old_pwd)
 {
 	char	*new_pwd;
 
@@ -87,26 +87,9 @@ void	builtin_cd(t_command *cmd, t_shell *shell)
 	if (cd_check_args(cmd, shell) == 1)
 		return ;
 	target = cd_get_target_path(cmd, shell);
-	if (!target)
-	{
-		free(old_pwd);
+	if (handle_cd_errors(shell, old_pwd, target))
 		return ;
-	}
-	if (chdir(target) == -1)
-	{
-		perror("minishell: cd");
-		shell->last_exit_status = 1;
-		free(old_pwd);
-		return ;
-	}
-	if (cd_update_pwd(shell, old_pwd) == 1)
-	{
-		free(target);
-		return ;
-	}
 	if (args_count(cmd->arg) == 1)
-	{
 		free (target);
-	}
 	shell->last_exit_status = 0;
 }

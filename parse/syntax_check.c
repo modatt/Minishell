@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:14:34 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 14:24:37 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/10 12:39:42 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,23 @@ void	count_qoute(char *str, int *i, int *wc)
 		(*i)++;
 		(*wc)++;
 	}
+}
+
+// function - 4
+void	is_redirection(char **tokens, t_command **current, int *k)
+{
+	t_redir	*redir;
+
+	init_redirection_array(current);
+	redir = malloc(sizeof(t_redir));
+	if (!redir)
+	{
+		perror("malloc failed");
+		exit(EXIT_FAILURE);
+	}
+	set_redir_type(redir, tokens[*k]);
+	if (!process_redir_file(redir, tokens, k))
+		return ;
+	(*current)->redirection[(*current)->redir_count] = redir;
+	(*current)->redir_count++;
 }

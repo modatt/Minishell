@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:35:58 by modat             #+#    #+#             */
-/*   Updated: 2024/09/30 15:21:12 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/10 20:31:03 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	main(void)
 	return (0);
 }
 	*/
-
 int	ft_atoi(const char *nptr)
 {
 	int		result;
@@ -52,4 +51,3 @@ int	ft_atoi(const char *nptr)
 	result *= sign;
 	return (result);
 }
-

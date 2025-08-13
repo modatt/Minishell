@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 14:55:00 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 18:10:32 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:04:27 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	main_loop(t_shell *shell)
 			signals_prompt();
 		else
 			setup_non_interactive_signals();
-		g_signal_status = 0;
 		status = get_command_line(shell, &command_line);
 		set_signal_status(shell);
 		check = should_continue_loop(status);

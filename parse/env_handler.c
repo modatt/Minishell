@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:10:12 by modat             #+#    #+#             */
-/*   Updated: 2025/08/05 11:08:05 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:07:19 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,20 @@ char	*expand_variables_in_token(char *input, t_shell *shell)
 }
 
 // function - 5
-
 char	*get_env(char *key, t_env_var *env_list)
 {
+	char	*result;
+
 	while (env_list)
 	{
 		if (ft_strcmp(env_list->name, key) == 0)
-			return (ft_strdup(env_list->value));
+		{
+			result = ft_strdup(env_list->value);
+			if (result == NULL)
+				return (ft_strdup(""));
+			else
+				return (result);
+		}
 		env_list = env_list->next;
 	}
 	return (ft_strdup(""));

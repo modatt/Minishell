@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 11:20:28 by modat             #+#    #+#             */
-/*   Updated: 2025/07/11 19:07:12 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/10 20:30:44 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,34 +48,3 @@ void	*ft_memcpy(void *dest_str, const void *src_str, size_t n)
 	}
 	return (dest_str);
 }
-
-/*
-Notes:
-des can be same as src, for example: 
->> can be point to same memory 
-memcpy(data + 1, data, 4);
-
-char buffer[10] = "abcdef";
-memcpy(buffer + 3, buffer, 3); // Copy into same array
-
-or 
->> diferent/ seperated 
-char *des[10];
-char buffer[10] = "abcdef";
-memcpy(des, buffer, 3); 
-
->> memcpy assume that you have a valid memory for the parameters.
-
->> in memory we do not terminate the string because we cpy only.
-
->> why there's not null terminated? 
-✅ Because memcpy:
-Works on raw memory (just bytes)
-
-Has no idea whether it's copying a string, an array of ints, a struct, or anything else
-
-Only copies exactly the number of bytes you tell it
-
-It treats memory as just raw data — not C strings.
-*/
-

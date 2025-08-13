@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 20:49:04 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 19:13:07 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/11 11:49:41 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // function - 1
-void	handle_output_file_redirection(t_command *current_cmd)
+void	handle_output_file_redi(t_command *current_cmd)
 {
 	int	fd_out;
 	int	i;
@@ -21,7 +21,6 @@ void	handle_output_file_redirection(t_command *current_cmd)
 	i = 0;
 	while (i < current_cmd->redir_count)
 	{
-		//fprintf(stderr, "\n\n\n%d\n\n\n", current_cmd->redir_count);
 		if (current_cmd->redirection[i]->redir_type == REDIR_OUTPUT
 			|| current_cmd->redirection[i]->redir_type == REDIR_APPEND)
 		{
@@ -33,24 +32,22 @@ void	handle_output_file_redirection(t_command *current_cmd)
 				exit(EXIT_FAILURE);
 			}
 			close(fd_out);
-			//break ;
 		}
 		i++;
 	}
 }
 
 // function - 2
-void	handle_input_file_redirection(t_command *current_cmd)
+void	handle_input_file_redir(t_command *current_cmd)
 {
 	int	fd_in;
 	int	i;
 
-	i = 0;	
+	i = 0;
 	while (i < current_cmd->redir_count)
 	{
 		if (current_cmd->redirection[i]->redir_type == REDIR_INPUT)
 		{
-			//fprintf(stderr, "\n\n\n%d\n\n\n", current_cmd->redir_count);
 			fd_in = open(current_cmd->redirection[i]->file, O_RDONLY);
 			if (fd_in == -1)
 			{
@@ -64,7 +61,6 @@ void	handle_input_file_redirection(t_command *current_cmd)
 				exit(EXIT_FAILURE);
 			}
 			close(fd_in);
-			//break ;
 		}
 		i++;
 	}
@@ -73,11 +69,9 @@ void	handle_input_file_redirection(t_command *current_cmd)
 // function - 3
 void	wait_for_children(int pid_count, t_shell *shell)
 {
-	int	last_exit_status;
 	int	status;
 	int	i;
 
-	last_exit_status = 0;
 	i = 0;
 	while (i < pid_count)
 	{
@@ -91,14 +85,13 @@ void	wait_for_children(int pid_count, t_shell *shell)
 		if (i == pid_count - 1)
 		{
 			if (WIFEXITED(status))
-				last_exit_status = WEXITSTATUS(status);
+				shell->last_exit_status = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
-				last_exit_status = 128 + WTERMSIG(status);
+				shell->last_exit_status = 128 + WTERMSIG(status);
 		}
 		i++;
 	}
 	signals_prompt();
-	shell->last_exit_status = last_exit_status;
 }
 
 // function - 4

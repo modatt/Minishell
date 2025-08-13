@@ -53,9 +53,8 @@ void	execute_cmd(t_command *cmd, t_shell *shell)
 {
 	if ((!cmd || !cmd->arg || cmd->arg[0] == 0) && (cmd->redir_count < 0))
 		return ;
-		
 	maybe_preprocess_heredocs(cmd);
-	if(g_signal_status != 130)
+	if (g_signal_status != 130)
 	{
 		if (cmd->arg && is_builtin(cmd->arg[0]))
 		{

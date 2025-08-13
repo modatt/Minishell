@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 18:23:59 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/07/29 18:36:11 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/12 01:25:03 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ void	update_envp_array(t_shell *shell, const char *name, const char *value)
 		{
 			new_entry = ft_strjoin(prefix, value);
 			if (!new_entry)
-				return (free(prefix));
+				break ;
 			free(shell->envp[i]);
 			shell->envp[i] = new_entry;
-			return (free(prefix));
+			break ;
 		}
 	}
 	free(prefix);
 }
 
-//func ---1
+// func ---1
 void	update_shlvl(t_shell *shell)
 {
 	char	*shlvl_str;
@@ -50,6 +50,8 @@ void	update_shlvl(t_shell *shell)
 
 	shlvl = 0;
 	shlvl_str = get_envp(shell->envp, "SHLVL");
+	if (!shlvl_str)
+		return ;
 	if (shlvl_str)
 		shlvl = ft_atoi(shlvl_str) + 1;
 	if (shlvl < 0 || shlvl > 1000)
@@ -57,7 +59,9 @@ void	update_shlvl(t_shell *shell)
 	new_val = ft_itoa(shlvl);
 	if (!new_val)
 		return ;
-	handle_export_var_cd(ft_strdup("SHLVL"), new_val, shell, 0);
 	update_envp_array(shell, "SHLVL", new_val);
-	free(new_val);
+	if (new_val)
+		free(new_val);
+	if (shlvl_str)
+		free(shlvl_str);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:30 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 18:33:56 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/13 16:30:59 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	handle_command(t_shell *shell, char *line)
 	cmd = parser(line, shell);
 	if (!cmd)
 		return (0);
-	 print_command_list(cmd);
 	if ((!cmd->arg || cmd->arg[0] == 0) && (cmd->redir_count < 0))
 		return (0);
 	if ((!cmd->arg || cmd->arg[0] == 0) && (cmd->redir_count > 0))
@@ -80,6 +79,7 @@ int	main(int argc, char **argv, char **envp)
 	t_shell	*shell;
 	int		stat;
 
+	g_signal_status = 0;
 	shell = create_shell(argc, argv, envp);
 	if (!shell)
 		return (1);

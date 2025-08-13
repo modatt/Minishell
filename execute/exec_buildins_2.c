@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_buildins_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:47:51 by modat             #+#    #+#             */
-/*   Updated: 2025/08/07 14:08:45 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/09 22:56:13 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void	builtin_echo(t_command *cmd, t_shell *shell)
 	int	no_newline;
 
 	no_newline = 0;
+	shell->last_exit_status = 0;
 	if (!cmd->arg[1])
 	{
 		printf("\n");
-		shell->last_exit_status = 0;
 		return ;
 	}
 	i = 1;
@@ -57,7 +57,6 @@ void	builtin_echo(t_command *cmd, t_shell *shell)
 	}
 	if (!no_newline)
 		printf("\n");
-	shell->last_exit_status = 0;
 }
 
 // function ---3
@@ -88,33 +87,14 @@ void	builtin_env(t_shell *shell)
 // function ---5
 int	handle_export_var_cd(char *name, char *value, t_shell *shell, int status)
 {
-	t_env_var	*exist;
-	t_env_var	*new_var;
-
-	if (!name || !name[0] || !is_name_valid(name))
+	if (name == NULL || name[0] == '\0' || !is_name_valid(name))
 	{
 		name_invalid(name, value);
-		free(name);
-		free(value);
-		return (1);
-	}
-	exist = find_var(shell->env_list, name);
-	if (exist)
-	{
-		if (value)
-			update_var_value(exist, value);
-		exist->exported = true;
+		status = 1;
 	}
 	else
 	{
-		new_var = create_var(name, value, true);
-		if (!new_var)
-		{
-			free(name);
-			free(value);
-			return (1);
-		}
-		add_var_to_list(&shell->env_list, new_var);
+		status = update_or_add_var(name, value, shell);
 	}
 	return (status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:25:55 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 10:56:37 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/13 16:29:06 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**tokenizer(char *line, t_shell *shell)
 	wc = count_words(line);
 	if (wc == 0)
 	{
-		shell->last_exit_status = 2;	
+		shell->last_exit_status = 2;
 		return (NULL);
 	}
 	tokens = (char **)malloc(sizeof(char *) * (wc + 10));
@@ -51,7 +51,7 @@ void	handle_word_enhanced(t_token_data *data)
 	(void)data->wbeg;
 	while (data->line[*data->i] && data->line[*data->i] != ' '
 		&& data->line[*data->i] != '\t' && data->line[*data->i] != '|'
-		&& data->line[*data->i] != '<')
+		&& data->line[*data->i] != '<' && data->line[*data->i] != '>')
 	{
 		if (data->line[*data->i] == 34)
 			process_double_quotes(data->line, data->i, result, &result_len);

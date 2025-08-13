@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils_3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 20:49:04 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 15:15:26 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/11 11:49:46 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	setup_pipeline_execution(t_command *current_cmd, t_shell *shell,
 		t_pipeline_data *data, int pipe_fds[2])
 {
 	pid_t	pid;
-	
+
 	pid = create_pipe_and_fork(current_cmd, data, pipe_fds);
 	if (pid == -1)
 		return (0);
@@ -103,9 +103,9 @@ int	setup_pipeline_execution(t_command *current_cmd, t_shell *shell,
 		signals_execution();
 		free(data->child_pids);
 		setup_input_redirection(*(data->prev_pipe_rd_fd));
-		handle_input_file_redirection(current_cmd);
+		handle_input_file_redir(current_cmd);
 		setup_output_pipe(current_cmd, pipe_fds);
-		handle_output_file_redirection(current_cmd);
+		handle_output_file_redi(current_cmd);
 		execute_command(current_cmd, shell);
 	}
 	else

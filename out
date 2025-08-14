@@ -1,9 +1,0 @@
-execute
-includes
-libft
-Makefile
-minishell
-out
-parse
-readline_curses.supp
-test.bash

@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 10:46:25 by modat             #+#    #+#             */
-/*   Updated: 2025/08/13 16:30:17 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/14 17:59:47 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ typedef struct s_command
 	t_redir						**redirection;
 	int							redir_count;
 	struct s_command			*next;
+	struct s_command			*head;
 }								t_command;
 
 typedef struct s_pipeline_data
@@ -141,7 +142,6 @@ typedef struct s_pipeline_data
 // main.c
 void							greets_minishell(void);
 bool							is_redirector(char **tokens, int k);
-// mo9eba change int to bool bool to int
 
 int								ft_isspace(char s);
 // Parser.c  - 1

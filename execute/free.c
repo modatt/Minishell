@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 11:53:34 by modat             #+#    #+#             */
-/*   Updated: 2025/08/08 19:57:47 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/14 18:00:31 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,24 @@ void	free_cmd(t_command *cmd)
 {
 	int			i;
 	t_command	*tmp;
+	t_command	*cur;
 
-	while (cmd)
+	cur = cmd->head;
+	while (cur)
 	{
-		if (cmd->arg)
+		if (cur->arg)
 		{
 			i = 0;
-			while (cmd->arg[i])
+			while (cur->arg[i])
 			{
-				free(cmd->arg[i]);
+				free(cur->arg[i]);
 				i++;
 			}
-			free(cmd->arg);
+			free(cur->arg);
 		}
-		free_redir(cmd);
-		tmp = cmd;
-		cmd = cmd->next;
+		free_redir(cur);
+		tmp = cur;
+		cur = cur->next;
 		free(tmp);
 	}
 }

@@ -36,7 +36,7 @@ static int	process_single_heredoc(t_redir *redir, int index)
 	if (!delimiter)
 		return (1);
 	idx_str = ft_itoa(index);
-	tmpfile = ft_strjoin("/tmp/minishell_heredoc_", idx_str);
+	tmpfile = ft_strjoin("/home/modat/herdoc/minishell_heredoc_", idx_str);
 	free(idx_str);
 	i = write_heredoc_to_file(tmpfile, delimiter);
 	free(redir->file);

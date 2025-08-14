@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 20:49:04 by modat             #+#    #+#             */
-/*   Updated: 2025/08/11 11:49:41 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/14 15:24:18 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	execute_command(t_command *current_cmd, t_shell *shell)
 			write(2, "minishell: command not found: ", 30);
 			write(2, current_cmd->arg[0], ft_strlen(current_cmd->arg[0]));
 			write(2, "\n", 1);
-			exit(127);
+			clean_exit(shell, 127, current_cmd);
 		}
 		execve(cmd_path, current_cmd->arg, shell->envp);
 		perror("minishell: execve failed");

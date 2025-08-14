@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 08:17:25 by modat             #+#    #+#             */
-/*   Updated: 2025/08/10 12:39:53 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/14 17:58:40 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,23 @@ static char	**expand_tokens_safe(char **tokens, t_shell *shell)
 t_command	*parser_loop(char **new_tokens, t_command *cmd_list,
 		t_command *current)
 {
-	int	k;
+	int			k;
+	t_command	*head;
 
 	k = 0;
+	head = NULL;
 	while (new_tokens[k])
 	{
 		if (!current)
+		{
 			if (!handle_current_setup(&current, &cmd_list, new_tokens))
 				return (NULL);
+			head = current;
+		}
+		if (head)
+		{
+			current->head = head;
+		}
 		parser2(new_tokens, &k, &current);
 		k++;
 	}
@@ -77,7 +86,10 @@ t_command	*parser(char *command_line, t_shell *shell)
 	init_parser_state(&cmd_list, &current);
 	new_tokens = expand_tokens_safe(tokens, shell);
 	if (!new_tokens)
+	{
+		free(tokens);
 		return (NULL);
+	}
 	cmd_list = parser_loop(new_tokens, cmd_list, current);
 	free_tokens(new_tokens);
 	return (cmd_list);

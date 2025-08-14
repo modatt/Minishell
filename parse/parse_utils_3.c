@@ -6,7 +6,7 @@
 /*   By: modat <modat@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 14:05:12 by modat             #+#    #+#             */
-/*   Updated: 2025/07/29 17:33:27 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/14 16:50:01 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	add_arg(char *token, t_command **current)
 	copy_existing_args(new_arg, (*current)->arg, i);
 	new_arg[i] = ft_strdup(token);
 	if (!new_arg[i])
+	{
+		free(new_arg);
 		return ;
+	}
 	new_arg[i + 1] = NULL;
 	if ((*current)->arg)
 		free((*current)->arg);

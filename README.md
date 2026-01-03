@@ -228,7 +228,8 @@ Minishell/
 
 This project was developed as part of the 42 School curriculum.
 
-- **modat** - modat@student.42.fr
+- **modat** - modat@student.42amman.com
+- **hmeltaha** - hmeltaha@student.42amman.com
 
 ## License
 
@@ -237,3 +238,4 @@ This project is created for educational purposes as part of the 42 School curric
 ---
 
 **Note**: This shell is designed for learning purposes and may not include all features of production shells like Bash or Zsh.
+
